@@ -17,7 +17,7 @@ Inputs:
             (required for CLASP, KT and SnD)
     
 Example usage: 
-    
+   python $in_loc $out_loc $instrument $all_start $all_stop $option_qc
 """
 
 
