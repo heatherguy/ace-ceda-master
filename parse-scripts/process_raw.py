@@ -20,7 +20,8 @@ Example usage:
    python $in_loc $out_loc $instrument $all_start $all_stop $option_qc
 """
 
-
+import sys,os
+sys.path.append(os.getcwd())
 from fluxtower_parse import *
 from ace_parse import *
 import numpy as np      

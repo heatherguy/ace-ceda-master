@@ -6,6 +6,8 @@ Created on Thurs March 12 17:22:21 2020
 @author: Heather Guy
 """
 
+import sys,os
+sys.path.append(os.getcwd())
 import numpy as np      
 import datetime as dt
 import pandas as pd

@@ -20,9 +20,12 @@ python tar_extract.py $in_loc $out_loc $id_str
 
 """
 
+import sys,os
+sys.path.append(os.getcwd())
 from utils import *
 import numpy as np       
 import datetime as dt  
+
 
 def get_args(args_in):
     """
