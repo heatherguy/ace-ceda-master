@@ -20,6 +20,10 @@ python tar_extract.py $in_loc $out_loc $id_str
 
 """
 
+from utils import *
+import numpy as np       
+import datetime as dt  
+
 def get_args(args_in):
     """
     check input arguments and return values if all looks o.k.
@@ -40,10 +44,6 @@ def get_args(args_in):
     return in_loc,out_loc,id_str
 
 def main():
-   
-    from utils import *
-    import numpy as np       
-    import datetime as dt  
 
     # Some examples:
     # Data names: 
