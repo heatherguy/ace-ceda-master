@@ -44,19 +44,19 @@ def get_args(args_in):
     in_loc = args_in[1]
     out_loc = args_in[2]
     instrument=args_in[3]
-    all_start = dt.datetime.strptime(args_in[3],'%Y%m%d%H%M')
-    all_stop = dt.datetime.strptime(args_in[4],'%Y%m%d%H%M')
+    all_start = dt.datetime.strptime(args_in[4],'%Y%m%d%H%M')
+    all_stop = dt.datetime.strptime(args_in[5],'%Y%m%d%H%M')
     if instrument=='CLASP_F':
-        calfile = args_in[4]
+        calfile = args_in[6]
         return in_loc,out_loc,instrument,all_start,all_stop, calfile
     elif instrument=='CLASP_G':
-        calfile = args_in[4]
+        calfile = args_in[6]
         return in_loc,out_loc,instrument,all_start,all_stop, calfile
     elif instrument=='KT':
-        KT_qcf = args_in[4]
+        KT_qcf = args_in[6]
         return in_loc,out_loc,instrument,all_start,all_stop, KT_qcf
     elif instrument=='SnD':
-        hmp_dpath= args_in[4]
+        hmp_dpath= args_in[6]
         return in_loc,out_loc,instrument,all_start,all_stop, hmp_dpath
     else:
         # return values:
@@ -66,20 +66,13 @@ def main():
 
     # check / get args:
     try:
-        if instrument=='CLASP_F':
-            in_loc,out_loc,instrument,all_start,all_stop, calfile = get_args(sys.argv)
-        elif instrument=='CLASP_G':
-            in_loc,out_loc,instrument,all_start,all_stop, calfile = get_args(sys.argv)
-        elif instrument=='KT':
-            in_loc,out_loc,instrument,all_start,all_stop, KT_qcf = get_args(sys.argv)
-        elif instrument=='SnD':
-            in_loc,out_loc,instrument,all_start,all_stop, hmp_dpath = get_args(sys.argv)
-        else:
-            # return values:
-            in_loc,out_loc,instrument,all_start,all_stop = get_args(sys.argv)
+        in_loc,out_loc,instrument,all_start,all_stop, calfile = get_args(sys.argv)
     except:
-        print('Input error')
-        sys.exit()
+        try:
+            in_loc,out_loc,instrument,all_start,all_stop = get_args(sys.argv)
+        except:
+            print('Input error')
+            sys.exit()
         
     # Extract and process all data, and save to 'processed'
 
@@ -92,7 +85,7 @@ def main():
         print(str(start) + ' to ' + str(stop))
         
         if instrument=='KT':
-            extract_KT_data(start,stop,in_loc,KT_qcf,save=out_loc)
+            extract_KT_data(start,stop,in_loc,calfile,save=out_loc)
         elif instrument=='ventus':
             v1,v2s = extract_ventus_data(start,stop,in_loc,save=out_loc)
         elif instrument=='metek':
@@ -104,7 +97,7 @@ def main():
         elif instrument=='licor':
             licor = extract_licor_data(start,stop,in_loc,save=out_loc)
         elif instrument=='SnD':
-            snd = extract_snd_data(start,stop,in_loc,hmp_dpath,save=out_loc)
+            snd = extract_snd_data(start,stop,in_loc,calfile,save=out_loc)
 
         elif instrument=='CPC':
             extract_cpc(start,stop,in_loc,save=out_loc)
