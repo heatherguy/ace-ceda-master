@@ -1,17 +1,20 @@
 #!/bin/bash
 
+# Check we're in the right directory
+cd /gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/parse-scripts
+
 # activate python environment
 source /home/users/guyh/miniconda3/etc/profile.d/conda.sh
 conda activate guyh
 
 # Extract data files from .raw
-
+ext_start='190825'
+ext_stop='200401'
 raw_dir='/gws/nopw/j04/ncas_radar_vol2/data/ICECAPSarchive/fluxtower/raw/'
 #'/gws/nopw/j04/ncas_radar_vol2/data/ICECAPSarchive/ace/raw/'
-
 extract_dir='/gws/nopw/j04/ncas_radar_vol1/heather/extracted/'
 
-python tar_extract.py $raw_dir $extract_dir 'HMP'
+python tar_extract.py $ext_start $ext_stop $raw_dir $extract_dir 'HMP'
 
 
 
