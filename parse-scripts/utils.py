@@ -35,9 +35,12 @@ def extract_tar(start,stop, dloc,outdir,instr):
     day_range = pd.date_range(dt.datetime.strptime(start,'%y%m%d'),dt.datetime.strptime(stop,'%y%m%d'),freq='1D')
     fnames=[]
     for i in range(0,len(day_range)):
-        fnames.append(glob.glob(dloc + r'%s*.tar.gz'%dt.datetime.strftime(day_range[i],'%y%m%d'))[0])
+        fnames.append(glob.glob(dloc + r'%s*.tar.gz'%dt.datetime.strftime(day_range[i],'%y%m%d')))
         
-    for f in fnames: 
+    # flatten list
+    fnames_flat = [item for sublist in fnames for item in sublist]
+        
+    for f in fnames_flat: 
         t = tarfile.open(f,'r')
         mems = t.getmembers()
         for m in mems:
