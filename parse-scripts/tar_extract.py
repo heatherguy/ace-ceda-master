@@ -40,11 +40,13 @@ def get_args(args_in):
     #    sys.exit()
     # get values:
     
-    in_loc = args_in[1]
-    out_loc = args_in[2]
-    id_str = args_in[3]
+    start=args_in[1]
+    stop=args_in[2]
+    in_loc = args_in[3]
+    out_loc = args_in[4]
+    id_str = args_in[5]
 
-    return in_loc,out_loc,id_str
+    return start,stop,in_loc,out_loc,id_str
 
 def main():
 
@@ -69,13 +71,13 @@ def main():
 
     # check / get args:
     try:
-        in_loc,out_loc,id_str = get_args(sys.argv)
+        start,stop,in_loc,out_loc,id_str = get_args(sys.argv)
     except:
         print('Input error')
         sys.exit()
 
     # Extract all tar files. 
-    extract_tar(in_loc,out_loc,id_str)
+    extract_tar(start,stop,in_loc,out_loc,id_str)
     
     return
 
