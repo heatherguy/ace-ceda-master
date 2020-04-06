@@ -14,22 +14,29 @@ import pandas as pd
 import os
 import glob
 import tarfile
+import datetime as dt
 # Supress warnings for sake of log file
 import warnings
 warnings.filterwarnings("ignore")
 
 
-def extract_tar(dloc,outdir,instr):
+def extract_tar(start,stop, dloc,outdir,instr):
     """
     Extract files containting 'instr' from tar.gz files and save in outdir.
     
     Parameters:
+        start: Start date (string in format YYMMDD)
+        stop: Stop date (string in format YYMMDD)        
         dloc:   Directory to look in
         outdir: Directory to extract to
         instr:  Identifier string
     
     """
-    fnames = glob.glob(dloc + r'*.tar.gz')
+    day_range = pd.date_range(dt.datetime.strptime(start,'%y%m%d'),dt.datetime.strptime(stop,'%y%m%d'),freq='1D')
+    fnames=[]
+    for i in range(0,len(day_range)):
+        fnames.append(glob.glob(dloc + r'%s*.tar.gz'%dt.datetime.strftime(day_range[i],'%y%m%d'))[0])
+        
     for f in fnames: 
         t = tarfile.open(f,'r')
         mems = t.getmembers()
