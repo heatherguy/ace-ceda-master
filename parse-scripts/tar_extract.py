@@ -67,8 +67,15 @@ def main():
     #dname = 'Summit_MSF_ICECAPSACE_OPCN3'
     #dname = 'CPC'
 
+    # check / get args:
+    try:
+        in_loc,out_loc,id_str = get_args(sys.argv)
+    except:
+        print('Input error')
+        sys.exit()
+
     # Extract all tar files. 
-    extract_tar(dloc,extract_out,dname)
+    extract_tar(in_loc,out_loc,id_str)
     
     return
 

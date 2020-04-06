@@ -1,5 +1,8 @@
-
 #!/bin/bash
+
+# activate python environment
+source /home/users/guyh/miniconda3/etc/profile.d/conda.sh
+conda activate guyh
 
 # Extract data files from .raw
 
