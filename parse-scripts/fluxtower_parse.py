@@ -346,7 +346,6 @@ def extract_HMP_data(name,start,stop,dpath,save=False):
 
     if save: 
         HMP.to_csv(save+'%s_%s'%(name,str(start.date())))
-        print('Saved csv')
 
     return HMP
 
