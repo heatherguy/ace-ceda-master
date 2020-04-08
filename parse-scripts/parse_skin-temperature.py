@@ -71,11 +71,11 @@ def main():
         sys.exit()
         
     # Global attributes
-    meta_f = '../metadata/KT_metadata.xlsx'
+    meta_f = '/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/metadata/KT_metadata.xlsx'
     meta = pd.read_excel(meta_f)
 
     # Specific variables
-    var_f = '../specific_variables/skin-temperature.xlsx'
+    var_f = '/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/specific_variables/skin-temperature.xlsx'
     var = pd.read_excel(var_f)
 
     for year in years: 

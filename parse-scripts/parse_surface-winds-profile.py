@@ -91,11 +91,11 @@ def main():
         sys.exit()
         
     # Global attributes
-    meta_f = '../metadata/wind_profile_metadata.xlsx'
+    meta_f = '/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/metadata/wind_profile_metadata.xlsx'
     meta = pd.read_excel(meta_f)
 
     # Specific variables
-    var_f = '../specific_variables/surface-winds-profile.xlsx'
+    var_f = '/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/specific_variables/surface-winds-profile.xlsx'
     var = pd.read_excel(var_f)
     
     # Loop through each ,pmtj: 

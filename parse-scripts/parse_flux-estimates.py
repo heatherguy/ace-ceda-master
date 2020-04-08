@@ -72,13 +72,13 @@ def main():
         sys.exit()
         
     # Global attributes
-    meta_f = '../metadata/flux_metadata_level%s_%smin.xlsx'%(level,avp)
+    meta_f = '/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/metadata/flux_metadata_level%s_%smin.xlsx'%(level,avp)
     meta = pd.read_excel(meta_f)
 
-    var_f_estimates = '../specific_variables/flux-estimates-level%s.xlsx'%level
+    var_f_estimates = '/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/specific_variables/flux-estimates-level%s.xlsx'%level
     var_estimates = pd.read_excel(var_f_estimates)
 
-    var_f_components = '../specific_variables/flux-components-level%s.xlsx'%level
+    var_f_components = '/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/specific_variables/flux-components-level%s.xlsx'%level
     var_components = pd.read_excel(var_f_components)
 
     sf = 10   # sampling frequency (10Hz)
