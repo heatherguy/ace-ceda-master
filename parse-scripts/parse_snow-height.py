@@ -72,11 +72,11 @@ def main():
         sys.exit()
         
     # Global attributes
-    meta_f = out_loc + 'metadata/snd_metadata.xlsx'
+    meta_f = '../metadata/snd_metadata.xlsx'
     meta = pd.read_excel(meta_f)
 
     # Specific variables
-    var_f = out_loc + '/specific_variables/snow-height.xlsx'
+    var_f = '../specific_variables/snow-height.xlsx'
     var = pd.read_excel(var_f)
     
     for year in years: 
