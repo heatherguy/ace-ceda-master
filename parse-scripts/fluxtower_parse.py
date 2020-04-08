@@ -880,9 +880,9 @@ def get_hmp(start,stop,d_loc,hmp_name):
     out['QC']=qc
     
     # Resample to one minutely
-    out2['Ta'] = out['Ta'].resample(rule = '1min', how='mean')
-    out2['RH'] = out['RH'].resample(rule = '1min', how='mean')
-    out2['QC'] = out['QC'].resample(rule = '1min', how='max')
+    out2['Ta'] = out['Ta'].resample(rule = '1min').mean()
+    out2['RH'] = out['RH'].resample(rule = '1min').mean()
+    out2['QC'] = out['QC'].resample(rule = '1min').max()
     # Fill any missing minutes with nans
     new_index = pd.date_range(start,stop-pd.Timedelta(minutes=1), freq='1min')
     out2 = out2.reindex(new_index)
@@ -925,15 +925,15 @@ def get_ventus(start,stop,d_loc,name, avp='1min'):
     out=out[start:stop]
     
     # Resample to one minutely
-    out2['T'] = out['T'].resample(rule = avp, how='mean')    
-    out2['QC'] = out['QC'].resample(rule = avp, how='max')
+    out2['T'] = out['T'].resample(rule = '1min').mean()   
+    out2['QC'] = out['QC'].resample(rule = '1min').max()
     
     # Convert to vectors
     u,v = wind_to_uv(out['wsd'],out['wdir'])
     
     # average vectors
-    u_mean = u.resample(rule=avp, how='mean')
-    v_mean = v.resample(rule=avp, how='mean')
+    u_mean = u.resample(rule=avp).mean()
+    v_mean = v.resample(rule=avp).mean()
     
     # convert back to wsd and wdir
     out2['wsd'] = wind_uv_to_spd(u_mean,v_mean)
@@ -987,12 +987,12 @@ def get_metek(start,stop,d_loc,name, avp='1min'):
     out['QC'][out.isnull().any(axis=1)]=0
     
     # Resample to one minutely
-    out2['T'] = out['T'].resample(rule = avp, how='mean')    
-    out2['QC'] = out['QC'].resample(rule = avp, how='max')
+    out2['T'] = out['T'].resample(rule = avp).mean()  
+    out2['QC'] = out['QC'].resample(rule = avp).max() 
        
     # average vectors
-    u_mean = out['x'].resample(rule=avp, how='mean')
-    v_mean = out['y'].resample(rule=avp, how='mean')
+    u_mean = out['x'].resample(rule=avp).mean() 
+    v_mean = out['y'].resample(rule=avp).mean() 
     
     # convert to wsd and wdir
     out2['wsd'] = wind_uv_to_spd(u_mean,v_mean)

@@ -107,7 +107,7 @@ def extract_cpc(start,stop,dpath,save=False):
         del cpc['Dates']
         cpc = cpc.rename(columns={6:'c/cm3'})
 
-        # Resample to minutly average
+        #  to minutly average
         new_index = pd.date_range(start,start + pd.Timedelta(minutes=(24*60)-1), freq='min')      
         cpc_1min = cpc.resample('1min').median()
         cpc_1min = cpc_1min.reindex(new_index)

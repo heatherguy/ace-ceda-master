@@ -121,16 +121,16 @@ def main():
             
             # Minutely averages
         
-            hmp1 = HMP1.resample(rule = '1min', how='mean')
+            hmp1 = HMP1.resample(rule = '1min').mean()
             hmp1 = HMP1.reindex(time_list, method='nearest',limit=2)
 
-            hmp2 = HMP2.resample(rule = '1min', how='mean')
+            hmp2 = HMP2.resample(rule = '1min').mean()
             hmp2 = HMP2.reindex(time_list, method='nearest',limit=2)
 
-            hmp3 = HMP3.resample(rule = '1min', how='mean')
+            hmp3 = HMP3.resample(rule = '1min').mean()
             hmp3 = HMP3.reindex(time_list, method='nearest',limit=2)
 
-            hmp4 = HMP4.resample(rule = '1min', how='mean')
+            hmp4 = HMP4.resample(rule = '1min').mean()
             hmp4 = HMP4.reindex(time_list, method='nearest',limit=2)        
  
             # Convert T to Kelvin
