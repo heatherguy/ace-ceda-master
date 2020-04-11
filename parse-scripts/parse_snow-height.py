@@ -109,7 +109,7 @@ def main():
 
             # Get data
     
-            snd = extract_snd_data(time_list[0],time_list[-1],in_loc+'raw_extracted/SnD/',in_loc+'processed/HMP/',save=False)
+            snd = extract_snd_data(time_list[0],time_list[-1],in_loc+'extracted/SnD/',in_loc+'processed/HMP/',save=False)
             dat = snd.reindex(time_list, method='nearest',limit=12)
     
             # Write in data

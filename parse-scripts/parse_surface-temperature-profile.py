@@ -110,13 +110,13 @@ def main():
             # Get HMP155 data
         
             print('Extracting HMP1')
-            HMP1 = get_hmp(start,stop,in_loc+'HMP/','HMP1')
+            HMP1 = get_hmp(start,stop,in_loc+'processed/HMP/','HMP1')
             print('Extracting HMP2')
-            HMP2 = get_hmp(start,stop,in_loc+'HMP/','HMP2')
+            HMP2 = get_hmp(start,stop,in_loc+'processed/HMP/','HMP2')
             print('Extracting HMP3')
-            HMP3 = get_hmp(start,stop,in_loc+'HMP/','HMP3')
+            HMP3 = get_hmp(start,stop,in_loc+'processed/HMP/','HMP3')
             print('Extracting HMP4')
-            HMP4 = get_hmp(start,stop,in_loc+'HMP/','HMP4')
+            HMP4 = get_hmp(start,stop,in_loc+'processed/HMP/','HMP4')
             print('Post-processing')
             
             # Minutely averages
@@ -142,8 +142,8 @@ def main():
                 
             # Get snowdepth data
         
-            snd_nc = Dataset(out_loc + 'snow-height/ACE-tower_Summit_%s_snow-height_v1.nc'%dt.datetime.strftime(start,'%Y%m'),'r')
-            snow_height = pd.DataFrame({'time':num2date(snd_nc.variables['time'][:],'seconds since 1970-01-01 00:00:00 0:00'),'snd':snd_nc.variables['distance_to_surface'][:]})
+            snd_nc = Dataset(out_loc + 'snow-height/ace-tower_summit_%s_snow-height_v1.nc'%dt.datetime.strftime(start,'%Y%m'),'r')
+            snow_height = pd.DataFrame({'time':pd.to_datetime(snd_nc.variables['time'][:],origin='unix',unit='s'),'snd':snd_nc.variables['distance_to_surface'][:]})
             snow_height.index = pd.DatetimeIndex(snow_height['time'])
             snow_height = snow_height.reindex(time_list, method='nearest',limit=20)
 
