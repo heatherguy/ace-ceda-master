@@ -174,8 +174,8 @@ def main():
                        
             # Get snowdepth data
         
-            snd_nc = Dataset(out_loc + 'snow-height/ACE-tower_Summit_%s_snow-height_v1.nc'%dt.datetime.strftime(start,'%Y%m'),'r')
-            snow_height = pd.DataFrame({'time':num2date(snd_nc.variables['time'][:],'seconds since 1970-01-01 00:00:00 0:00'),'snd':snd_nc.variables['distance_to_surface'][:]})
+            snd_nc = Dataset(out_loc + 'snow-height/ace-tower_summit_%s_snow-height_v1.nc'%dt.datetime.strftime(start,'%Y%m'),'r')
+            snow_height = pd.DataFrame({'time':pd.to_datetime(snd_nc.variables['time'][:],origin='unix',unit='s'),'snd':snd_nc.variables['distance_to_surface'][:]})
             snow_height.index = pd.DatetimeIndex(snow_height['time'])
             snow_height = snow_height.reindex(time_list, method='nearest',limit=20)
 
