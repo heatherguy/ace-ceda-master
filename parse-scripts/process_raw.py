@@ -85,11 +85,10 @@ def main():
         print(str(start) + ' to ' + str(stop))
         
         if instrument=='KT':
-            try:
-                extract_KT_data(start,stop,in_loc,calfile,save=out_loc)
-            except:
-                print('Unable to parse')
-                continue
+            extract_KT_data(start,stop,in_loc,calfile,save=out_loc)
+            #except:
+            #    print('Unable to parse')
+            #    continue
             
         elif instrument=='ventus':
             try:

@@ -130,25 +130,25 @@ def main():
             # Get ventus data
         
             print('Extracting v1')
-            v1 = get_ventus(start,stop,in_loc+'ventus/','v1', avp='1min')
+            v1 = get_ventus(start,stop,in_loc+'processed/ventus/','v1', avp='1min')
             v1['wdir_corrected'] = deg_rot(v1['wdir'],-18.07)
             print('Extracting v2')
-            v2 = get_ventus(start,stop,in_loc+'ventus/','v2', avp='1min')
+            v2 = get_ventus(start,stop,in_loc+'processed/ventus/','v2', avp='1min')
             v2['wdir_corrected'] = deg_rot(v2['wdir'],-18.07)
         
             # Get metek data
 
             print('Extracting m1')    
-            m1 = get_metek(start,stop,in_loc+'metek/','metek1', avp='1min')    
+            m1 = get_metek(start,stop,in_loc+'processed/metek/','metek1', avp='1min')    
             m1['wdir_corrected'] = deg_rot(m1['wdir'],-45)     
             print('Extracting m2')    
-            m2 = get_metek(start,stop,in_loc+'metek/','metek2', avp='1min')    
+            m2 = get_metek(start,stop,in_loc+'processed/metek/','metek2', avp='1min')    
             m2['wdir_corrected'] = deg_rot(m2['wdir'],-45) 
                 
             # Get snowdepth data
             
             snd_nc = Dataset(out_loc + 'snow-height/ace-tower_summit_%s_snow-height_v1.nc'%dt.datetime.strftime(start,'%Y%m'),'r')
-            snow_height = pd.DataFrame({'time':pd.to_datetime(snd_nc.variables['time'][:],origin='unix',unit='s')),'snd':snd_nc.variables['distance_to_surface'][:]})
+            snow_height = pd.DataFrame({'time':pd.to_datetime(snd_nc.variables['time'][:],origin='unix',unit='s'),'snd':snd_nc.variables['distance_to_surface'][:]})
             snow_height.index = pd.DatetimeIndex(snow_height['time'])
             snow_height = snow_height.reindex(time_list, method='nearest',limit=20)
 

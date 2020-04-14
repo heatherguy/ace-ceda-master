@@ -923,7 +923,8 @@ def get_ventus(start,stop,d_loc,name, avp='1min'):
     out = out[~out.index.duplicated()]   
     # Crop to datetime
     out=out[start:stop]
-    
+    out.index = pd.DatetimeIndex(out.index)    
+
     # Resample to one minutely
     out2['T'] = out['T'].resample(rule = '1min').mean()   
     out2['QC'] = out['QC'].resample(rule = '1min').max()

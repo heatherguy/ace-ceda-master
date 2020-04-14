@@ -71,7 +71,7 @@ def main():
         sys.exit()
         
     # Global attributes
-    meta_f = '/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/metadata/KT_metadata.xlsx'
+    meta_f = '/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/metadata/kt_metadata.xlsx'
     meta = pd.read_excel(meta_f)
 
     # Specific variables
@@ -108,7 +108,7 @@ def main():
 
             # Get data
         
-            KT = get_kt(start,stop,in_loc+'KT/')
+            KT = get_kt(start,stop,in_loc+'KT15/')
             dat = KT.reindex(time_list, method='nearest',limit=2)
         
             # Convert SkinT to Kelvin
