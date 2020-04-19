@@ -116,7 +116,10 @@ def main():
             nc.variables['number_concentration_of_ambient_aerosol_particles_in_air'][:]=CPC['c/cm3'].to_numpy()
             nc.variables['qc_flag'][:]=CPC['QC'].to_numpy()
 
-    
+            # Derive valid max and min
+            nc.variables['number_concentration_of_ambient_aerosol_particles_in_air'].valid_min = CPC['c/cm3'].min()
+            nc.variables['number_concentration_of_ambient_aerosol_particles_in_air'].valid_max = CPC['c/cm3'].max()
+            
             # Close netcdf file
     
             nc.close()

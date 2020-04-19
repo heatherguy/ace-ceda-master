@@ -164,19 +164,28 @@ def main():
 
             nc.variables['air_temperature'][:,0]=t1.to_numpy()
             nc.variables['qc_flag_surface_temperature'][:,0]=hmp1['QC'].to_numpy()
-            nc.variables['altitude'][:,0]=alt_HMP1.to_numpy()
+            nc.variables['height_above_snow_surface'][:,0]=alt_HMP1.to_numpy()
         
             nc.variables['air_temperature'][:,1]=t2.to_numpy()
             nc.variables['qc_flag_surface_temperature'][:,1]=hmp2['QC'].to_numpy()
-            nc.variables['altitude'][:,1]=alt_HMP2.to_numpy()
+            nc.variables['height_above_snow_surface'][:,1]=alt_HMP2.to_numpy()
         
             nc.variables['air_temperature'][:,2]=t3.to_numpy()
             nc.variables['qc_flag_surface_temperature'][:,2]=hmp3['QC'].to_numpy()
-            nc.variables['altitude'][:,2]=alt_HMP3.to_numpy()
+            nc.variables['height_above_snow_surface'][:,2]=alt_HMP3.to_numpy()
         
             nc.variables['air_temperature'][:,3]=t4.to_numpy()
             nc.variables['qc_flag_surface_temperature'][:,3]=hmp4['QC'].to_numpy()
-            nc.variables['altitude'][:,3]=alt_HMP4.to_numpy()
+            nc.variables['height_above_snow_surface'][:,3]=alt_HMP4.to_numpy()
+            
+            # Derive valid max and min
+            nc.variables['air_temperature'].valid_min = np.nanmin([t1.min(), t2.min(),t3.min(),t4.min()])
+            nc.variables['air_temperature'].valid_max = np.nanmax([t1.max(), t2.max(),t3.max(),t4.max()])
+            
+            nc.variables['height_above_snow_surface'].valid_min = np.nanmin([alt_HMP1.min(), alt_HMP2.min(),alt_HMP3.min(),alt_HMP4.min()])
+            nc.variables['height_above_snow_surface'].valid_max= np.nanmax([alt_HMP1.max(), alt_HMP2.max(),alt_HMP3.max(),alt_HMP4.max()])          
+
+ 
     
             # Close netcdf file
     

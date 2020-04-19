@@ -212,7 +212,7 @@ def NC_Global_Attributes(fn_nc, meta, start_date,end_date):
     ix1 = pos.find('m')
     base_height = np.float32(pos[0:ix1])
    
-    for i in range(40):
+    for i in range(0,len(meta)):
        msg1 = np.array(name[i])
        msg2 = np.array(exp[i])
        fn_nc.setncattr(msg1[0], msg2[0])

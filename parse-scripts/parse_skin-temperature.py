@@ -12,7 +12,7 @@ import numpy as np
 import datetime as dt
 import pandas as pd
 import sys
-#sys.path.append('/Users/heather/Desktop/NC_parse_master')
+#sys.path.append('/Users/heather/Desktop/ace-ceda-master/parse-scripts')
 #sys.path.append('/Users/heather/ICECAPS-ACE/DataParse')
 from NC_functions_v1 import *
 from fluxtower_parse import *
@@ -71,10 +71,12 @@ def main():
         sys.exit()
         
     # Global attributes
+    #meta_f= '/Users/heather/Desktop/ace-ceda-master/metadata/kt_metadata.xlsx'
     meta_f = '/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/metadata/kt_metadata.xlsx'
     meta = pd.read_excel(meta_f)
 
     # Specific variables
+    #var_f= '/Users/heather/Desktop/ace-ceda-master/specific_variables/skin-temperature.xlsx'
     var_f = '/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/specific_variables/skin-temperature.xlsx'
     var = pd.read_excel(var_f)
 
@@ -124,6 +126,9 @@ def main():
             # Write in data
 
             nc.variables['skin_temperature'][:]=skin_temp.to_numpy()
+            nc.variables['skin_temperature'].valid_min = skin_temp[dat['QC']!=0].min()
+            nc.variables['skin_temperature'].valid_max= skin_temp[dat['QC']!=0].max()
+            
             nc.variables['qc_flag_skin_temperature'][:]=QC.to_numpy()
     
             # Close netcdf file

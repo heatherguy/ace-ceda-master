@@ -119,6 +119,11 @@ def main():
             nan_inds = np.where(dat['depth_Tcorrected'].isnull())[0]
             qc_dat[nan_inds]=0    
             nc.variables['qc_flag_snow_height'][:]=qc_dat
+            
+            # Derive valid max and min
+            nc.variables['distance_to_surface'].valid_min = dat['depth_Tcorrected'].min()
+            nc.variables['distance_to_surface'].valid_max = dat['depth_Tcorrected'].max()
+            
     
             # Close netcdf file
     
