@@ -227,8 +227,8 @@ def main():
             nc.variables['wind_speed'].valid_min = np.nanmin([m1['wsd'].min(), v1['wsd'].min(),m2['wsd'].min(),v2['wsd'].min()])
             nc.variables['wind_speed'].valid_max = np.nanmax([m1['wsd'].max(), v1['wsd'].max(),m2['wsd'].max(),v2['wsd'].max()])
             
-            nc.variables['wind_from_direction'].valid_min = np.nanmin([m1['wind_from_direction'].min(), v1['wind_from_direction'].min(),m2['wind_from_direction'].min(),v2['wind_from_direction'].min()])
-            nc.variables['wind_from_direction'].valid_max= np.nanmax([m1['wind_from_direction'].max(), v1['wind_from_direction'].max(),m2['wind_from_direction'].max(),v2['wind_from_direction'].max()])
+            nc.variables['wind_from_direction'].valid_min = np.nanmin([m1['wdir_corrected'].min(), v1['wdir_corrected'].min(),m2['wdir_corrected'].min(),v2['wdir_corrected'].min()])
+            nc.variables['wind_from_direction'].valid_max= np.nanmax([m1['wdir_corrected'].max(), v1['wdir_corrected'].max(),m2['wdir_corrected'].max(),v2['wdir_corrected'].max()])
             
             nc.variables['height_above_snow_surface'].valid_min = np.nanmin([alt_1.min(), alt_2.min(),alt_3.min(),alt_4.min()])
             nc.variables['height_above_snow_surface'].valid_max= np.nanmax([alt_1.max(), alt_2.max(),alt_3.max(),alt_4.max()])          
