@@ -130,19 +130,44 @@ def main():
             
             hmp4 = HMP4.resample(rule = '1min').mean()
             hmp4 = HMP4.reindex(time_list, method='nearest',limit=2)  
-        
-            # Correct QC's for nans
-            hmp1['QC'][hmp1['RH'].isnull()]=0
-            hmp2['QC'][hmp2['RH'].isnull()]=0
-            hmp3['QC'][hmp3['RH'].isnull()]=0        
-            hmp4['QC'][hmp4['RH'].isnull()]=0        
-        
+            
             # RH
         
             t1 = hmp1['RH'] 
             t2 = hmp2['RH']
             t3 = hmp3['RH']
             t4 = hmp4['RH']
+            
+            # do QC's
+            # 1b is good data
+            qc1 = np.ones(len(t1))
+            qc2 = np.ones(len(t2))
+            qc3 = np.ones(len(t3))
+            qc4 = np.ones(len(t4))
+            
+            # 2b is outside of operational range
+            # rh range: 0 to 100 %
+            qc1[np.where(t1 < 0)[0]]=2
+            qc1[np.where(t1 > 100)[0]]=2
+            qc2[np.where(t2 < 0)[0]]=2
+            qc2[np.where(t2 > 100)[0]]=2
+            qc3[np.where(t3 < 0)[0]]=2
+            qc3[np.where(t3 > 100)[0]]=2
+            qc4[np.where(t4 < 0)[0]]=2
+            qc4[np.where(t4 > 100)[0]]=2
+            
+            # 3b is unspecified instrument error
+            qc1[np.where(hmp1['QC']==2)[0]]=3
+            qc2[np.where(hmp2['QC']==2)[0]]=3
+            qc3[np.where(hmp3['QC']==2)[0]]=3
+            qc4[np.where(hmp4['QC']==2)[0]]=3
+            
+            # 0b for no data
+            qc1[np.where(hmp1['RH'].isnull())[0]]=0
+            qc2[np.where(hmp2['RH'].isnull())[0]]=0
+            qc3[np.where(hmp3['RH'].isnull())[0]]=0
+            qc4[np.where(hmp4['RH'].isnull())[0]]=0
+        
         
         # Calculate absolute humidity. 
         
@@ -189,22 +214,22 @@ def main():
             # Write in data
 
             nc.variables['relative_humidity'][:,0]=t1.to_numpy()
-            nc.variables['qc_flag_surface_relative_humidity'][:,0]=hmp1['QC'].to_numpy()
+            nc.variables['qc_flag_surface_relative_humidity'][:,0]=qc1
             nc.variables['height_above_snow_surface'][:,0]=alt_HMP1.to_numpy()
             nc.variables['absolute_humidity'][:,0]=abs_1.to_numpy()
         
             nc.variables['relative_humidity'][:,1]=t2.to_numpy()
-            nc.variables['qc_flag_surface_relative_humidity'][:,1]=hmp2['QC'].to_numpy()
+            nc.variables['qc_flag_surface_relative_humidity'][:,1]=qc2
             nc.variables['height_above_snow_surface'][:,1]=alt_HMP2.to_numpy()
             nc.variables['absolute_humidity'][:,1]=abs_2.to_numpy()
         
             nc.variables['relative_humidity'][:,2]=t3.to_numpy()
-            nc.variables['qc_flag_surface_relative_humidity'][:,2]=hmp3['QC'].to_numpy()
+            nc.variables['qc_flag_surface_relative_humidity'][:,2]=qc3
             nc.variables['height_above_snow_surface'][:,2]=alt_HMP3.to_numpy()
             nc.variables['absolute_humidity'][:,2]=abs_3.to_numpy()
         
             nc.variables['relative_humidity'][:,3]=t4.to_numpy()
-            nc.variables['qc_flag_surface_relative_humidity'][:,3]=hmp4['QC'].to_numpy()
+            nc.variables['qc_flag_surface_relative_humidity'][:,3]=qc4
             nc.variables['height_above_snow_surface'][:,3]=alt_HMP4.to_numpy()
             nc.variables['absolute_humidity'][:,3]=abs_4.to_numpy()
             

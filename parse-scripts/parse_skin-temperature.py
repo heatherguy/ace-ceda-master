@@ -119,9 +119,12 @@ def main():
         
             # Make sure QC flag is 1 (good) or 2 (suspect)
         
-            QC = dat['QC'].copy()
-            QC[dat['QC']==0] = 2
-            QC[dat['QC'].isnull()] = 0
+            qc=np.ones(len(dat)) # good data
+            qc[np.where(dat['QC']==0)[0]]=2 # suspect data in log
+            qc[np.where(dat['QC'].isnull())[0]]=0 # no data
+            # Check in instrument range of -100 to 100 C
+            qc[np.where(dat['T']>100)[0]]=3
+            qc[np.where(dat['T']<-100)[0]]=3
     
             # Write in data
 
@@ -129,7 +132,7 @@ def main():
             nc.variables['skin_temperature'].valid_min = skin_temp[dat['QC']!=0].min()
             nc.variables['skin_temperature'].valid_max= skin_temp[dat['QC']!=0].max()
             
-            nc.variables['qc_flag_skin_temperature'][:]=QC.to_numpy()
+            nc.variables['qc_flag_skin_temperature'][:]=qc
     
             # Close netcdf file
     

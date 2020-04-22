@@ -12,8 +12,7 @@ import numpy as np
 import datetime as dt
 import pandas as pd
 import sys
-#sys.path.append('/Users/heather/Desktop/NC_parse_master')
-#sys.path.append('/Users/heather/ICECAPS-ACE/DataParse')
+#sys.path.append('/Users/heather/Desktop/ace-ceda-master/parse-scripts')
 from NC_functions_v1 import *
 from fluxtower_parse import *
 from netCDF4 import Dataset, num2date
@@ -21,7 +20,7 @@ from netCDF4 import Dataset, num2date
 
 ####### INPUTS #######
 # Data location:
-#in_loc = '/Volumes/Data/ICECAPSarchive/fluxtower/processed/'
+#in_loc = '/Volumes/Data/ICECAPSarchive/fluxtower/'
 #out_loc = '/Users/heather/Desktop/temp_out/'
 
 # Months
@@ -70,10 +69,12 @@ def main():
         sys.exit()
     
     # Global attributes
+    # meta_f='/Users/heather/Desktop/ace-ceda-master/metadata/trh_profile_metadata.xlsx'
     meta_f = '/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/metadata/trh_profile_metadata.xlsx'
     meta = pd.read_excel(meta_f)
 
     # Specific variables
+    # var_f = '/Users/heather/Desktop/ace-ceda-master/specific_variables/surface-temperature-profile.xlsx'
     var_f = '/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/specific_variables/surface-temperature-profile.xlsx'
     var = pd.read_excel(var_f)
 
@@ -154,28 +155,52 @@ def main():
             alt_HMP3 = snow_height['snd'] + 2.5 + 5.3
             alt_HMP4 = snow_height['snd'] + 2.5 + 5.3 + 3.5
         
-            # check QC's
-            hmp1['QC'][hmp1['Ta'].isnull()]=0
-            hmp1['QC'][hmp1['Ta'].isnull()]=0
-            hmp1['QC'][hmp1['Ta'].isnull()]=0
-            hmp1['QC'][hmp1['Ta'].isnull()]=0
+            # do QC's
+            # 1b is good data
+            qc1 = np.ones(len(t1))
+            qc2 = np.ones(len(t2))
+            qc3 = np.ones(len(t3))
+            qc4 = np.ones(len(t4))
+            
+            # 2b is outside of operational range
+            # temp range: -80C to 60C
+            qc1[np.where(t1-273.15< -80)[0]]=2
+            qc1[np.where(t1-273.15> 60)[0]]=2
+            qc2[np.where(t2-273.15< -80)[0]]=2
+            qc2[np.where(t2-273.15> 60)[0]]=2
+            qc3[np.where(t3-273.15< -80)[0]]=2
+            qc3[np.where(t3-273.15> 60)[0]]=2
+            qc4[np.where(t4-273.15< -80)[0]]=2
+            qc4[np.where(t4-273.15> 60)[0]]=2
+            
+            # 3b is unspecified instrument error
+            qc1[np.where(hmp1['QC']==2)[0]]=3
+            qc2[np.where(hmp2['QC']==2)[0]]=3
+            qc3[np.where(hmp3['QC']==2)[0]]=3
+            qc4[np.where(hmp4['QC']==2)[0]]=3
+            
+            # 0b for no data
+            qc1[np.where(hmp1['Ta'].isnull())[0]]=0
+            qc2[np.where(hmp2['Ta'].isnull())[0]]=0
+            qc3[np.where(hmp3['Ta'].isnull())[0]]=0
+            qc4[np.where(hmp4['Ta'].isnull())[0]]=0
         
             # Write in data
 
             nc.variables['air_temperature'][:,0]=t1.to_numpy()
-            nc.variables['qc_flag_surface_temperature'][:,0]=hmp1['QC'].to_numpy()
+            nc.variables['qc_flag_surface_temperature'][:,0]=qc1
             nc.variables['height_above_snow_surface'][:,0]=alt_HMP1.to_numpy()
         
             nc.variables['air_temperature'][:,1]=t2.to_numpy()
-            nc.variables['qc_flag_surface_temperature'][:,1]=hmp2['QC'].to_numpy()
+            nc.variables['qc_flag_surface_temperature'][:,1]=qc2
             nc.variables['height_above_snow_surface'][:,1]=alt_HMP2.to_numpy()
         
             nc.variables['air_temperature'][:,2]=t3.to_numpy()
-            nc.variables['qc_flag_surface_temperature'][:,2]=hmp3['QC'].to_numpy()
+            nc.variables['qc_flag_surface_temperature'][:,2]=qc3
             nc.variables['height_above_snow_surface'][:,2]=alt_HMP3.to_numpy()
         
             nc.variables['air_temperature'][:,3]=t4.to_numpy()
-            nc.variables['qc_flag_surface_temperature'][:,3]=hmp4['QC'].to_numpy()
+            nc.variables['qc_flag_surface_temperature'][:,3]=qc4
             nc.variables['height_above_snow_surface'][:,3]=alt_HMP4.to_numpy()
             
             # Derive valid max and min

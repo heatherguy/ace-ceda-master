@@ -115,10 +115,18 @@ def main():
             # Write in data
     
             nc.variables['distance_to_surface'][:]=dat['depth_Tcorrected'].to_numpy()
-            qc_dat = np.ones(len(dat))
-            nan_inds = np.where(dat['depth_Tcorrected'].isnull())[0]
-            qc_dat[nan_inds]=0    
-            nc.variables['qc_flag_snow_height'][:]=qc_dat
+            
+            # qc
+            # no data=0
+            # outside operational range (0.1-10m) = 2
+            # not corrected for temperature=3
+            qc = np.ones(len(dat))
+            qc[np.where(dat['depth_Tcorrected'].isnull())[0]]=3 # no temp corrected data
+            qc[np.where(dat['depth'].isnull())[0]]=0 # no data
+            qc[np.where(dat['depth_Tcorrected']<0.5)[0]]=2 # outside op range
+            qc[np.where(dat['depth_Tcorrected']>10)[0]]=2 # outside op range
+             
+            nc.variables['qc_flag_distance_to_surface'][:]=qc
             
             # Derive valid max and min
             nc.variables['distance_to_surface'].valid_min = dat['depth_Tcorrected'].min()

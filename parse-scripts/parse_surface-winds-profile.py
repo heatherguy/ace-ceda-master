@@ -159,32 +159,68 @@ def main():
             alt_3 = snow_height['snd'] + 2.5 + 5.3
             alt_4 = snow_height['snd'] + 2.5 + 5.3 + 3.5
         
-            # Check QC's for missing data
-            v1['QC'][v1.isnull().any(axis=1)]=0
-            v2['QC'][v2.isnull().any(axis=1)]=0
-            m1['QC'][m1.isnull().any(axis=1)]=0
-            m2['QC'][m2.isnull().any(axis=1)]=0
+            # do QC's
+            # 1b is good data
+            qc1 = np.ones(len(m1))
+            qc2 = np.ones(len(v1))
+            qc3 = np.ones(len(v2))
+            qc4 = np.ones(len(m2))
+            
+            # 2b is outside of operational range
+            # wsp range: 0 to 90
+            # wdir: 0 >= wdir < 360
+            qc1[np.where(m1['wsd']> 90)[0]]=2
+            qc1[np.where(m1['wsd']< 0)[0]]=2
+            qc1[np.where(m1['wdir_corrected']< 0)[0]]=2
+            qc1[np.where(m1['wdir_corrected']>= 360)[0]]=2
+            
+            qc2[np.where(v1['wsd']> 90)[0]]=2
+            qc2[np.where(v1['wsd']< 0)[0]]=2
+            qc2[np.where(v1['wdir_corrected']< 0)[0]]=2
+            qc2[np.where(v1['wdir_corrected']>= 360)[0]]=2
+            
+            qc3[np.where(v2['wsd']> 90)[0]]=2
+            qc3[np.where(v2['wsd']< 0)[0]]=2
+            qc3[np.where(v2['wdir_corrected']< 0)[0]]=2
+            qc3[np.where(v2['wdir_corrected']>= 360)[0]]=2
+            
+            qc4[np.where(m2['wsd']> 90)[0]]=2
+            qc4[np.where(m2['wsd']< 0)[0]]=2
+            qc4[np.where(m2['wdir_corrected']< 0)[0]]=2
+            qc4[np.where(m2['wdir_corrected']>= 360)[0]]=2
+            
+            # 3b is unspecified instrument error
+            qc1[np.where(m1['QC']==2)[0]]=3
+            qc2[np.where(v1['QC']==2)[0]]=3
+            qc3[np.where(v2['QC']==2)[0]]=3
+            qc4[np.where(m2['QC']==2)[0]]=3
+            
+            # 0b for no data
+            qc1[np.where(m1.isnull().any(axis=1))[0]]=0
+            qc2[np.where(v1.isnull().any(axis=1))[0]]=0
+            qc3[np.where(v2.isnull().any(axis=1))[0]]=0
+            qc4[np.where(m2.isnull().any(axis=1))[0]]=0
         
             # Write in data
 
             nc.variables['wind_speed'][:,0]= m1['wsd'].to_numpy()
             nc.variables['wind_from_direction'][:,0]= m1['wdir_corrected'].to_numpy()   
-            nc.variables['qc_flag'][:,0]= m1['QC'].to_numpy()
+            nc.variables['qc_flag'][:,0]= qc1
             nc.variables['height_above_snow_surface'][:,0]= alt_1.to_numpy()
 
             nc.variables['wind_speed'][:,1]= v1['wsd'].to_numpy()
             nc.variables['wind_from_direction'][:,1]= v1['wdir_corrected'].to_numpy()
-            nc.variables['qc_flag'][:,1]= v1['QC'].to_numpy()
+            nc.variables['qc_flag'][:,1]= qc2
             nc.variables['height_above_snow_surface'][:,1]= alt_2.to_numpy()
         
             nc.variables['wind_speed'][:,2]= v2['wsd'].to_numpy()
             nc.variables['wind_from_direction'][:,2]= v2['wdir_corrected'].to_numpy()
-            nc.variables['qc_flag'][:,2]= v2['QC'].to_numpy()
+            nc.variables['qc_flag'][:,2]= qc3
             nc.variables['height_above_snow_surface'][:,2]= alt_3.to_numpy()
         
             nc.variables['wind_speed'][:,3]= m2['wsd'].to_numpy()
             nc.variables['wind_from_direction'][:,3]= m2['wdir_corrected'].to_numpy()
-            nc.variables['qc_flag'][:,3]= m2['QC'].to_numpy()
+            nc.variables['qc_flag'][:,3]= qc4
             nc.variables['height_above_snow_surface'][:,3]= alt_4.to_numpy()
             
             # Derive valid max and min

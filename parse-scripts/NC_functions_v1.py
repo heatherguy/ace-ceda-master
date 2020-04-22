@@ -203,7 +203,7 @@ def NC_Global_Attributes(fn_nc, meta, start_date,end_date):
     pos = exp[34]
     pos = pos[0]
     ix1 = pos.find('N')
-    ix2 = pos.find(',')
+    ix2 = pos.find(' ')
     ix3 = pos.find('E')
     lat = np.float32(pos[0:ix1])
     lon = np.float32(pos[ix2+1:ix3])
