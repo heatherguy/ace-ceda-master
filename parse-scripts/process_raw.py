@@ -58,6 +58,9 @@ def get_args(args_in):
     elif instrument=='SnD':
         hmp_dpath= args_in[6]
         return in_loc,out_loc,instrument,all_start,all_stop, hmp_dpath
+    elif instrument=='SKYOPC':
+        inlet_cal = ags_in[6]
+        return in_loc,out_loc,instrument,all_start,all_stop, inlet_cal
     else:
         # return values:
         return in_loc,out_loc,instrument,all_start,all_stop
@@ -127,7 +130,7 @@ def main():
             
         elif instrument=='SKYOPC':
             try:
-                extract_skyopc(start,stop,in_loc,save=out_loc)
+                extract_skyopc(start,stop,in_loc,calfile,save=out_loc)
             except:
                 print('Unable to parse')
                 continue
