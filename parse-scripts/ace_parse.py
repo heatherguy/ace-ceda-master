@@ -47,7 +47,7 @@ def qc_aerosol(qc_in):
     qc_in['QC']=np.ones(len(qc_in))
 
     # Get flight dates
-    flight_dates_f = '/Volumes/Data/ICECAPSarchive/qc_files/flight_days.csv'
+    flight_dates_f = '/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/qc-files/flight_days.csv'
     flight_times = pd.read_csv(flight_dates_f,parse_dates={'Dates':[0],'ondeckUTC':[0,3],'offdeckUTC':[0,4]})
 
     # See if there are any flight dates in this file
@@ -67,7 +67,7 @@ def qc_aerosol(qc_in):
             qc_in['QC'][qc_in.between_time(start_time,stop_time).index]=0
            
     # Get Met data     
-    w_dloc = '/Volumes/Data/ICECAPSarchive/Summit_Met/met_sum_insitu_1_obop_minute_%s_%s.txt'%(sdate.year,str(sdate.month).zfill(2))
+    w_dloc = '/gws/nopw/j04/ncas_radar_vol1/heather/Summit_Met/met_sum_insitu_1_obop_minute_%s_%s.txt'%(sdate.year,str(sdate.month).zfill(2))
     try:
         met = get_NOAA_met(w_dloc)
         qc_in['QC'][met['ws']<1]=0
