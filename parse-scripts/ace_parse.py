@@ -16,6 +16,12 @@ import glob
 from scipy import io
 from utils import * 
 
+
+def find_nearest(array, value):
+    array = np.asarray(array)
+    idx = (np.abs(array - value)).argmin()
+    return idx
+
 # QC aerosol data: Remove low winds, MSF winds, TAWO winds and flight days. 
 def qc_aerosol(qc_in):
     """
@@ -123,17 +129,19 @@ def extract_cpc(start,stop,dpath,save=False):
     return
 
 
-def extract_skyopc(start,stop,dpath,save=False):
+def extract_skyopc(start,stop,dpath,qcf,save=False):
     """
     Extracts skyopc data from raw output. 
     QC's for bad data. 
-    resamples to 1 minutely median
+    resamples to 1 minutely mean
+    Corrects for inlet loss
     Saves as .csv if requested
     
     Parameters:
         start: Start datetime for processing
         stop:  Stop datetime for processing
         dpath: Raw data filepath
+        qcf: path to file to use for inlet loss correction
         save:  Output directory (optional)
     
     """
@@ -217,7 +225,7 @@ def extract_skyopc(start,stop,dpath,save=False):
                 if isinstance(datetime,dt.datetime):
                     skyopc = skyopc.append(pd.Series([datetime+dt.timedelta(seconds=n*6), ch1, ch2, ch3, ch4, ch5, ch6, ch7, ch8, ch9, ch10, ch11, ch12, ch13, ch14, ch15, ch16, ch17, ch18, ch19, ch20, ch21, ch22, ch23, ch24, ch25, ch26, ch27, ch28, ch29, ch30, ch31, ch32, quad_Tmp,Err,pAp,pRp,Int]),ignore_index=True)
 
-    try: 
+    #try: 
         # remove repeated channel 16
         del skyopc[16]
         # Correct counts for size bins 'all counts above lower threshold.'        
@@ -232,32 +240,60 @@ def extract_skyopc(start,stop,dpath,save=False):
         skyopc = skyopc.sort_values('Date')
         skyopc.index = pd.DatetimeIndex(skyopc.index)
         skyopc = skyopc[~skyopc.index.duplicated()]
-    
-        # QC for params
-        skyopc[skyopc['pAp']>120]=np.nan
-        skyopc[skyopc['pRp']>120]=np.nan  
-        skyopc[skyopc['Err']!=0]=np.nan
-        skyopc[skyopc['Int']!=6]=np.nan
-    
+        
+        # resample to 1 minute before calculating concentrations
         skyopc_counts = skyopc[skyopc.columns[0:31]]
         skyopc_counts = skyopc_counts.apply(pd.to_numeric, errors='coerce') # Counts in counts/ 6 seconds
-        skyopc_counts =skyopc_counts / 100.0 # convert from counts/100ml to counts/cm3    
         skyopc_params = skyopc[skyopc.columns[31:]]
-    
+        skyopc_counts =skyopc_counts / 100.0 # convert from counts/100ml to counts/cm3    
+
         # Resample to minutly average
-        new_index = pd.date_range(skyopc.index[0].round('min'),skyopc.index[-1].round('min'), freq='min')      
-        skyopc_1min = skyopc_counts.resample('1min').median()
+        new_index = pd.date_range(start.round('min'),stop.round('min')-pd.Timedelta(minutes=1), freq='min')     
+        skyopc_1min = skyopc_counts.resample('1min').mean()
         skyopc_1min = skyopc_1min.reindex(new_index)
+        params_1min = skyopc_params.resample('1min').mean()
+        params_1min = params_1min.reindex(new_index)
+
+        # Correct for inlet loss
+        loss = pd.read_csv(qcf,skiprows=1,names=['d','loss'])
+        bin_centers = np.asarray([0.265,0.29,0.325,0.375,0.425,0.475,0.54,0.615,
+        0.675,  0.75 ,  0.9  ,  1.15 ,  1.45 ,  1.8  ,  2.25 ,  2.75 ,
+        3.25 ,  3.75 ,  4.5  ,  5.75 ,  7.   ,  8.   ,  9.25 , 11.25 ,
+        13.75 , 16.25 , 18.75 , 22.5  , 27.5  , 31.   ])
+        idxs = [find_nearest(loss['d'],i) for i in bin_centers]
+        percent_loss = [loss['loss'][idx] for idx in idxs]
+        correction_factor = [1/(1-(x/100)) for x in percent_loss]
+
+        # remove bins for where correction factor is over 5 times original amount#
+        skyopc_1min = skyopc_1min[skyopc_1min.columns[0:20]]
+        correction_factor=correction_factor[0:20]        
+
+        # Apply correction
+        for i in range(0,np.shape(skyopc_1min)[1]):
+            skyopc_1min[skyopc_1min.columns[i]] = skyopc_1min[skyopc_1min.columns[i]] * skyopc_1min[i]
     
-        # QC
+        # QC for north winds/ flight days 
         skyopc_qcd = qc_aerosol(skyopc_1min)
+        
+        # QC for params
+        skyopc_qcd['qc_pap']=np.ones(len(skyopc_qcd))
+        skyopc_qcd['qc_pap'][params_1min['pAp']>120]=0
+        
+        skyopc_qcd['qc_prp']=np.ones(len(skyopc_qcd))
+        skyopc_qcd['qc_prp'][params_1min['pRp']>120]=0
+        
+        skyopc_qcd['qc_err']=np.ones(len(skyopc_qcd))
+        skyopc_qcd['qc_err'][params_1min['Err']!=0]=0
+        
+        skyopc_qcd['qc_int']=np.ones(len(skyopc_qcd))
+        skyopc_qcd['qc_int'][params_1min['Int']!=6]=0
         
         if save: 
             skyopc_qcd.to_csv(save+'SKYOPC_%s'%(str(start.date())))
             skyopc_params.to_csv(save+'SKYOPC_params_%s'%(str(start.date())))
 
-    except:
-        print('no data')
+    #except:
+        #print('no data')
     
     return 
 
