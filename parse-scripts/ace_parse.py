@@ -270,7 +270,7 @@ def extract_skyopc(start,stop,dpath,qcf,save=False):
 
         # Apply correction
         for i in range(0,np.shape(skyopc_1min)[1]):
-            skyopc_1min[skyopc_1min.columns[i]] = skyopc_1min[skyopc_1min.columns[i]] * skyopc_1min[i]
+            skyopc_1min[skyopc_1min.columns[i]] = skyopc_1min[skyopc_1min.columns[i]] * correction_factor[i]
     
         # QC for north winds/ flight days 
         skyopc_qcd = qc_aerosol(skyopc_1min)
