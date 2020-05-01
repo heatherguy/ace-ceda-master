@@ -35,6 +35,16 @@ warnings.filterwarnings("ignore")
 # python parse_flux-estimates.py $in_loc $out_loc $start $stop $avp $level
 #############################################################
 
+
+def valminmax(ncf,varn,arr):  
+    if isinstance(ncf.variables[varn].valid_min,str):
+        ncf.variables[varn].valid_min=np.min(arr)
+        ncf.variables[varn].valid_max=np.max(arr)
+    if np.min(arr)< ncf.variables[varn].valid_min:
+        ncf.variables[varn].valid_min=np.min(arr)
+    if np.max(arr)> ncf.variables[varn].valid_max:
+        ncf.variables[varn].valid_max=np.max(arr)   
+
 def get_args(args_in):
     """
     check input arguments and return values if all looks o.k.
@@ -73,12 +83,15 @@ def main():
         
     # Global attributes
     meta_f = '/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/metadata/flux_metadata_level%s_%smin.xlsx'%(level,avp)
+    # meta_f = '/Users/heather/Desktop/ace-ceda-master/metadata/flux_metadata_level%s_%smin.xlsx'%(level,avp)
     meta = pd.read_excel(meta_f)
 
     var_f_estimates = '/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/specific_variables/flux-estimates-level%s.xlsx'%level
+    #var_f_estimates = '/Users/heather/Desktop/ace-ceda-master/specific_variables/flux-estimates-level%s.xlsx'%level
     var_estimates = pd.read_excel(var_f_estimates)
 
     var_f_components = '/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/specific_variables/flux-components-level%s.xlsx'%level
+    #var_f_components = '/Users/heather/Desktop//ace-ceda-master/specific_variables/flux-components-level%s.xlsx'%level
     var_components = pd.read_excel(var_f_components)
 
     sf = 10   # sampling frequency (10Hz)
@@ -248,26 +261,46 @@ def main():
             # Store 10Hz info for each run
         
             nc_comp.variables['sonic_air_temperature'][i,:] = m['T_corrected'].to_numpy(dtype='float32')
+            valminmax(nc_comp,'sonic_air_temperature',m['T_corrected'].to_numpy(dtype='float32'))          
+    
             #nc_comp.variables['sonic_temperature_theta'][i,:] = m['theta'].to_numpy()
             nc_comp.variables['eastward_wind_rotated_to_run'][i,:] = m['u'].to_numpy(dtype='float32')
+            valminmax(nc_comp,'eastward_wind_rotated_to_run',m['u'].to_numpy(dtype='float32'))               
+            
             nc_comp.variables['northward_wind_rotated_to_run'][i,:] = m['v'].to_numpy(dtype='float32')
+            valminmax(nc_comp,'northward_wind_rotated_to_run',m['v'].to_numpy(dtype='float32'))               
+            
             nc_comp.variables['upward_air_velocity_rotated_to_run'][i,:] = m['w'].to_numpy(dtype='float32')
+            valminmax(nc_comp,'upward_air_velocity_rotated_to_run',m['w'].to_numpy(dtype='float32'))               
+            
             
             if level==1:
                 nc_comp.variables['mole_concentration_of_water_vapor_in_air'][i,:] = m['Nconc'].to_numpy(dtype='float32')
+                valminmax(nc_comp,'mole_concentration_of_water_vapor_in_air',m['Nconc'].to_numpy(dtype='float32'))
+                
                 nc_comp.variables['specific_humidity'][i,:] = m['q'].to_numpy(dtype='float32')
+                valminmax(nc_comp,'specific_humidity',m['q'].to_numpy(dtype='float32'))
+                
                 nc_comp.variables['humidity_mixing_ratio'][i,:] = m['mmr'].to_numpy(dtype='float32')
+                valminmax(nc_comp,'humidity_mixing_ratio',m['mmr'].to_numpy(dtype='float32'))
+                
                 nc_comp.variables['water_vapour_partial_pressure_in_air'][i,:] = m['PPw'].to_numpy(dtype='float32')
+                valminmax(nc_comp,'water_vapour_partial_pressure_in_air',m['PPw'].to_numpy(dtype='float32'))
+                
         
                 if len(m['Nconc'][m['Nconc'].isnull()]) == 0:
                     h2oprime = detrend(m['Nconc'])
                     nc_comp.variables['h2oprime'][i,:] = h2oprime
+                    valminmax(nc_comp,'h2oprime',h2oprime)
+                    
                 else:
                     h2oprime = np.nan
             
                 if len(m['q'][m['q'].isnull()]) == 0:
                     qprime = detrend(m['q'])
-                    nc_comp.variables['qprime'][i,:] = qprime            
+                    nc_comp.variables['qprime'][i,:] = qprime 
+                    valminmax(nc_comp,'qprime',qprime )
+                    
                 else:
                     qprime = np.nan      
             
@@ -275,170 +308,220 @@ def main():
                 #nc_comp.variables['thetaprime'][i,:] = thetaprime 
         
             tsprime = detrend(m['T_corrected'])
-            nc_comp.variables['tsprime'][i,:] = tsprime.astype(dtype='float32') 
+            nc_comp.variables['tsprime'][i,:] = tsprime.astype(dtype='float32')
+            valminmax(nc_comp,'tsprime',tsprime.astype(dtype='float32') )
         
             uprime = detrend(m['u'])
             nc_comp.variables['uprime'][i,:] = uprime.astype(dtype='float32')
+            valminmax(nc_comp,'uprime',uprime.astype(dtype='float32'))
         
             uprimeuprime = uprime * uprime
-            nc_comp.variables['uprimeuprime'][i,:] = uprimeuprime.astype(dtype='float32')      
+            nc_comp.variables['uprimeuprime'][i,:] = uprimeuprime.astype(dtype='float32')
+            valminmax(nc_comp,'uprimeuprime',uprimeuprime.astype(dtype='float32') )
         
             vprime = detrend(m['v'])
-            nc_comp.variables['vprime'][i,:] = vprime.astype(dtype='float32')         
+            nc_comp.variables['vprime'][i,:] = vprime.astype(dtype='float32')
+            valminmax(nc_comp,'vprime',vprime.astype(dtype='float32'))
         
             vprimevprime = vprime * vprime
-            nc_comp.variables['vprimevprime'][i,:] = vprimevprime.astype(dtype='float32')          
+            nc_comp.variables['vprimevprime'][i,:] = vprimevprime.astype(dtype='float32')
+            valminmax(nc_comp,'vprimevprime',vprimevprime.astype(dtype='float32'))
         
             wprime = detrend(m['w'])
-            nc_comp.variables['wprime'][i,:] = wprime.astype(dtype='float32')          
+            nc_comp.variables['wprime'][i,:] = wprime.astype(dtype='float32')
+            valminmax(nc_comp,'wprime',wprime.astype(dtype='float32') )
         
             if level ==1:
                 wprimeh2oprime = wprime * h2oprime
                 nc_comp.variables['wprimeh2oprime'][i,:] = wprimeh2oprime.astype(dtype='float32')  
+                valminmax(nc_comp,'wprimeh2oprime',wprimeh2oprime.astype(dtype='float32') )
         
                 wprimeqprime = wprime * qprime
                 nc_comp.variables['wprimeqprime'][i,:] = wprimeqprime.astype(dtype='float32') 
+                valminmax(nc_comp,'wprimeqprime',wprimeqprime.astype(dtype='float32') )
         
             #  wprimethetaprime = wprime * thetaprime
             #nc_comp.variables['wprimethetaprime'][i,:] = wprimethetaprime
         
             wprimetsprime = wprime * tsprime
             nc_comp.variables['wprimetsprime'][i,:] = wprimetsprime.astype(dtype='float32')
+            valminmax(nc_comp,'wprimetsprime',wprimetsprime.astype(dtype='float32'))
         
             wprimeuprime = wprime * uprime
             nc_comp.variables['wprimeuprime'][i,:] = wprimeuprime.astype(dtype='float32')
+            valminmax(nc_comp,'wprimeuprime',wprimeuprime.astype(dtype='float32'))
         
             wprimevprime = wprime * vprime
             nc_comp.variables['wprimevprime'][i,:] = wprimevprime.astype(dtype='float32')
+            valminmax(nc_comp,'wprimevprime',wprimevprime.astype(dtype='float32'))
         
             wprimewprime = wprime * wprime
             nc_comp.variables['wprimewprime'][i,:] = wprimewprime.astype(dtype='float32')
-        
-        
+            valminmax(nc_comp,'wprimewprime',wprimewprime.astype(dtype='float32'))
+                   
             # Store single parameters for each run
  
             air_pressure = (m['P'].mean())/100 # hPa
             nc_comp.variables['air_pressure'][i,:] = (m['P']/100).to_numpy(dtype='float32')
+            valminmax(nc_comp,'air_pressure',(m['P']/100).to_numpy(dtype='float32'))
         
             nc_comp.variables['number_of_samples_in_run'][i] = np.float32(len(m))
+            valminmax(nc_comp,'number_of_samples_in_run',np.float32(len(m)))
             nc_est.variables['number_of_samples_in_run'][i] = np.float32(len(m)) 
+            valminmax(nc_est,'number_of_samples_in_run',np.float32(len(m)))
         
             height_above_surface = m['height'].mean()
             nc_comp.variables['height_above_surface'][i] = np.float32(height_above_surface)
+            valminmax(nc_comp,'height_above_surface',np.float32(height_above_surface))
             nc_est.variables['height_above_surface'][i] = np.float32(height_above_surface)
+            valminmax(nc_est,'height_above_surface',np.float32(height_above_surface))
         
             nc_comp.variables['run_length'][i] = np.float32((m.index[-1] - m.index[0]).seconds)
+            valminmax(nc_comp,'run_length',np.float32((m.index[-1] - m.index[0]).seconds))
             nc_est.variables['run_length'][i] = np.float32((m.index[-1] - m.index[0]).seconds)
+            valminmax(nc_est,'run_length',np.float32((m.index[-1] - m.index[0]).seconds))
         
             nc_comp.variables['start_of_run'][i] = np.float64(date2num(m.index[0],units='seconds since 1970-01-01 00:00:00 UTC'))
+            valminmax(nc_comp,'start_of_run',np.float64(date2num(m.index[0],units='seconds since 1970-01-01 00:00:00 UTC')))
             nc_est.variables['start_of_run'][i] = np.float64(date2num(m.index[0],units='seconds since 1970-01-01 00:00:00 UTC'))
-
-        
+            valminmax(nc_est,'start_of_run',np.float64(date2num(m.index[0],units='seconds since 1970-01-01 00:00:00 UTC')))
+                   
             sigma_w = np.std(wprime)
             nc_comp.variables['standard_deviation_upward_air_velocity'][i] = np.float32(sigma_w)
+            valminmax(nc_comp,'standard_deviation_upward_air_velocity',np.float32(sigma_w))
+              
+            
         
             if level==1:
                 h2obar = m['Nconc'].mean()
                 nc_comp.variables['h2obar'][i] = np.float32(h2obar)
+                valminmax(nc_comp,'h2obar',np.float32(h2obar))
         
                 qbar = m['q'].mean()
-                nc_comp.variables['qbar'][i] = np.float32(qbar)       
+                nc_comp.variables['qbar'][i] = np.float32(qbar) 
+                valminmax(nc_comp,'qbar',np.float32(qbar) )
         
             #thetabar = m['theta'].mean()
             #nc_comp.variables['thetabar'][i] = thetabar        
         
             tsbar = m['T_corrected'].mean()
-            nc_comp.variables['tsbar'][i] = np.float32(tsbar)      
+            nc_comp.variables['tsbar'][i] = np.float32(tsbar) 
+            valminmax(nc_comp,'tsbar',np.float32(tsbar) ) 
         
             ubar = m['u'].mean()
-            nc_comp.variables['ubar'][i] = np.float32(ubar)       
+            nc_comp.variables['ubar'][i] = np.float32(ubar)
+            valminmax(nc_comp,'ubar',np.float32(ubar))  
         
             vbar = m['v'].mean()
-            nc_comp.variables['vbar'][i] = np.float32(vbar)      
+            nc_comp.variables['vbar'][i] = np.float32(vbar)
+            valminmax(nc_comp,'vbar',np.float32(vbar))  
         
             wbar = m['w'].mean()
-            nc_comp.variables['wbar'][i] = np.float32(wbar)       
+            nc_comp.variables['wbar'][i] = np.float32(wbar) 
+            valminmax(nc_comp,'wbar',np.float32(wbar)) 
         
             uprimeuprimebar = np.mean(uprimeuprime)
-            nc_comp.variables['uprimeuprimebar'][i] = np.float32(uprimeuprimebar) 
+            nc_comp.variables['uprimeuprimebar'][i] = np.float32(uprimeuprimebar)
+            valminmax(nc_comp,'uprimeuprimebar',np.float32(uprimeuprimebar)) 
         
             vprimevprimebar = np.mean(vprimevprime)
             nc_comp.variables['vprimevprimebar'][i] = np.float32(vprimevprimebar)
+            valminmax(nc_comp,'vprimevprimebar',np.float32(vprimevprimebar))  
         
             wprimewprimebar = np.mean(wprimewprime)
             nc_comp.variables['wprimewprimebar'][i] = np.float32(wprimewprimebar)
-        
+            valminmax(nc_comp,'wprimewprimebar',np.float32(wprimewprimebar)) 
+                   
             if level==1:
                 wprimeh2oprimebar = np.mean(wprimeh2oprime)
                 nc_comp.variables['wprimeh2oprimebar'][i] = np.float32(wprimeh2oprimebar) 
+                valminmax(nc_comp,'wprimewprimebar',np.float32(wprimewprimebar)) 
         
                 wprimeqprimebar = np.mean(wprimeqprime)
                 nc_comp.variables['wprimeqprimebar'][i] = wprimeqprimebar 
+                valminmax(nc_comp,'wprimewprimebar',np.float32(wprimewprimebar)) 
         
             #wprimethetaprimebar = np.mean(wprimethetaprime)
             #nc_comp.variables['wprimethetaprimebar'][i] = wprimethetaprimebar
         
             wprimetsprimebar = np.mean(wprimetsprime)
             nc_comp.variables['wprimetsprimebar'][i] = np.float32(wprimetsprimebar) 
+            valminmax(nc_comp,'wprimetsprimebar',np.float32(wprimetsprimebar) ) 
         
             wprimeuprimebar = np.mean(wprimeuprime)
             nc_comp.variables['wprimeuprimebar'][i] = np.float32(wprimeuprimebar)
+            valminmax(nc_comp,'wprimeuprimebar',np.float32(wprimeuprimebar)) 
         
             wprimevprimebar = np.mean(wprimevprime)
             nc_comp.variables['wprimevprimebar'][i] = np.float32(wprimevprimebar) 
+            valminmax(nc_comp,'wprimevprimebar',np.float32(wprimevprimebar) ) 
         
         
             # Skew
         
             skew_ts = skew(m['T'])
             nc_comp.variables['skew_sonic_air_temperature'][i] = np.float32(skew_ts)
+            valminmax(nc_comp,'skew_sonic_air_temperature', np.float32(skew_ts)) 
         
             skew_u = skew(m['u'])
             nc_comp.variables['skew_eastward_wind'][i] = np.float32(skew_u)
+            valminmax(nc_comp,'skew_eastward_wind',np.float32(skew_u)) 
         
             skew_v = skew(m['v'])
-            nc_comp.variables['skew_northward_wind'][i] = np.float32(skew_u)        
+            nc_comp.variables['skew_northward_wind'][i] = np.float32(skew_u) 
+            valminmax(nc_comp,'skew_northward_wind',np.float32(skew_u) ) 
         
             skew_w = skew(m['w'])
-            nc_comp.variables['skew_upward_air_velocity'][i] = np.float32(skew_u)        
+            nc_comp.variables['skew_upward_air_velocity'][i] = np.float32(skew_u) 
+            valminmax(nc_comp,'skew_upward_air_velocity',np.float32(skew_u) ) 
         
         
             # Kurtosis
         
             kurtosis_ts = kurtosis(m['T'])
-            nc_comp.variables['kurtosis_sonic_air_temperature'][i] = np.float32(kurtosis_ts)      
+            nc_comp.variables['kurtosis_sonic_air_temperature'][i] = np.float32(kurtosis_ts) 
+            valminmax(nc_comp,'kurtosis_sonic_air_temperature',np.float32(kurtosis_ts) )
         
             kurtosis_u = kurtosis(m['w'])
             nc_comp.variables['kurtosis_eastward_wind'][i] = np.float32(kurtosis_u)
+            valminmax(nc_comp,'kurtosis_eastward_wind',np.float32(kurtosis_u)) 
         
             kurtosis_v = kurtosis(m['v'])
             nc_comp.variables['kurtosis_northward_wind'][i] = np.float32(kurtosis_u) 
+            valminmax(nc_comp,'kurtosis_northward_wind',np.float32(kurtosis_u) ) 
         
             kurtosis_w = kurtosis(m['w'])
-            nc_comp.variables['kurtosis_upward_air_velocity'][i] = np.float32(kurtosis_u)   
+            nc_comp.variables['kurtosis_upward_air_velocity'][i] = np.float32(kurtosis_u) 
+            valminmax(nc_comp,'kurtosis_upward_air_velocity',np.float32(kurtosis_u)) 
         
         
             # Stationarity testing
         
             sst_wts,Cwt, rol_cov_wt = stationarity(m['w'],m['T'])
             nc_comp.variables['sst_wts'][i] = np.float32(sst_wts)
+            valminmax(nc_comp,'sst_wts',np.float32(sst_wts)) 
         
             sst_wu, Cwu, rol_cov_wu= stationarity(m['w'],m['u'])
             nc_comp.variables['sst_wu'][i] = np.float32(sst_wu)
+            valminmax(nc_comp,'sst_wu',np.float32(sst_wu)) 
         
             sst_wv, Cwv, rol_cov_wv= stationarity(m['w'],m['v'])
             nc_comp.variables['sst_wv'][i] = np.float32(sst_wv)
+            valminmax(nc_comp,'sst_wv',np.float32(sst_wv)) 
 
         
             friction_velocity = (Cwu**2 + Cwv**2)**(1/4)
             nc_comp.variables['friction_velocity'][i] = np.float32(friction_velocity)
+            valminmax(nc_comp,'friction_velocity',np.float32(friction_velocity)) 
         
             obukhov_length = (-np.abs(friction_velocity**3) * np.mean(m['T_corrected'])) / (0.4*9.81*Cwt)
             nc_comp.variables['obukhov_length'][i] = np.float32(obukhov_length)
+            valminmax(nc_comp,'obukhov_length',np.float32(obukhov_length)) 
         
             stability_parameter = height_above_surface / obukhov_length
             nc_comp.variables['stability_parameter'][i] = np.float32(stability_parameter)
-        
+            valminmax(nc_comp,'stability_parameter',np.float32(stability_parameter)) 
+                   
             # Integral scale test (for turbulence development)
             # theoretical value of sigma_w/ustar - parametrisation after Foken/CarboEurope
         
@@ -451,6 +534,7 @@ def main():
 
             itc_w = 100 * ((sigma_uw_theory - (sigma_w/friction_velocity))/sigma_uw_theory) 
             nc_comp.variables['integral_turbulent_characteristic_upward_air_velocity'][i] = np.float32(itc_w)
+            valminmax(nc_comp,'integral_turbulent_characteristic_upward_air_velocity', np.float32(itc_w)) 
         
         
             # QC flags
@@ -467,28 +551,28 @@ def main():
         
             nc_comp.variables['qc_flag_kurtosis_w'][i] = kurt_flag(kurtosis_w)
             nc_est.variables['qc_flag_kurtosis_w'][i] = kurt_flag(kurtosis_w)
-        
+            
             nc_comp.variables['qc_flag_quality_wts'][i] = flux_devel_test(itc_w, sst_wts)
             nc_est.variables['qc_flag_quality_wts'][i] = flux_devel_test(itc_w, sst_wts)
-        
+
             nc_comp.variables['qc_flag_quality_wu'][i]  = flux_devel_test(itc_w, sst_wu)
             nc_est.variables['qc_flag_quality_wu'][i]  = flux_devel_test(itc_w, sst_wu)
-        
+
             nc_comp.variables['qc_flag_quality_wv'][i] = flux_devel_test(itc_w, sst_wv)
             nc_est.variables['qc_flag_quality_wv'][i] = flux_devel_test(itc_w, sst_wv)
-        
+
             nc_comp.variables['qc_flag_skew_ts'][i] = skew_flag(skew_ts)
             nc_est.variables['qc_flag_skew_ts'][i] = skew_flag(skew_ts)
-        
+
             nc_comp.variables['qc_flag_skew_u'][i] = skew_flag(skew_u)
             nc_est.variables['qc_flag_skew_u'][i] = skew_flag(skew_u)
-        
+
             nc_comp.variables['qc_flag_skew_v'][i] = skew_flag(skew_v)
             nc_est.variables['qc_flag_skew_v'][i] = skew_flag(skew_v)
         
             nc_comp.variables['qc_flag_skew_w'][i] = skew_flag(skew_w)
             nc_est.variables['qc_flag_skew_w'][i] = skew_flag(skew_w)
-        
+                    
             #qc_flag_sstclass_wts
             #qc_flag_sstclass_wu
             #qc_flag_sstclass_wv       
@@ -508,18 +592,26 @@ def main():
          
             upward_sensible_heat_flux = rho * cp * wprimetsprimebar 
             nc_est.variables['upward_sensible_heat_flux_in_air'][i] = np.float32(upward_sensible_heat_flux)
+            valminmax(nc_est,'upward_sensible_heat_flux_in_air', np.float32(upward_sensible_heat_flux)) 
         
             if level==1:
                 upward_latent_heat_flux = rho * lv * wprimeqprimebar
-                nc_est.variables['upward_latent_heat_flux_in_air'][i] = np.float32(upward_latent_heat_flux)        
+                nc_est.variables['upward_latent_heat_flux_in_air'][i] = np.float32(upward_latent_heat_flux)    
+                valminmax(nc_est,'upward_latent_heat_flux_in_air', np.float32(upward_latent_heat_flux)   ) 
                 nc_est.variables['bowen_ratio'][i]  = np.float32(upward_sensible_heat_flux / upward_latent_heat_flux)
+                valminmax(nc_est,'bowen_ratio', np.float32(upward_sensible_heat_flux / upward_latent_heat_flux)) 
                 nc_est.variables['kinematic_humidity_flux'][i]  = np.float32(wprimeqprimebar)
+                valminmax(nc_est,'kinematic_humidity_flux', np.float32(wprimeqprimebar)) 
         
             nc_est.variables['buoyancy_flux'][i]  = np.float32(rho * cp * wprimetsprimebar)
+            valminmax(nc_est,'buoyancy_flux', np.float32(rho * cp * wprimetsprimebar)) 
             nc_est.variables['kinematic_sonic_temperature_flux'][i]  = np.float32(wprimetsprimebar)
+            valminmax(nc_est,'kinematic_sonic_temperature_flux',np.float32(wprimetsprimebar)) 
             #nc_est.variables['kinematic_heat_flux'][i]  = wprimethetaprimebar
             nc_est.variables['momentum_flux_u'][i]  = np.float32(- rho * wprimeuprimebar)
+            valminmax(nc_est,'momentum_flux_u', np.float32(- rho * wprimeuprimebar)) 
             nc_est.variables['momentum_flux_v'][i]  = np.float32(- rho * wprimevprimebar)
+            valminmax(nc_est,'momentum_flux_v', np.float32(- rho * wprimevprimebar)) 
          
         # Close netcdf files
         
