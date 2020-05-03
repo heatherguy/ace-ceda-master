@@ -69,10 +69,12 @@ def main():
         
     # Global attributes
     meta_f = '/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/metadata/CPC_metadata.xlsx'
+    #meta_f = '/Users/heather/Desktop/ace-ceda-master/metadata/CPC_metadata.xlsx'
     meta = pd.read_excel(meta_f)
 
     # Specific variables
     var_f = '/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/specific_variables/aerosol-concentration.xlsx'
+    #var_f = '/Users/heather/Desktop/ace-ceda-master/specific_variables/aerosol-concentration.xlsx'
     var = pd.read_excel(var_f)
 
     for year in years: 
@@ -106,15 +108,17 @@ def main():
             # Get data
         
             CPC = get_cpc(start,stop,in_loc+'CPC/')
-        
-            # Correct QC's for nans
-        
-            CPC['QC'][CPC['c/cm3'].isnull()]=0
+                   
+            # Sort QC's
+            qc=np.ones(len(CPC))*2
+            qc[np.where(CPC['QC']==1)]=1 # 1b is good
+            qc[np.where(CPC['QC']==0)]=2 # 2b is bad due to station pollution
+            qc[np.where(CPC['QC']==2)]=3 # 3b Can't check for station pollution
               
             # Write in data
 
-            nc.variables['number_concentration_of_ambient_aerosol_particles_in_air'][:]=CPC['c/cm3'].to_numpy()
-            nc.variables['qc_flag'][:]=CPC['QC'].to_numpy()
+            nc.variables['number_concentration_of_ambient_aerosol_particles_in_air'][:]=CPC['c/cm3'].to_numpy('float32')
+            nc.variables['qc_flag'][:]=qc
 
             # Derive valid max and min
             nc.variables['number_concentration_of_ambient_aerosol_particles_in_air'].valid_min = CPC['c/cm3'].min()
