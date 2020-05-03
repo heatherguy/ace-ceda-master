@@ -619,12 +619,12 @@ def get_skyopc(start,stop,d_loc):
     
     """
     f_date_list = pd.date_range(start.date(),stop.date(),freq='1D')
-    SKY_out = pd.DataFrame(columns=list(np.arange(0,31,1))+['QC'])
+    SKY_out = pd.DataFrame(columns=list(np.arange(0,20,1))+['QC','qc_pap','qc_prp','qc_err','qc_int'])
     for date in f_date_list:
         f = d_loc + r'SKYOPC_%s'%(str(date.date()))
         
         try:
-            data = pd.read_csv(f,parse_dates=[0],index_col=[0],skiprows=1,names=list(np.arange(0,31,1))+['QC'])
+            data = pd.read_csv(f,parse_dates=[0],index_col=[0],skiprows=1,names=list(np.arange(0,20,1))+['QC','qc_pap','qc_prp','qc_err','qc_int'])
         except:
             print('No data for %s'%str(date.date()))
             continue
