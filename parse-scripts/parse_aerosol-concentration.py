@@ -68,7 +68,7 @@ def main():
         sys.exit()
         
     # Global attributes
-    meta_f = '/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/metadata/CPC_metadata.xlsx'
+    meta_f = '/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/metadata/cpc_metadata.xlsx'
     #meta_f = '/Users/heather/Desktop/ace-ceda-master/metadata/CPC_metadata.xlsx'
     meta = pd.read_excel(meta_f)
 
