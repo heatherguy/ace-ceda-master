@@ -59,7 +59,7 @@ def get_args(args_in):
         hmp_dpath= args_in[6]
         return in_loc,out_loc,instrument,all_start,all_stop, hmp_dpath
     elif instrument=='SKYOPC':
-        inlet_cal = ags_in[6]
+        inlet_cal = args_in[6]
         return in_loc,out_loc,instrument,all_start,all_stop, inlet_cal
     else:
         # return values:

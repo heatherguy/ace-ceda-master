@@ -77,6 +77,7 @@ def main():
         sys.exit()
 
     # Extract all tar files. 
+    print('running extract tar')
     extract_tar(start,stop,in_loc,out_loc,id_str)
     
     return
