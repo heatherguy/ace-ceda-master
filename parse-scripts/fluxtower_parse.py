@@ -794,6 +794,10 @@ def extract_licor_data(start,stop,dpath,save=False):
         jj = ~np.isnan(licor['H2OD']) # Not nan indices
         sd = np.std(licor['H2OD'][jj]) # standard deviation 
         licor['H2OD']=replace_outliers(licor['H2OD'],sd)
+        
+        # Remove negative concentrations
+        licor['QC'][licor['H2OD']<0]=0
+        licor['QC'][licor['H2OR']<0]=0
 
         if save: 
             licor.to_csv(save+'licor_%s'%str(start.date()))
