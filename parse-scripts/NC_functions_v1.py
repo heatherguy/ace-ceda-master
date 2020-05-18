@@ -41,8 +41,15 @@ def NC_SpecificVariables(fn_nc, var, np):
             if att_list.iloc[j][0]=='_':
                 continue
             else:
-                varn.setncattr(att_list.iloc[j],val_list.iloc[j])
-                
+                if att_list.iloc[j]=='units':
+                    varn.setncattr(att_list.iloc[j],str(val_list.iloc[j]))
+                    #print(att_list.iloc[j],str(val_list.iloc[j]))
+                elif att_list.iloc[j]=='flag_values':
+                    varn.setncattr(att_list.iloc[j],val_list.iloc[j].split(','))
+                    #print(att_list.iloc[j],val_list.iloc[j].split(','))
+                else:
+                    varn.setncattr(att_list.iloc[j],val_list.iloc[j])
+                    #print(att_list.iloc[j],val_list.iloc[j])
     return
 
 

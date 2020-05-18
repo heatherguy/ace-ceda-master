@@ -25,7 +25,7 @@ from netCDF4 import Dataset, num2date
 #out_loc = '/Users/heather/Desktop/temp_out/'
 
 # Months
-#months=[11]
+#months=[6]
 #years = [2019]
 
 # sample interval
