@@ -45,7 +45,7 @@ def NC_SpecificVariables(fn_nc, var, np):
                     varn.setncattr(att_list.iloc[j],str(val_list.iloc[j]))
                     #print(att_list.iloc[j],str(val_list.iloc[j]))
                 elif att_list.iloc[j]=='flag_values':
-                    varn.setncattr(att_list.iloc[j],[int(s) for s in val_list.iloc[j].split(',')])
+                    varn.setncattr(att_list.iloc[j],[bytes(s, "ascii") for s in val_list.iloc[j].split(',')])
                     #print(att_list.iloc[j],val_list.iloc[j].split(','))
                 else:
                     varn.setncattr(att_list.iloc[j],val_list.iloc[j])
