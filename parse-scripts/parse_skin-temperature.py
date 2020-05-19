@@ -98,7 +98,7 @@ def main():
             f5 = "v1" #version number
             f6 = ".nc"
             fn = out_loc+'skin-temperature/' + f1 + chr(95) + f2 + chr(95) + f3 + chr(95) + 'skin-temperature' + chr(95) + f5 + f6
-            nc = Dataset(fn, "w",  format = "NETCDF4_CLASSIC") 
+            nc = Dataset(fn, "w",  format = "NETCDF4") 
 
             len_time = (24 * 60 ) / avp
 
