@@ -21,7 +21,7 @@ def NC_SpecificVariables(fn_nc, var, np):
         np:     numpy
     
     """
-    from netCDF4 import stringtoarr
+    #from netCDF4 import stringtoarr
     for i in range(0,len(var['Variable'].dropna())):
         if i+1 == len(var['Variable'].dropna()):
             att_end = var.index[-1]
