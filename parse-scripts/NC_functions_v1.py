@@ -21,6 +21,7 @@ def NC_SpecificVariables(fn_nc, var, np):
         np:     numpy
     
     """
+    from netCDF4 import stringtoarr
     for i in range(0,len(var['Variable'].dropna())):
         if i+1 == len(var['Variable'].dropna()):
             att_end = var.index[-1]
@@ -44,8 +45,9 @@ def NC_SpecificVariables(fn_nc, var, np):
                 if att_list.iloc[j]=='units':
                     varn.setncattr(att_list.iloc[j],str(val_list.iloc[j]))
                     #print(att_list.iloc[j],str(val_list.iloc[j]))
-                elif att_list.iloc[j]=='flag_values':
-                    varn.setncattr(att_list.iloc[j],[int(s) for s in val_list.iloc[j].split(', ')])
+                #elif att_list.iloc[j]=='flag_values':
+                #    string_list = [int(s) for s in val_list.iloc[j].split(', ')]
+                #    varn.setncattr(att_list.iloc[j],stringtoarr(string_list,len(string_list)))
                     #print(att_list.iloc[j],val_list.iloc[j].split(','))
                 else:
                     varn.setncattr(att_list.iloc[j],val_list.iloc[j])
