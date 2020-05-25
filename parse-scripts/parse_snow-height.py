@@ -72,10 +72,12 @@ def main():
         sys.exit()
         
     # Global attributes
+    #meta_f= '/Users/heather/Desktop/ace-ceda-master/metadata/snd_metadata.xlsx'
     meta_f = '/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/metadata/snd_metadata.xlsx'
     meta = pd.read_excel(meta_f)
 
     # Specific variables
+    #var_f= '/Users/heather/Desktop/ace-ceda-master/specific_variables/snow-height.xlsx'
     var_f = '/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/specific_variables/snow-height.xlsx'
     var = pd.read_excel(var_f)
     

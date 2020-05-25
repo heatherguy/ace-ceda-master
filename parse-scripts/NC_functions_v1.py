@@ -225,7 +225,7 @@ def NC_Global_Attributes(fn_nc, meta, start_date,end_date):
     for i in range(0,len(meta)):
        msg1 = np.array(name[i])
        msg2 = np.array(exp[i])
-       fn_nc.setncattr(msg1[0], msg2[0])
+       fn_nc.setncattr(msg1[0], str(msg2[0]))
    
     fn_nc.last_revised_date = datetime.utcnow().isoformat()  
     fn_nc.time_coverage_start = start_date.isoformat()
