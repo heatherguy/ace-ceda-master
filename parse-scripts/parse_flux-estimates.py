@@ -436,12 +436,12 @@ def main():
             if level==1:
                 wprimeh2oprimebar = np.mean(wprimeh2oprime)
                 nc_comp.variables['wprimeh2oprimebar'][i] = np.float32(wprimeh2oprimebar) 
-                valminmax(nc_comp,'wprimewprimebar',np.float32(wprimewprimebar)) 
+                valminmax(nc_comp,'wprimeh2oprimebar',np.float32(wprimeh2oprimebar)) 
         
                 wprimeqprimebar = np.mean(wprimeqprime)
                 nc_comp.variables['wprimeqprimebar'][i] = wprimeqprimebar 
                 valminmax(nc_comp,'wprimewprimebar',np.float32(wprimewprimebar)) 
-        
+                valminmax(nc_comp,'wprimeqprimebar',np.float32(wprimeqprimebar))
             #wprimethetaprimebar = np.mean(wprimethetaprime)
             #nc_comp.variables['wprimethetaprimebar'][i] = wprimethetaprimebar
         
