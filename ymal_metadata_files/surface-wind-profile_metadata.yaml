@@ -1,0 +1,73 @@
+{
+  "title": "Summit Aerosol Cloud Experiment: Surface wind profile",
+  "description": "Near surface wind profile from four sonic anemometers distributed on the 15 m tower at Summit Station, Greenland. \nPart of the ICECAPS-ACE project. \n",
+  "authors": [
+    {
+      "firstname": "",
+      "surname": "University of Leeds"
+    },
+    {
+      "firstname": "Heather",
+      "surname": "Guy"
+    },
+    {
+      "firstname": "",
+      "surname": ""
+    }
+  ],
+  "bbox": {
+    "north": "72.5785904",
+    "south": "72.573730",
+    "east": "-38.470361",
+    "west": "-38.4526934"
+  },
+  "time_range": {
+    "start": "2019-06-01",
+    "end": "Ongoing"
+  },
+  "lineage": "Data were collected by the University of Leeds in collaboration with the ICECAPS project team and deposited at the Centre for Environmental Data Analysis (CEDA) for archiving.",
+  "quality": "Data are as given by the data provider, no quality control has been performed by the Centre for Environmental Data Analysis (CEDA).",
+  "docs": [
+    {
+      "title": "Historical and complementary ICECAPS Data",
+      "url": "https://psl.noaa.gov/arctic/observatories/summit/"
+    },
+    {
+      "title": "Original ICECAPS publication:",
+      "url": "https://journals.ametsoc.org/doi/full/10.1175/BAMS-D-11-00249.1"
+    },
+    {
+      "title": "Information about Summit Station: ",
+      "url": "http://www.summitcamp.org/index"
+    },
+    {
+      "title": "Data processing scripts:",
+      "url": "https://github.com/heatherguy/ace-ceda-master"
+    },
+    {
+      "title": "",
+      "url": ""
+    }
+  ],
+  "project": {
+    "catalogue_url": "",
+    "title": "ICECAPS-ACE: Integrated Characterization of Energy, Clouds, Atmospheric state, and Precipitation at Summit – Aerosol Cloud Experiment",
+    "description": "Since 2010, the ICECAPS project has been monitoring cloud-atmosphere-energy interactions at Summit Station, in the centre of the Greenland Ice Sheet (GrIS), using a comprehensive suite of ground-based remote sensing instruments and twice daily radiosonde profiles. In 2019, the Aerosol Cloud Experiment (ACE) expansion of ICECAPS saw the addition of a new series of instruments to measure surface aerosol concentrations and turbulent heat fluxes over the ice sheet. Combined with the original ICECAPS instrumentation, the ACE instruments allow for the study of cloud-aerosol-energy interactions over the central GrIS. This dataset contains the measurements collected as part of the ACE component of ICECAPS-ACE, which includes the following:\n\n1)\tSurface-temperature-profile: A near surface temperature profile from four temperature/ humidity sensors distributed on the 15 m tower at Summit. \n\n2)\tSurface-moisture-profile:  A near surface moisture profile from four temperature/ humidity sensors distributed on the 15 m tower at Summit.\n\n3)\tSurface-winds-profile: A near surface wind profile from four sonic anemometers distributed on the 15 m tower at Summit.\n\n4)\tSnow-height: The distance to the snow surface from the lowest level of instruments on the 15 m tower at Summit, detected by a sonic-ranging sensor. \n\n5)\tSkin-temperature: The brightness temperature of the snow surface as detected by an infrared radiation thermometer. \n\n6)\tAerosol-concentration: The concentration of condensation nuclei (> 5nm diameter) measured at the surface using a Condensation Particle Counter. \n\n7)\tAerosol-size-distribution: The size-resolved concentration of surface aerosol particles between 0.25 and 6.5 um in diameter measured using an Optical Particle Counter. \n\n8)\tFlux-components: High resolution temperature, humidity and wind fluctuations that can be used to estimate turbulent fluxes using eddy covariance, located at two levels on the 15 m tower at Summit. \n\n9)\tFlux-estimates: Estimates of turbulent heat and momentum fluxes by applying the eddy covariance technique to flux-components. \n\n\nOther ICECAPS data is available here: \nhttps://psl.noaa.gov/arctic/observatories/summit/\n\nFor more information about ICECAPS see: \nShupe, Matthew D., et al. \"High and dry: New observations of tropospheric and cloud properties above the Greenland Ice Sheet.\" Bulletin of the American Meteorological Society 94.2 (2013): 169-186.\n",
+    "PI": {
+      "firstname": "Ryan",
+      "surname": "Neely III"
+    },
+    "funder": "NSFGEO-NERC",
+    "grant_number": "NE/S00906X/1"
+  },
+  "instrument": {
+    "catalogue_url": "",
+    "title": "V1, V2, M1, M2",
+    "description": "V1, V2: Lufft VentusX, heated 2D sonic anemometer. \nM1, M2: Metek uSonic-3 Scientific, heated 3D sonic anemometer. \nEach sensor is mounted on the Met tower at Summit station.\nTower location: -38.470361E, 72.572962N\nTower top elevation: 3267 masl\nM1 elevation: Tower top – 12.3 m \nV1 elevation: Tower top – 9.8 m \nV2 elevation: Tower top – 4.5 m \nM2 elevation: Tower top – 1.0 m \n\n\n"
+  },
+  "computation": {
+    "catalogue_url": "",
+    "title": "",
+    "description": ""
+  }
+}
