@@ -98,7 +98,7 @@ def extract_KT_data(start,stop,dpath,qcf,save=False):
             continue
         
         # Store good data  
-        KT = KT.append(pd.read_csv(f, header=None, delim_whitespace=True))
+        KT = KT.append(pd.read_csv(f, header=None, delim_whitespace=True,error_bad_lines=False))
 
     # Sort out the date referencing and columns
     if KT.empty==False:
