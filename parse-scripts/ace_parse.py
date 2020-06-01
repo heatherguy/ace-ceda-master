@@ -47,6 +47,7 @@ def qc_aerosol(qc_in):
     qc_in['QC']=np.ones(len(qc_in))
 
     # Get flight dates
+    #flight_dates_f = '/Users/heather/Desktop/ace-ceda-master/qc-files/flight_days.csv'    
     flight_dates_f = '/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/qc-files/flight_days.csv'
     flight_times = pd.read_csv(flight_dates_f,parse_dates={'Dates':[0],'ondeckUTC':[0,3],'offdeckUTC':[0,4]})
 
@@ -66,16 +67,36 @@ def qc_aerosol(qc_in):
                 
             qc_in['QC'][qc_in.between_time(start_time,stop_time).index]=0
            
-    # Get Met data     
-    w_dloc = '/gws/nopw/j04/ncas_radar_vol1/heather/Summit_Met/met_sum_insitu_1_obop_minute_%s_%s.txt'%(sdate.year,str(sdate.month).zfill(2))
+    # Try to get Noaa Met data     
+    w_dloc = '/gws/nopw/j04/ncas_radar_vol1/heather/Summit_Met/met_sum_insitu_1_obop_minute_%s_%s.txt'%(sdate.year,str(sdate.month))
     try:
         met = get_NOAA_met(w_dloc)
         qc_in['QC'][met['ws']<1]=0
         qc_in['QC'][met['wd']>270]=0
     except:
-        # If no met data, QC=2
-        print('No good met data')
-        qc_in['QC']=2
+        try:
+            # Try to get met data from ace netcdfs
+            #nc_loc = '/Volumes/Data/ICECAPSarchive/ACE_netcdfs/'
+            nc_loc = '/gws/nopw/j04/ncas_radar_vol1/heather/final_nc'
+        
+            # Get 2m ws & direction
+            var_list=['wind_speed','wind_from_direction','qc_flag']
+            lev_list=[0,0,0]
+            var_alts = ['altitude']
+            wind_times,[ws,wdir,qc] = get_nc(nc_loc,'surface-winds-profile',var_list,lev_list,[sdate.year],[str(sdate.month)])
+            # Put in dataframe and qc
+            ace_winds = pd.DataFrame({'ws':ws,'wdir':wdir,'qc':qc},index=wind_times)
+            ace_winds[ace_winds['qc']!=1]=np.nan
+        
+            # try the qc
+            qc_in['QC'][ace_winds['ws']<1]=0
+            qc_in['QC'][ace_winds['wdir']>270]=0
+        
+        except:
+        
+            # If no met data, QC=2
+            print('No good met data')
+            qc_in['QC']=2
 
     return qc_in
 
