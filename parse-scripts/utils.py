@@ -158,3 +158,31 @@ def wind_uv_to_spd(U,V):
     """
     WSPD = np.sqrt(np.square(U)+np.square(V))
     return WSPD
+
+def get_nc(dloc,name,var_list,lev_list,years,months):
+    from netCDF4 import Dataset, MFDataset,num2date,date2num
+    file_list=[]
+    for year in years: 
+        for month in months: 
+            if name=='aerosol-concentration':
+                file_list.append(dloc + '%s/ace-cpc_summit_%s%s_%s_v1.nc'%(name,year,str(month).zfill(2),name))
+            else:
+                file_list.append(dloc + '%s/ace-tower_summit_%s%s_%s_v1.nc'%(name,year,str(month).zfill(2),name))
+
+    if len(file_list)>1:
+        nc = MFDataset(file_list,'r',aggdim='time')
+    elif len(file_list)==1:
+        nc = Dataset(file_list[0],'r')
+    else:
+        print('No data')
+
+    times = pd.to_datetime(nc.variables['time'][:],origin='unix',unit='s')
+
+    all_vars=[]
+    for i in range(0,len(var_list)):  
+        if lev_list[i]==-1:
+            all_vars.append(nc.variables[var_list[i]][:])
+        else:
+            all_vars.append(nc.variables[var_list[i]][:,lev_list[i]])
+                             
+    return times, all_vars
