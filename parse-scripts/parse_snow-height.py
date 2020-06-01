@@ -112,27 +112,54 @@ def main():
             # Get data
     
             snd = extract_snd_data(time_list[0],time_list[-1],in_loc+'extracted/SnD/',in_loc+'processed/HMP/',save=False)
-            dat = snd.reindex(time_list, method='nearest',limit=12)
-    
-            # Write in data
-    
-            nc.variables['distance_to_surface'][:]=dat['depth_Tcorrected'].to_numpy()
             
-            # qc
-            # no data=0
-            # outside operational range (0.1-10m) = 2
-            # not corrected for temperature=3
-            qc = np.ones(len(dat))
-            qc[np.where(dat['depth_Tcorrected'].isnull())[0]]=3 # no temp corrected data
-            qc[np.where(dat['depth'].isnull())[0]]=0 # no data
-            qc[np.where(dat['depth_Tcorrected']<0.5)[0]]=2 # outside op range
-            qc[np.where(dat['depth_Tcorrected']>10)[0]]=2 # outside op range
+            if len(snd)!=0:
+                dat = snd.reindex(time_list, method='nearest',limit=12)
+                # Write in data
+                nc.variables['distance_to_surface'][:]=dat['depth_Tcorrected'].to_numpy()
+            
+                # qc
+                # no data=0
+                # outside operational range (0.1-10m) = 2
+                # not corrected for temperature=3
+                qc = np.ones(len(dat))
+                qc[np.where(dat['depth_Tcorrected'].isnull())[0]]=3 # no temp corrected data
+                qc[np.where(dat['depth'].isnull())[0]]=0 # no data
+                qc[np.where(dat['depth_Tcorrected']<0.5)[0]]=2 # outside op range
+                qc[np.where(dat['depth_Tcorrected']>10)[0]]=2 # outside op range
              
-            nc.variables['qc_flag_distance_to_surface'][:]=qc
-            
-            # Derive valid max and min
-            nc.variables['distance_to_surface'].valid_min = dat['depth_Tcorrected'].min()
-            nc.variables['distance_to_surface'].valid_max = dat['depth_Tcorrected'].max()
+                nc.variables['qc_flag_distance_to_surface'][:]=qc
+                # Derive valid max and min
+                nc.variables['distance_to_surface'].valid_min = dat['depth_Tcorrected'].min()
+                nc.variables['distance_to_surface'].valid_max = dat['depth_Tcorrected'].max()
+                
+            else:
+                # If there are no SnD data, update with last measured value and correct qc-flag
+                # / note accordingly
+                
+                # Get last measured value
+                all_files = sorted(glob.glob(in_loc+'processed/SnD/*'))
+                try_fil = -1
+                while os.path.getsize(all_files[try_fil])==0:
+                    try_fil=try_fil-1
+                    
+                last_file = all_files[try_fil]
+                last_file_date = dt.datetime.strptime(last_file[-10:],'%Y-%m-%d')
+                with open(last_file,mode='r') as f:
+                    dats = f.readlines()
+                
+                last_depth = float(dats[-1].split(',')[-1][:-2])
+                
+                nc.variables['distance_to_surface'][:]=np.ones(len(time_list))*last_depth
+                nc.variables['qc_flag_distance_to_surface'][:]=np.ones(len(time_list))*4
+                # Write note to netcdf file indicating date used. 
+                base_str = 'Platform height is the top of the Met tower, sensor height is plaform height minus 12.3 m.'
+                new_str = 'NOTE: QC flag 4, data corresponds to last available data collected on %s .'%str(last_file_date.date())
+                nc.setncattr('comment', new_str+base_str)
+                
+                # Derive valid max and min
+                nc.variables['distance_to_surface'].valid_min = last_depth
+                nc.variables['distance_to_surface'].valid_max = last_depth
             
     
             # Close netcdf file
