@@ -114,7 +114,8 @@ def extract_KT_data(start,stop,dpath,qcf,save=False):
                 KT = KT[~KT.index.duplicated()]
             
                 # Resample to 1 minute averages. 
-                new_index = pd.date_range(KT.index[0].round('min'),KT.index[-1].round('min') , freq='min')      
+                new_index = pd.date_range(KT.index[0].round('min'),KT.index[-1].round('min') , freq='min') 
+                    
                 KT_1min = KT.resample('1min').mean()
                 KT_1min = KT_1min.reindex(new_index)
     
@@ -844,8 +845,11 @@ def get_kt(start,stop,d_loc):
     KT_out=KT_out[start:stop]
     
     # Fill any missing minutes with nans
-    new_index = pd.date_range(KT_out.index[0],KT_out.index[-1] , freq='min')
-    KT_out = KT_out.reindex(new_index)
+    try:
+        new_index = pd.date_range(KT_out.index[0],KT_out.index[-1] , freq='min')
+        KT_out = KT_out.reindex(new_index)
+    except:
+        print('No data for %s'%str(date.date()))
     
     return KT_out
 
