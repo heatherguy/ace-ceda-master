@@ -943,25 +943,29 @@ def get_ventus(start,stop,d_loc,name, avp='1min'):
     out.index = pd.DatetimeIndex(out.index)    
 
     # Resample to one minutely
-    out2['T'] = out['T'].resample(rule = '1min').mean()   
-    out2['QC'] = out['QC'].resample(rule = '1min').max()
+    if len(out)!=0:
+        out2['T'] = out['T'].resample(rule = '1min').mean()   
+        out2['QC'] = out['QC'].resample(rule = '1min').max()
     
-    # Convert to vectors
-    u,v = wind_to_uv(out['wsd'],out['wdir'])
+        # Convert to vectors
+        u,v = wind_to_uv(out['wsd'],out['wdir'])
     
-    # average vectors
-    u_mean = u.resample(rule=avp).mean()
-    v_mean = v.resample(rule=avp).mean()
+        # average vectors
+        u_mean = u.resample(rule=avp).mean()
+        v_mean = v.resample(rule=avp).mean()
     
-    # convert back to wsd and wdir
-    out2['wsd'] = wind_uv_to_spd(u_mean,v_mean)
-    out2['wdir'] = wind_uv_to_dir(u_mean,v_mean)
+        # convert back to wsd and wdir
+        out2['wsd'] = wind_uv_to_spd(u_mean,v_mean)
+        out2['wdir'] = wind_uv_to_dir(u_mean,v_mean)
 
-    # Fill any missing minutes with nans
-    new_index = pd.date_range(start,stop-pd.Timedelta(minutes=1), freq=avp)
-    out2 = out2.reindex(new_index)
+
+        # Fill any missing minutes with nans
+        new_index = pd.date_range(start,stop-pd.Timedelta(minutes=1), freq=avp)
+        out2 = out2.reindex(new_index)
     
-    return out2
+        return out2
+    else:
+        return out
 
 
 
@@ -1004,23 +1008,26 @@ def get_metek(start,stop,d_loc,name, avp='1min'):
     out['QC']=np.ones(len(out))
     out['QC'][out.isnull().any(axis=1)]=0
     
-    # Resample to one minutely
-    out2['T'] = out['T'].resample(rule = avp).mean()  
-    out2['QC'] = out['QC'].resample(rule = avp).max() 
+    if len(out)!=0:
+        # Resample to one minutely
+        out2['T'] = out['T'].resample(rule = avp).mean()  
+        out2['QC'] = out['QC'].resample(rule = avp).max() 
        
-    # average vectors
-    u_mean = out['x'].resample(rule=avp).mean() 
-    v_mean = out['y'].resample(rule=avp).mean() 
+        # average vectors
+        u_mean = out['x'].resample(rule=avp).mean() 
+        v_mean = out['y'].resample(rule=avp).mean() 
     
-    # convert to wsd and wdir
-    out2['wsd'] = wind_uv_to_spd(u_mean,v_mean)
-    out2['wdir'] = wind_uv_to_dir(u_mean,v_mean)
+        # convert to wsd and wdir
+        out2['wsd'] = wind_uv_to_spd(u_mean,v_mean)
+        out2['wdir'] = wind_uv_to_dir(u_mean,v_mean)
 
-    # Fill any missing minutes with nans
-    new_index = pd.date_range(start,stop-pd.Timedelta(minutes=1), freq=avp)
-    out2 = out2.reindex(new_index)
+        # Fill any missing minutes with nans
+        new_index = pd.date_range(start,stop-pd.Timedelta(minutes=1), freq=avp)
+        out2 = out2.reindex(new_index)
     
-    return out2
+        return out2
+    else:
+        return out
 
 
 def wind_to_uv(wspd,wdir):
