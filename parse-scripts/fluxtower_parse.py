@@ -204,7 +204,11 @@ def extract_snd_data(start,stop,dpath,hmp_dpath,save=False):
             print('Error with: '+f+' this file is empty.\n')
             continue
         
-        dat_lines =open(f).readlines()
+        try:
+            dat_lines =open(f).readlines()
+        except:
+            print('Data error with: '+f+' \n')
+            continue
         good_lines = [y for y in dat_lines if len(y)==48]
         date =[]
         x=[]
