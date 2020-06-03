@@ -144,9 +144,16 @@ def main():
             # Get snowdepth data
         
             snd_nc = Dataset(out_loc + 'snow-height/ace-tower_summit_%s_snow-height_v1.nc'%dt.datetime.strftime(start,'%Y%m'),'r')
-            snow_height = pd.DataFrame({'time':pd.to_datetime(snd_nc.variables['time'][:],origin='unix',unit='s'),'snd':snd_nc.variables['distance_to_surface'][:]})
+            snow_height = pd.DataFrame({'time':pd.to_datetime(snd_nc.variables['time'][:],origin='unix',unit='s'),'snd':snd_nc.variables['distance_to_surface'][:],'qc':snd_nc.variables['qc_flag_distance_to_surface'][:]})
+            # QC
+            snow_height['snd'][(snow_height['qc'].astype(int)==0) | (snow_height['qc'].astype(int)==2)| (snow_height['qc'].astype(int)==3)]=np.nan           
             snow_height.index = pd.DatetimeIndex(snow_height['time'])
             snow_height = snow_height.reindex(time_list, method='nearest',limit=20)
+            # if qc flag == 4, add note
+            if (snow_height['qc'].astype(int) ==4).any():
+                base_str = 'Platform height (h0) is the top of the Met tower. Instrument height: HMP1=h0-12.3m, HMP2=h0-9.8m, HMP3=h0-4.5m, HMP4=h0-1m , Index: [HMP1, HMP2, HMP3, HMP4]'
+                new_str = snd_nc.comment.split('.')[0]
+                nc.setncattr('comment', new_str+base_str)
 
             # Calculate altitude above snow surface
         
