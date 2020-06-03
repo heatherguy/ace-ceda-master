@@ -119,17 +119,32 @@ def main():
 
             # Minutely averages
         
-            hmp1 = HMP1.resample(rule = '1min').mean()
-            hmp1 = HMP1.reindex(time_list, method='nearest',limit=2)
+            # Minutely averages
+            if len(HMP1)!=0:
+                hmp1 = HMP1.resample(rule = '1min').mean()
+                hmp1 = HMP1.reindex(time_list, method='nearest',limit=2)
+            else:
+                hmp1 = pd.DataFrame({'RH':np.nan,'Ta':np.nan,'QC':np.nan},index = time_list)
 
-            hmp2 = HMP2.resample(rule = '1min').mean()
-            hmp2 = HMP2.reindex(time_list, method='nearest',limit=2)
+            if len(HMP2)!=0:
+                hmp2 = HMP2.resample(rule = '1min').mean()
+                hmp2 = HMP2.reindex(time_list, method='nearest',limit=2)
+            else:
+                hmp2 = pd.DataFrame({'RH':np.nan,'Ta':np.nan,'QC':np.nan},index = time_list)
 
-            hmp3 = HMP3.resample(rule = '1min').mean()
-            hmp3 = HMP3.reindex(time_list, method='nearest',limit=2)
-            
-            hmp4 = HMP4.resample(rule = '1min').mean()
-            hmp4 = HMP4.reindex(time_list, method='nearest',limit=2)  
+
+            if len(HMP3)!=0:
+                hmp3 = HMP3.resample(rule = '1min').mean()
+                hmp3 = HMP3.reindex(time_list, method='nearest',limit=2)
+            else:
+                hmp3 = pd.DataFrame({'RH':np.nan,'Ta':np.nan,'QC':np.nan},index = time_list)
+
+
+            if len(HMP4)!=0:
+                hmp4 = HMP4.resample(rule = '1min').mean()
+                hmp4 = HMP4.reindex(time_list, method='nearest',limit=2)        
+            else:
+                hmp4 = pd.DataFrame({'RH':np.nan,'Ta':np.nan,'QC':np.nan},index = time_list)
             
             # RH
         
