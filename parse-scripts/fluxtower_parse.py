@@ -894,14 +894,17 @@ def get_hmp(start,stop,d_loc,hmp_name):
     out['QC']=qc
     
     # Resample to one minutely
-    out2['Ta'] = out['Ta'].resample(rule = '1min').mean()
-    out2['RH'] = out['RH'].resample(rule = '1min').mean()
-    out2['QC'] = out['QC'].resample(rule = '1min').max()
-    # Fill any missing minutes with nans
-    new_index = pd.date_range(start,stop-pd.Timedelta(minutes=1), freq='1min')
-    out2 = out2.reindex(new_index)
+    if len(out)!=0:
+        out2['Ta'] = out['Ta'].resample(rule = '1min').mean()
+        out2['RH'] = out['RH'].resample(rule = '1min').mean()
+        out2['QC'] = out['QC'].resample(rule = '1min').max()
+        # Fill any missing minutes with nans
+        new_index = pd.date_range(start,stop-pd.Timedelta(minutes=1), freq='1min')
+        out2 = out2.reindex(new_index)
     
-    return out2
+        return out2
+    else:
+        return out
 
 
 def get_ventus(start,stop,d_loc,name, avp='1min'):
