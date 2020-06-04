@@ -845,11 +845,12 @@ def get_kt(start,stop,d_loc):
     KT_out=KT_out[start:stop]
     
     # Fill any missing minutes with nans
-    try:
+    if len(KT_out)!=0:
         new_index = pd.date_range(KT_out.index[0],KT_out.index[-1] , freq='min')
         KT_out = KT_out.reindex(new_index)
-    except:
-        print('No data for %s'%str(date.date()))
+    else:
+        new_index = pd.date_range(KT_out.index[0],KT_out.index[-1] , freq='min')
+        KT_out = pd.DataFrame(columns=['T','Units','QC'],index=new_index)
     
     return KT_out
 
