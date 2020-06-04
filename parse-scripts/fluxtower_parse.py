@@ -965,6 +965,7 @@ def get_ventus(start,stop,d_loc,name, avp='1min'):
     
         return out2
     else:
+        new_index = pd.date_range(start,stop-pd.Timedelta(minutes=1), freq=avp)
         out2 = pd.DataFrame(columns=['wsd','wdir','T','QC'],index=new_index)   
         
         return out2
@@ -1029,6 +1030,7 @@ def get_metek(start,stop,d_loc,name, avp='1min'):
     
         return out2
     else:
+        new_index = pd.date_range(start,stop-pd.Timedelta(minutes=1), freq=avp)       
         out2 = pd.DataFrame(columns=['wsd','wdir','T','QC'],index=new_index)   
         return out2
 
