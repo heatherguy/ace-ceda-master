@@ -965,7 +965,9 @@ def get_ventus(start,stop,d_loc,name, avp='1min'):
     
         return out2
     else:
-        return out
+        out2 = pd.DataFrame(columns=['wsd','wdir','T','QC'],index=new_index)   
+        
+        return out2
 
 
 
@@ -1027,7 +1029,8 @@ def get_metek(start,stop,d_loc,name, avp='1min'):
     
         return out2
     else:
-        return out
+        out2 = pd.DataFrame(columns=['wsd','wdir','T','QC'],index=new_index)   
+        return out2
 
 
 def wind_to_uv(wspd,wdir):
