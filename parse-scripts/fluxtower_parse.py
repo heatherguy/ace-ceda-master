@@ -849,7 +849,7 @@ def get_kt(start,stop,d_loc):
         new_index = pd.date_range(KT_out.index[0],KT_out.index[-1] , freq='min')
         KT_out = KT_out.reindex(new_index)
     else:
-        new_index = pd.date_range(KT_out.index[0],KT_out.index[-1] , freq='min')
+        new_index = pd.date_range(start,stop, freq='min')
         KT_out = pd.DataFrame(columns=['T','Units','QC'],index=new_index)
     
     return KT_out
