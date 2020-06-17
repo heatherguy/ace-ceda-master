@@ -10,8 +10,7 @@ import numpy as np
 import datetime as dt
 import pandas as pd
 import sys
-#sys.path.append('/Users/heather/Desktop/NC_parse_master')
-#sys.path.append('/Users/heather/ICECAPS-ACE/DataParse')
+#sys.path.append('/Users/heather/Desktop/ace-ceda-master/parse-scripts')
 from NC_functions_v1 import *
 from ace_parse import *
 from netCDF4 import Dataset, num2date
@@ -67,6 +66,10 @@ def main():
         print('Input error')
         sys.exit()
         
+    # Tech qc files
+    qcf = '/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/qc-files/cpc_qc.txt'
+    #qcf = '/Users/heather/Desktop/ace-ceda-master/qc-files/cpc_qc.txt'   
+    
     # Global attributes
     meta_f = '/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/metadata/cpc_metadata.xlsx'
     #meta_f = '/Users/heather/Desktop/ace-ceda-master/metadata/CPC_metadata.xlsx'
@@ -114,6 +117,19 @@ def main():
             qc[np.where(CPC['QC']==1)]=1 # 1b is good
             qc[np.where(CPC['QC']==0)]=2 # 2b is bad due to station pollution
             qc[np.where(CPC['QC']==2)]=3 # 3b Can't check for station pollution
+            
+            bad_times = pd.read_csv(qcf,parse_dates={'start_dates':[0],'stop_dates':[1]},header=None)  
+            # See if there are any bad dates in this file
+            if (bad_times['start_dates'].dt.month==month).any():
+                # If yes, set flags
+                subset = bad_times[bad_times['start_dates'].dt.month==month]
+                
+                for i in range(0,len(subset)):
+                    start_date = (pd.to_datetime(subset['start_dates'].iloc[i]))
+                    stop_date = (pd.to_datetime(subset['stop_dates'].iloc[i]))
+                    
+                    qc[(CPC.index >= start_date) & (CPC.index <= stop_date)] = 4 # Bad data technician log
+            
               
             # Write in data
 

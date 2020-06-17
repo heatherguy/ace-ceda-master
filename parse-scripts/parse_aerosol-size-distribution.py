@@ -67,6 +67,11 @@ def main():
         print('Input error')
         sys.exit()
         
+    # Tech qc files
+    qcf = '/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/qc-files/skyopc_qc.txt'
+    #qcf = '/Users/heather/Desktop/ace-ceda-master/qc-files/skyopc_qc.txt'   
+    
+        
     # Global attributes
     meta_f = '/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/metadata/skyopc_metadata.xlsx'
     #meta_f = '/Users/heather/Desktop/ace-ceda-master/metadata/skyopc_metadata.xlsx'
@@ -112,12 +117,25 @@ def main():
             # Sort QC's
             qc=np.ones(len(skyopc))
             qc[np.where(skyopc['QC']==0)]=2 # 2b is bad due to station pollution
-            qc[np.where(skyopc['QC']==2)]=4 # 4b Can't check for station pollution
-            # 3b, unspecified instrumnet error
-            qc[np.where(skyopc['qc_pap']==0)]=3
-            qc[np.where(skyopc['qc_int']==0)]=3
-            qc[np.where(skyopc['qc_prp']==0)]=3
-            qc[np.where(skyopc['qc_err']==0)]=3
+            qc[np.where(skyopc['QC']==2)]=3 # 3b Can't check for station pollution
+            # 5b, unspecified instrumnet error
+            qc[np.where(skyopc['qc_pap']==0)]=5
+            qc[np.where(skyopc['qc_int']==0)]=5
+            qc[np.where(skyopc['qc_prp']==0)]=5
+            qc[np.where(skyopc['qc_err']==0)]=5
+            
+            bad_times = pd.read_csv(qcf,parse_dates={'start_dates':[0],'stop_dates':[1]},header=None)  
+            # See if there are any bad dates in this file
+            if (bad_times['start_dates'].dt.month==month).any():
+                # If yes, set flags
+                subset = bad_times[bad_times['start_dates'].dt.month==month]
+                
+                for i in range(0,len(subset)):
+                    start_date = (pd.to_datetime(subset['start_dates'].iloc[i]))
+                    stop_date = (pd.to_datetime(subset['stop_dates'].iloc[i]))
+                    
+                    qc[(skyopc.index >= start_date) & (skyopc.index <= stop_date)] = 4 # Bad data technician log
+            
             
             # Get dNdlogD
             bins = 20
