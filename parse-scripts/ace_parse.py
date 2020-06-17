@@ -77,7 +77,7 @@ def qc_aerosol(qc_in):
         try:
             # Try to get met data from ace netcdfs
             #nc_loc = '/Volumes/Data/ICECAPSarchive/ACE_netcdfs/'
-            nc_loc = '/gws/nopw/j04/ncas_radar_vol1/heather/final_nc'
+            nc_loc = '/gws/nopw/j04/ncas_radar_vol1/heather/final_nc/'
         
             # Get 2m ws & direction
             var_list=['wind_speed','wind_from_direction','qc_flag']
