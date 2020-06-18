@@ -82,7 +82,7 @@ def qc_aerosol(qc_in):
             # Get 2m ws & direction
             var_list=['wind_speed','wind_from_direction','qc_flag']
             lev_list=[0,0,0]
-            var_alts = ['altitude']
+            var_alts = ['height_above_snow_surface']
             wind_times,[ws,wdir,qc] = get_nc(nc_loc,'surface-winds-profile',var_list,lev_list,[sdate.year],[str(sdate.month)])
             # Put in dataframe and qc
             ace_winds = pd.DataFrame({'ws':ws,'wdir':wdir,'qc':qc},index=wind_times)
