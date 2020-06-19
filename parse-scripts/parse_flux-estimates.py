@@ -592,12 +592,19 @@ def main():
             # to the sonic temeprature flux is negligible so that sonic temperature
             # flux is a good estimate of sensible heat flux (Andreas et al 2005)
          
-            upward_sensible_heat_flux = rho * cp * wprimetsprimebar 
+            upward_sensible_heat_flux = rho * cp * wprimetsprimebar
+            if np.abs(upward_sensible_heat_flux)>500:
+                upward_sensible_heat_flux = np.nan
+
             nc_est.variables['upward_sensible_heat_flux_in_air'][i] = np.float32(upward_sensible_heat_flux)
             valminmax(nc_est,'upward_sensible_heat_flux_in_air', np.float32(upward_sensible_heat_flux)) 
         
             if level==1:
                 upward_latent_heat_flux = rho * lv * wprimeqprimebar
+
+                if np.abs(upward_latent_heat_flux) > 50:
+                    upward_latent_heat_flux=np.nan
+ 
                 nc_est.variables['upward_latent_heat_flux_in_air'][i] = np.float32(upward_latent_heat_flux)    
                 valminmax(nc_est,'upward_latent_heat_flux_in_air', np.float32(upward_latent_heat_flux)   ) 
                 nc_est.variables['bowen_ratio'][i]  = np.float32(upward_sensible_heat_flux / upward_latent_heat_flux)
