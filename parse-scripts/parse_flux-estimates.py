@@ -511,13 +511,14 @@ def main():
             valminmax(nc_comp,'sst_wv',np.float32(sst_wv)) 
 
         
-            friction_velocity = (Cwu**2 + Cwv**2)**(1/4)
+            friction_velocity = (wprimeuprimebar**2 + wprimevprimebar**2)**(1/4)
             nc_comp.variables['friction_velocity'][i] = np.float32(friction_velocity)
             valminmax(nc_comp,'friction_velocity',np.float32(friction_velocity)) 
         
-            obukhov_length = (-np.abs(friction_velocity**3) * np.mean(m['T_corrected'])) / (0.4*9.81*Cwt)
+            obukhov_length = (-np.abs(friction_velocity**3) * np.mean(m['T_corrected'])) / (0.4*9.81*wprimetsprimebar)
             nc_comp.variables['obukhov_length'][i] = np.float32(obukhov_length)
             valminmax(nc_comp,'obukhov_length',np.float32(obukhov_length)) 
+                       
         
             stability_parameter = height_above_surface / obukhov_length
             nc_comp.variables['stability_parameter'][i] = np.float32(stability_parameter)
