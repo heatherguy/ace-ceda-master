@@ -531,7 +531,7 @@ def get_clasp(d_loc,d1,d2,claspn,calfile,save=False):
 
 
 
-def get_dist(df,nbins,bounds):
+def get_dist(df,nbins,bounds,sum_hist=False):
     """
     Calculateds dNdlogd from aerosol size distribution
     
@@ -553,8 +553,10 @@ def get_dist(df,nbins,bounds):
     logd = np.log(bounds)   
     dlogd = [logd[i+1]-logd[i] for i in range(0,len(mid_points))]
     # Sum columns
-    hist = df.sum(axis=0)
-    dNdlogd = hist/dlogd
+    if sum_hist:
+        df = df.sum(axis=0)
+    
+    dNdlogd = df/dlogd
     return mid_points,dNdlogd
 
 
