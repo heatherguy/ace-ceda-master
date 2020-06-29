@@ -36,6 +36,7 @@ def extract_tar(start,stop, dloc,outdir,instr):
     fnames=[]
     for i in range(0,len(day_range)):
         fnames.append(glob.glob(dloc + r'%s*.tar.gz'%dt.datetime.strftime(day_range[i],'%y%m%d')))
+        fnames.append(glob.glob(dloc + r'%s*.tar.gz'%dt.datetime.strftime(day_range[i],'%Y-%m-%d')))
         
     # flatten list
     fnames_flat = [item for sublist in fnames for item in sublist]
