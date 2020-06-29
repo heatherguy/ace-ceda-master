@@ -382,7 +382,7 @@ def extract_opc(opc_n,start,stop,dpath,save=False):
 
         # Resample to minutly average
         new_index = pd.date_range(opc_counts.index[0].round('min'),opc_counts.index[-1].round('min') , freq='min')      
-        opc_1min = opc_counts.resample('1min').median()
+        opc_1min = opc_counts.resample('1min').mean()
         opc_1min = opc_1min.reindex(new_index)
     
         # QC for winds and flight days
