@@ -666,3 +666,41 @@ def get_skyopc(start,stop,d_loc):
     
     return SKY_out
 
+def get_opc(start,stop,d_loc):
+    """
+    Retrieves alphasense opc data from .csv output of extract_opc_data
+    
+    Parameters:
+        start:      Start datetime for processing
+        stop:       Stop datetime for processing
+        d_loc:      data filepath
+        
+    Returns:
+        opc dataframe
+    
+    """
+    f_date_list = pd.date_range(start.date(),stop.date(),freq='1D')
+    out = pd.DataFrame(columns=list(np.arange(0,24,1))+['QC'])
+    for date in f_date_list:
+        f = d_loc + r'MSF_OPC_%s'%(str(date.date()))
+        
+        try:
+            data = pd.read_csv(f,parse_dates=[0],index_col=[0],skiprows=1,names=list(np.arange(0,24,1))+['QC'])
+        except:
+            print('No data for %s'%str(date.date()))
+            continue
+        
+        out = out.append(data,sort=True)    
+    
+    # Get rid of any duplicates
+    out = out[~out.index.duplicated()]
+    
+    # Fill any missing minutes with nans
+    new_index = pd.date_range(start,stop-pd.Timedelta(minutes=1), freq='min')
+    out = out.reindex(new_index)
+    
+    # Crop to datetime
+    out=out[start:stop]
+    
+    return out
+
