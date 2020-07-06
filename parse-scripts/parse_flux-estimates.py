@@ -602,7 +602,7 @@ def main():
             if level==1:
                 upward_latent_heat_flux = rho * lv * wprimeqprimebar
 
-                if np.abs(upward_latent_heat_flux) > 50:
+                if np.abs(upward_latent_heat_flux) > 40:
                     upward_latent_heat_flux=np.nan
  
                 nc_est.variables['upward_latent_heat_flux_in_air'][i] = np.float32(upward_latent_heat_flux)    
