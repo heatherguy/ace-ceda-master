@@ -18,9 +18,9 @@ li_dir='/gws/nopw/j04/ncas_radar_vol1/heather/extracted/licor/'
 cpc_dir='/gws/nopw/j04/ncas_radar_vol1/heather/extracted/CPC/'
 sky_dir='/gws/nopw/j04/ncas_radar_vol1/heather/extracted/SKYOPC/'
 hmp_dir='/gws/nopw/j04/ncas_radar_vol1/heather/extracted/HMP/'
+opc_dir='/gws/nopw/j04/ncas_radar_vol1/heather/extracted/msf-opc/'
 
-
-all_start='202001010000'
+all_start='201901010000'
 all_stop='202005010000'
 hmp_path='/gws/nopw/j04/ncas_radar_vol1/heather/processed/HMP/'
 kt_qcf='/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/qc-files/KT_bad_dates'
@@ -32,9 +32,9 @@ skyopc_qc='/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/qc-files/skyopc
 #python process_raw.py $v_dir $proc_dir 'ventus' $all_start $all_stop
 #python process_raw.py $m_dir $proc_dir 'metek' $all_start $all_stop
 #python process_raw.py $li_dir $proc_dir 'licor' $all_start $all_stop
-python process_raw.py $cpc_dir $proc_dir 'CPC' $all_start $all_stop
-python process_raw.py $sky_dir $proc_dir 'SKYOPC' $all_start $all_stop $skyopc_qc
-
+#python process_raw.py $cpc_dir $proc_dir 'CPC' $all_start $all_stop
+#python process_raw.py $sky_dir $proc_dir 'SKYOPC' $all_start $all_stop $skyopc_qc
+python process_raw.py $opc_dir $proc_dir 'MSF_OPC' $all_start $all_stop
 
 
 
