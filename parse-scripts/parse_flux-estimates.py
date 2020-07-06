@@ -593,7 +593,7 @@ def main():
             # flux is a good estimate of sensible heat flux (Andreas et al 2005)
          
             upward_sensible_heat_flux = rho * cp * wprimetsprimebar
-            if np.abs(upward_sensible_heat_flux)>500:
+            if np.abs(upward_sensible_heat_flux)>150:
                 upward_sensible_heat_flux = np.nan
 
             nc_est.variables['upward_sensible_heat_flux_in_air'][i] = np.float32(upward_sensible_heat_flux)
