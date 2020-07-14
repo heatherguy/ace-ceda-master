@@ -13,8 +13,7 @@ import datetime as dt
 import pandas as pd
 import os
 import sys
-#sys.path.append('/Users/heather/Desktop/NC_parse_master')
-#sys.path.append('/Users/heather/ICECAPS-ACE/DataParse')
+#sys.path.append('/Users/heather/Desktop/ace-ceda-master/parse-scripts')
 from NC_functions_v1 import *
 from flux_functions import *
 from netCDF4 import Dataset, date2num
@@ -24,6 +23,7 @@ warnings.filterwarnings("ignore")
 ####### INPUTS #######
 # Data location:
 #in_loc = '/Volumes/Data/ICECAPSarchive/fluxtower/processed/'
+#in_loc ='/Users/heather/jasmin_ncas_vol1/heather/processed/'
 #out_loc = '/Users/heather/Desktop/temp_out/'
 
 #start='201909010000'

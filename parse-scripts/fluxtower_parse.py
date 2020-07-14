@@ -600,9 +600,13 @@ def extract_metek_data(start,stop,dpath,save=False):
         df = df.set_index('Date')
         df['T'] = pd.to_numeric(df['T'], errors='coerce')
         df['T']=df['T'].astype(float)
+        df['x'] = pd.to_numeric(df['x'], errors='coerce')
         df['x']=df['x'].astype(float)
+        df['y'] = pd.to_numeric(df['y'], errors='coerce')
         df['y']=df['y'].astype(float)
+        df['z'] = pd.to_numeric(df['z'], errors='coerce')
         df['z']=df['z'].astype(float)
+
         df['T']=df['T']/100.0
 
         df = df.sort_values('Date')
