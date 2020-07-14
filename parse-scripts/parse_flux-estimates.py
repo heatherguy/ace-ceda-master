@@ -102,43 +102,15 @@ def main():
     m = avp * 60 * 10 # Sample length of interval
     # Make sure m is even
     m=np.fix(m/2)*2
-    df = sf/m                    # Frequency intervals
-    f = np.arange(df,sf/2+df,df) # Frequency timeseries
+    #df = sf/m                    # Frequency intervals
+    #f = np.arange(df,sf/2+df,df) # Frequency timeseries
 
     # Loop through each day: 
 
     for day in days:
         day_str = str(day.date()) 
         print(day_str)
-    
-        # Set up netcdf files.
-    
-        f1 = 'ace-flux-%s'%level #instrument name
-        f2 = 'summit' #platform name  
-        f3 = dt.datetime.strftime(day,'%Y%m%d')
-        f5 = "v1" #version number
-        f6 = ".nc"
-        fn_components = out_loc + 'flux-components/' + f1 + chr(95) + f2 + chr(95) + f3 + chr(95) + 'flux-components' + chr(95) + '%smin'%avp + chr(95) + f5 + f6
-        fn_estimates = out_loc + 'flux-estimates/' + f1 + chr(95) + f2 + chr(95) + f3 + chr(95) + 'flux-estimates' + chr(95) + '%smin'%avp + chr(95) + f5 + f6
-        nc_comp = Dataset(fn_components, "w",  format = "NETCDF4_CLASSIC") 
-        nc_est = Dataset(fn_estimates, "w",  format = "NETCDF4_CLASSIC")  
-   
-        len_index = avp * 60 * sf
-        len_time = (24 * 60 ) / avp
-        NC_Global_Attributes(nc_comp, meta, day,(day + pd.Timedelta(hours=24) - pd.Timedelta(seconds=0.1)))
-        NC_Global_Attributes(nc_est, meta, day,(day + pd.Timedelta(hours=24) - pd.Timedelta(seconds=0.1)))
-
-        NC_Dimensions(nc_comp, len_time,len_index)
-        NC_Dimensions(nc_est, len_time)  
-   
-        time_list = pd.date_range(day,day+pd.Timedelta(days=1),freq='%smin'%avp)[:-1]
-
-        NC_CommonVariables(nc_comp, time_list, np)
-        NC_CommonVariables(nc_est, time_list, np)    
-    
-        NC_SpecificVariables(nc_comp, var_components, np)
-        NC_SpecificVariables(nc_est, var_estimates, np)    
-      
+        
         # Get the 3D sonic data
 
         if os.path.isfile(in_loc+'metek/metek%s_%s'%(level,day_str)):
@@ -177,7 +149,35 @@ def main():
             snd = snd[day:day+pd.Timedelta(hours=24)] 
         else:
             print('Error: Snd File empty, '+day_str)
-            continue        
+            continue   
+    
+        # Set up netcdf files.
+    
+        f1 = 'ace-flux-%s'%level #instrument name
+        f2 = 'summit' #platform name  
+        f3 = dt.datetime.strftime(day,'%Y%m%d')
+        f5 = "v1" #version number
+        f6 = ".nc"
+        fn_components = out_loc + 'flux-components/' + f1 + chr(95) + f2 + chr(95) + f3 + chr(95) + 'flux-components' + chr(95) + '%smin'%avp + chr(95) + f5 + f6
+        fn_estimates = out_loc + 'flux-estimates/' + f1 + chr(95) + f2 + chr(95) + f3 + chr(95) + 'flux-estimates' + chr(95) + '%smin'%avp + chr(95) + f5 + f6
+        nc_comp = Dataset(fn_components, "w",  format = "NETCDF4_CLASSIC") 
+        nc_est = Dataset(fn_estimates, "w",  format = "NETCDF4_CLASSIC")  
+   
+        len_index = avp * 60 * sf
+        len_time = (24 * 60 ) / avp
+        NC_Global_Attributes(nc_comp, meta, day,(day + pd.Timedelta(hours=24) - pd.Timedelta(seconds=0.1)))
+        NC_Global_Attributes(nc_est, meta, day,(day + pd.Timedelta(hours=24) - pd.Timedelta(seconds=0.1)))
+
+        NC_Dimensions(nc_comp, len_time,len_index)
+        NC_Dimensions(nc_est, len_time)  
+   
+        time_list = pd.date_range(day,day+pd.Timedelta(days=1),freq='%smin'%avp)[:-1]
+
+        NC_CommonVariables(nc_comp, time_list, np)
+        NC_CommonVariables(nc_est, time_list, np)    
+    
+        NC_SpecificVariables(nc_comp, var_components, np)
+        NC_SpecificVariables(nc_est, var_estimates, np)    
 
         
         # Clean metek data 
