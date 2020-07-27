@@ -1,6 +1,6 @@
 {
   "title": "Summit Aerosol Cloud Experiment: surface turbulent heat flux estimates",
-  "description": "\nEstimates of turbulent heat and momentum fluxes calculated by applying the eddy covariance technique to the flux-components data product. Estimates calculated over 15-minute and 30-minute averaging intervals, at two heights on the 15 m tower at Summit Station, Greenland. \nPart of the ICECAPS-ACE project. \n",
+  "description": "\nEstimates of turbulent heat and momentum fluxes calculated by applying the eddy covariance technique to the flux-components data product. Estimates calculated over 15-minute and 30-minute averaging intervals, at two heights on the 15 m tower at Summit Station, Greenland.\nace-flux-1 are the lower level (~2 m above surface) calculations and include latent heat flux estimates from the 3D-sonic and LiCOR.\nace-flux-2 are the higher level measurments (~14 m above surface), from 3D-sonic measurements only. \nPart of the ICECAPS-ACE project. \n",
   "authors": [
     {
       "firstname": "",

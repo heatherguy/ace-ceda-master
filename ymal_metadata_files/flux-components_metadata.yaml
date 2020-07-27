@@ -1,6 +1,6 @@
 {
   "title": "Summit Aerosol Cloud Experiment: surface turbulent heat flux components",
-  "description": "High resolution temperature, humidity and wind fluctuations that can be used to estimate turbulent fluxes using eddy covariance, located at two levels on the 15 m tower at Summit Station, Greenland. \nPart of the ICECAPS-ACE project. \n",
+  "description": "High resolution temperature, humidity and wind fluctuations that can be used to estimate turbulent fluxes using eddy covariance, located at two levels on the 15 m tower at Summit Station, Greenland. \n\nace-flux-1 are the lower level (~2 m above surface) measurements from the 3D-sonic and LiCOR.\nace-flux-2 are the higher level measurments (~14 m above surface), 3D-sonic only. \nPart of the ICECAPS-ACE project. \n",
   "authors": [
     {
       "firstname": "",
