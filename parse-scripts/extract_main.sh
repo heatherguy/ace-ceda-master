@@ -2,7 +2,7 @@
 #SBATCH --partition=short-serial
 #SBATCH -o /gws/nopw/j04/ncas_radar_vol1/heather/logs/%j.out 
 #SBATCH -e /gws/nopw/j04/ncas_radar_vol1/heather/logs/%j.err
-#SBATCH -t 05:00:00
+#SBATCH -t 24:00:00
 # Check we're in the right directory
 cd /gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/parse-scripts
 
@@ -18,26 +18,26 @@ raw_dir_ace='/gws/nopw/j04/ncas_radar_vol2/data/ICECAPSarchive/ace/raw/'
 extract_dir='/gws/nopw/j04/ncas_radar_vol1/heather/extracted/'
 
 
-echo 'Extracting SnD'
-python tar_extract.py $ext_start $ext_stop $raw_dir_flux $extract_dir 'SnD'
+#echo 'Extracting SnD'
+#python tar_extract.py $ext_start $ext_stop $raw_dir_flux $extract_dir 'SnD'
 
-echo 'Extracting HMP'
-python tar_extract.py $ext_start $ext_stop $raw_dir_flux $extract_dir 'HMP'
+#echo 'Extracting HMP'
+#python tar_extract.py $ext_start $ext_stop $raw_dir_flux $extract_dir 'HMP'
 
-echo 'Extracting KT'
-python tar_extract.py $ext_start $ext_stop $raw_dir_flux $extract_dir 'KT'
+#echo 'Extracting KT'
+#python tar_extract.py $ext_start $ext_stop $raw_dir_flux $extract_dir 'KT'
 
 #echo 'Extracting CPC'
 #python tar_extract.py $ext_start $ext_stop $raw_dir_ace $extract_dir 'CPC'
 
-echo 'Extracting SKYOPC'
-python tar_extract.py $ext_start $ext_stop $raw_dir_ace $extract_dir 'SKYOPC'
+#echo 'Extracting SKYOPC'
+#python tar_extract.py $ext_start $ext_stop $raw_dir_ace $extract_dir 'SKYOPC'
 
-echo 'Extracting msf-opc'
-python tar_extract.py $ext_start $ext_stop $raw_dir_ace $extract_dir 'Summit_MSF'
+#echo 'Extracting msf-opc'
+#python tar_extract.py $ext_start $ext_stop $raw_dir_ace $extract_dir 'Summit_MSF'
 
-echo 'Extracting licor'
-python tar_extract.py $ext_start $ext_stop $raw_dir_flux $extract_dir 'licor'
+#echo 'Extracting licor'
+#python tar_extract.py $ext_start $ext_stop $raw_dir_flux $extract_dir 'licor'
 
 echo 'Extracting metek'
 python tar_extract.py $ext_start $ext_stop $raw_dir_flux $extract_dir 'metek'

@@ -153,7 +153,8 @@ def main():
                 nc.variables['distance_to_surface'][:]=np.ones(len(time_list))*last_depth
                 nc.variables['qc_flag_distance_to_surface'][:]=np.ones(len(time_list))*4
                 # Write note to netcdf file indicating date used. 
-                base_str = 'Platform height is the top of the Met tower, sensor height is plaform height minus 12.3 m.'
+                #base_str = 'Platform altitude is the top of the Met tower, sensor height is platform altitude minus 12.3 m until 2020-07-07 1648Z, after this date sensor height is platform altitude minus 10.83 m'
+                base_str = 'Platform altitude is the top of the Met tower, sensor height is platform altitude minus 10.83 m'
                 new_str = 'NOTE: QC flag 4, data corresponds to last available data collected on %s .'%str(last_file_date.date())
                 nc.setncattr('comment', new_str+base_str)
                 

@@ -10,7 +10,7 @@ conda activate guyh
 # Generate netcdf file
 meta_dir='/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master'
 netcdf_out='/gws/nopw/j04/ncas_radar_vol1/heather/final_nc/'
-months=[6]
+months=[8,9]
 years=[2020]
 avp=1
 
