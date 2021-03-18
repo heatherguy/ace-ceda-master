@@ -164,17 +164,17 @@ def main():
             snow_height.index = pd.DatetimeIndex(snow_height['time'])
             snow_height = snow_height.reindex(time_list, method='nearest',limit=20)
             # if qc flag == 4, add note
-            if (snow_height['qc'].astype(int) ==4).any():
-                base_str = 'Platform height (h0) is the top of the Met tower. Instrument height: HMP1=h0-12.3m, HMP2=h0-9.8m, HMP3=h0-4.5m, HMP4=h0-1m , Index: [HMP1, HMP2, HMP3, HMP4]'
-                new_str = snd_nc.comment.split('.')[0]
-                nc.setncattr('comment', new_str+base_str)
+            #if (snow_height['qc'].astype(int) ==4).any():
+            #    base_str = 'Platform height (h0) is the top of the Met tower. Instrument height: HMP1=h0-12.3m, HMP2=h0-9.8m, HMP3=h0-4.5m, HMP4=h0-1m , Index: [HMP1, HMP2, HMP3, HMP4]'
+            #    new_str = 'Note: Height above snow surface corresponds to last available data on 2020-04-21.'
+            #    nc.setncattr('comment', new_str+base_str)
 
             # Calculate altitude above snow surface
         
-            alt_HMP1 = snow_height['snd']
-            alt_HMP2 = snow_height['snd'] + 2.5
-            alt_HMP3 = snow_height['snd'] + 2.5 + 5.3
-            alt_HMP4 = snow_height['snd'] + 2.5 + 5.3 + 3.5
+            alt_HMP1 = snow_height['snd'] - 0.4
+            alt_HMP2 = snow_height['snd'] + 1.03
+            alt_HMP3 = snow_height['snd'] + 1.03 + 5.3
+            alt_HMP4 = snow_height['snd'] + 1.03 + 5.3 + 3.5
         
             # do QC's
             # 1b is good data
@@ -193,13 +193,17 @@ def main():
             qc3[np.where(t3-273.15> 60)[0]]=2
             qc4[np.where(t4-273.15< -80)[0]]=2
             qc4[np.where(t4-273.15> 60)[0]]=2
-            
+         
+            # Add in one off errors here
+            # Betwen 18-Aug-20 and 3-Sept-20, the fan on the hmp4 aspirated shield was down. 
+            hmp4['QC'][dt.datetime(2020,8,18):dt.datetime(2020,9,3)]=2     
+   
             # 3b is unspecified instrument error
             qc1[np.where(hmp1['QC']==2)[0]]=3
             qc2[np.where(hmp2['QC']==2)[0]]=3
             qc3[np.where(hmp3['QC']==2)[0]]=3
             qc4[np.where(hmp4['QC']==2)[0]]=3
-            
+          
             # 0b for no data
             qc1[np.where(hmp1['Ta'].isnull())[0]]=0
             qc2[np.where(hmp2['Ta'].isnull())[0]]=0
@@ -230,7 +234,10 @@ def main():
             
             nc.variables['height_above_snow_surface'].valid_min = np.nanmin([alt_HMP1.min(), alt_HMP2.min(),alt_HMP3.min(),alt_HMP4.min()])
             nc.variables['height_above_snow_surface'].valid_max= np.nanmax([alt_HMP1.max(), alt_HMP2.max(),alt_HMP3.max(),alt_HMP4.max()])          
-
+            # Write note to netcdf file indicating date used. 
+            #base_str = 'Platform altitude is the top of the Met tower, sensor height is platform altitude minus 12.3 m until 2020-07-07 1648Z, after this date sensor height is platform altitude minus 10.83 m'
+            base_str = 'Platform altitude (h0) is the top of the Met tower. Instrument altitude: HMP1=h0-10.87m, HMP2=h0-9.8m, HMP3=h0-4.5m, HMP4=h0-1m , Index: [HMP1, HMP2, HMP3, HMP4].'
+            nc.setncattr('comment', base_str)
  
     
             # Close netcdf file

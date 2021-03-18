@@ -133,6 +133,11 @@ def main():
                 nc.variables['distance_to_surface'].valid_min = dat['depth_Tcorrected'].min()
                 nc.variables['distance_to_surface'].valid_max = dat['depth_Tcorrected'].max()
                 
+               # Write note to netcdf file indicating date used. 
+                #base_str = 'Platform altitude is the top of the Met tower, sensor height is platform altitude minus 12.3 m until 2020-07-07 1648Z, after this date sensor height is platform altitude minus 10.83 m'
+                base_str = 'Platform altitude is the top of the Met tower, sensor height is platform altitude minus 10.83 m'
+                nc.setncattr('comment', base_str)
+
             else:
                 # If there are no SnD data, update with last measured value and correct qc-flag
                 # / note accordingly
