@@ -153,18 +153,19 @@ def main():
             snow_height['snd'][(snow_height['qc'].astype(int)==0) | (snow_height['qc'].astype(int)==2)| (snow_height['qc'].astype(int)==3)]=np.nan           
             snow_height.index = pd.DatetimeIndex(snow_height['time'])
             snow_height = snow_height.reindex(time_list, method='nearest',limit=20)
+
             # if qc flag == 4, add note
-            if (snow_height['qc'].astype(int) ==4).any():
-                base_str = 'Platform height (h0) is the top of the Met tower. Instrument height: HMP1=h0-12.3m, HMP2=h0-9.8m, HMP3=h0-4.5m, HMP4=h0-1m , Index: [HMP1, HMP2, HMP3, HMP4]'
-                new_str = snd_nc.comment.split('.')[0]
-                nc.setncattr('comment', new_str+base_str)
+            #if (snow_height['qc'].astype(int) ==4).any():
+            #    base_str = 'Platform height (h0) is the top of the Met tower. Instrument height: HMP1=h0-12.3m, HMP2=h0-9.8m, HMP3=h0-4.5m, HMP4=h0-1m , Index: [HMP1, HMP2, HMP3, HMP4]'
+            #    new_str = 'Note: Height above snow surface corresponds to last available data on 2020-04-21.'
+            #    nc.setncattr('comment', new_str+base_str)
 
             # Calculate altitude above snow surface
         
-            alt_1 = snow_height['snd']
-            alt_2 = snow_height['snd'] + 2.5
-            alt_3 = snow_height['snd'] + 2.5 + 5.3
-            alt_4 = snow_height['snd'] + 2.5 + 5.3 + 3.5
+            alt_1 = snow_height['snd'] - 0.4
+            alt_2 = snow_height['snd']  + 1.03
+            alt_3 = snow_height['snd'] + 1.03 + 5.3
+            alt_4 = snow_height['snd'] + 1.03 + 5.3 + 3.5
         
             # do QC's
             # 1b is good data
@@ -239,6 +240,11 @@ def main():
             
             nc.variables['height_above_snow_surface'].valid_min = np.nanmin([alt_1.min(), alt_2.min(),alt_3.min(),alt_4.min()])
             nc.variables['height_above_snow_surface'].valid_max= np.nanmax([alt_1.max(), alt_2.max(),alt_3.max(),alt_4.max()])          
+
+            # Write note to netcdf file indicating date used. 
+            #base_str = 'Platform altitude is the top of the Met tower, Instrument height: M1=h0-12.3m, V1=h0-9.8m,M2=h0-4.5m, V2=h0-1m. Index: [M1, V1, V2, M2].' #, until 2020-07-07 1648Z, after this date m1 altitude is platform altitude minus 10.87 m'
+            base_str = 'Platform altitude (h0) is the top of the Met tower. Instrument altitude: M1=h0-10.87m, V1=h0-9.8m,V2=h0-4.5m, M2=h0-1m. Index: [M1, V1, V2, M2].'
+            nc.setncattr('comment', base_str)
 
     
             # Close netcdf file
