@@ -154,11 +154,18 @@ def main():
                     nc.variables['ambient_aerosol_size_distribution'][i,:]=dNdlogd.astype('float32')
                 
                     if isinstance(nc.variables['ambient_aerosol_size_distribution'].valid_min,str):
+                        #print(nc.variables['ambient_aerosol_size_distribution'].valid_min)
+                        #print(np.nanmin(dNdlogd.astype('float32')))
                         nc.variables['ambient_aerosol_size_distribution'].valid_min=np.nanmin(dNdlogd.astype('float32'))
                         nc.variables['ambient_aerosol_size_distribution'].valid_max=np.nanmax(dNdlogd.astype('float32'))
-                    if np.min(dNdlogd.astype('float32'))< nc.variables['ambient_aerosol_size_distribution'].valid_min:
+                    if np.isnan(nc.variables['ambient_aerosol_size_distribution'].valid_min):
+                        #print(nc.variables['ambient_aerosol_size_distribution'].valid_min)
+                        #print(np.nanmin(dNdlogd.astype('float32')))
                         nc.variables['ambient_aerosol_size_distribution'].valid_min=np.nanmin(dNdlogd.astype('float32'))
-                    if np.max(dNdlogd.astype('float32'))> nc.variables['ambient_aerosol_size_distribution'].valid_max:
+                        nc.variables['ambient_aerosol_size_distribution'].valid_max=np.nanmax(dNdlogd.astype('float32'))
+                    if np.nanmin(dNdlogd.astype('float32'))< nc.variables['ambient_aerosol_size_distribution'].valid_min:
+                        nc.variables['ambient_aerosol_size_distribution'].valid_min=np.nanmin(dNdlogd.astype('float32'))
+                    if np.nanmax(dNdlogd.astype('float32'))> nc.variables['ambient_aerosol_size_distribution'].valid_max:
                         nc.variables['ambient_aerosol_size_distribution'].valid_max=np.nanmax(dNdlogd.astype('float32')) 
                 except:
                     print('Skipping index=%s'%i)

@@ -1,4 +1,10 @@
 #!/bin/bash
+#SBATCH --partition=short-serial
+#SBATCH -o /gws/nopw/j04/ncas_radar_vol1/heather/logs/%j.out 
+#SBATCH -e /gws/nopw/j04/ncas_radar_vol1/heather/logs/%j.err
+#SBATCH -t 24:00:00
+
+
 
 # Check we're in the right directory
 cd /gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/parse-scripts
@@ -24,14 +30,14 @@ in_loc_proc='/gws/nopw/j04/ncas_radar_vol1/heather/processed/'
 #python parse_surface-moisture-profile.py $in_loc $netcdf_out $months $years $avp
 #python parse_surface-winds-profile.py $in_loc $netcdf_out $months $years $avp
 #python parse_aerosol-concentration.py $in_loc_proc $netcdf_out $months $years $avp
-python parse_aerosol-size-distribution.py $in_loc_proc $netcdf_out $months $years $avp
-python parse_aerosol-opc.py $in_loc_proc $netcdf_out $months $years $avp
+#python parse_aerosol-size-distribution.py $in_loc_proc $netcdf_out $months $years $avp
+#python parse_aerosol-opc.py $in_loc_proc $netcdf_out $months $years $avp
 
-start_dat='201908010000'
-stop_dat='202001010000'
+start_dat='202003290000'
+stop_dat='202007060000'
 
-#python parse_flux-estimates.py $in_loc_proc $netcdf_out $start_dat $stop_dat 30 1
-#python parse_flux-estimates.py $in_loc_proc $netcdf_out $start_dat $stop_dat 30 2
-#python parse_flux-estimates.py $in_loc_proc $netcdf_out $start_dat $stop_dat 15 1
-#python parse_flux-estimates.py $in_loc_proc $netcdf_out $start_dat $stop_dat 15 2
+python parse_flux-estimates.py $in_loc_proc $netcdf_out $start_dat $stop_dat 30 1
+python parse_flux-estimates.py $in_loc_proc $netcdf_out $start_dat $stop_dat 30 2
+python parse_flux-estimates.py $in_loc_proc $netcdf_out $start_dat $stop_dat 15 1
+python parse_flux-estimates.py $in_loc_proc $netcdf_out $start_dat $stop_dat 15 2
 

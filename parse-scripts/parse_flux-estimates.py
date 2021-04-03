@@ -38,12 +38,15 @@ warnings.filterwarnings("ignore")
 
 def valminmax(ncf,varn,arr):  
     if isinstance(ncf.variables[varn].valid_min,str):
-        ncf.variables[varn].valid_min=np.min(arr)
-        ncf.variables[varn].valid_max=np.max(arr)
-    if np.min(arr)< ncf.variables[varn].valid_min:
-        ncf.variables[varn].valid_min=np.min(arr)
-    if np.max(arr)> ncf.variables[varn].valid_max:
-        ncf.variables[varn].valid_max=np.max(arr)   
+        ncf.variables[varn].valid_min=np.nanmin(arr)
+        ncf.variables[varn].valid_max=np.nanmax(arr)
+    if np.isnan(ncf.variables[varn].valid_min):
+        ncf.variables[varn].valid_min=np.nanmin(arr)
+        ncf.variables[varn].valid_max=np.nanmax(arr)
+    if np.nanmin(arr)< ncf.variables[varn].valid_min:
+        ncf.variables[varn].valid_min=np.nanmin(arr)
+    if np.nanmax(arr)> ncf.variables[varn].valid_max:
+        ncf.variables[varn].valid_max=np.nanmax(arr) 
 
 def get_args(args_in):
     """
@@ -307,20 +310,33 @@ def main():
             
                 #thetaprime = detrend(m['theta'])
                 #nc_comp.variables['thetaprime'][i,:] = thetaprime 
-        
-            tsprime = detrend(m['T_corrected'])
+            try: 
+                tsprime = detrend(m['T_corrected'])
+            except:
+                print('Not enough good metek data for timestep %s '%k)
+                tsprime = np.nan * np.ones(len(m))
+                #m100, b100, r_val100, p_val100, std_err100 = stats.linregress(m.index[not_nan_ind],m['T_corrected'][not_nan_ind])
+                #tsprime = m['T_corrected'] - (m100*x + b100)
+
             nc_comp.variables['tsprime'][i,:] = tsprime.astype(dtype='float32')
             valminmax(nc_comp,'tsprime',tsprime.astype(dtype='float32') )
-        
-            uprime = detrend(m['u'])
+            
+            try: 
+            	uprime = detrend(m['u'])
+            
+            except: 
+                uprime = np.nan * np.ones(len(m))
             nc_comp.variables['uprime'][i,:] = uprime.astype(dtype='float32')
             valminmax(nc_comp,'uprime',uprime.astype(dtype='float32'))
         
             uprimeuprime = uprime * uprime
             nc_comp.variables['uprimeuprime'][i,:] = uprimeuprime.astype(dtype='float32')
             valminmax(nc_comp,'uprimeuprime',uprimeuprime.astype(dtype='float32') )
-        
-            vprime = detrend(m['v'])
+            
+            try: 
+                vprime = detrend(m['v'])
+            except: 
+                vprime = np.nan * np.ones(len(m))
             nc_comp.variables['vprime'][i,:] = vprime.astype(dtype='float32')
             valminmax(nc_comp,'vprime',vprime.astype(dtype='float32'))
         
@@ -328,7 +344,10 @@ def main():
             nc_comp.variables['vprimevprime'][i,:] = vprimevprime.astype(dtype='float32')
             valminmax(nc_comp,'vprimevprime',vprimevprime.astype(dtype='float32'))
         
-            wprime = detrend(m['w'])
+            try: 
+                wprime = detrend(m['w'])
+            except:
+                wprime = np.nan * np.ones(len(m))
             nc_comp.variables['wprime'][i,:] = wprime.astype(dtype='float32')
             valminmax(nc_comp,'wprime',wprime.astype(dtype='float32') )
         
@@ -497,16 +516,25 @@ def main():
         
         
             # Stationarity testing
-        
-            sst_wts,Cwt, rol_cov_wt = stationarity(m['w'],m['T'])
+            try: 
+                sst_wts,Cwt, rol_cov_wt = stationarity(m['w'],m['T'])
+            except:
+                sst_wts = np.nan
+
             nc_comp.variables['sst_wts'][i] = np.float32(sst_wts)
             valminmax(nc_comp,'sst_wts',np.float32(sst_wts)) 
         
-            sst_wu, Cwu, rol_cov_wu= stationarity(m['w'],m['u'])
+            try: 
+                sst_wu, Cwu, rol_cov_wu= stationarity(m['w'],m['u'])
+            except: 
+                sst_wu = np.nan
             nc_comp.variables['sst_wu'][i] = np.float32(sst_wu)
             valminmax(nc_comp,'sst_wu',np.float32(sst_wu)) 
         
-            sst_wv, Cwv, rol_cov_wv= stationarity(m['w'],m['v'])
+            try: 
+                sst_wv, Cwv, rol_cov_wv= stationarity(m['w'],m['v'])
+            except: 
+                sst_wv = np.nan
             nc_comp.variables['sst_wv'][i] = np.float32(sst_wv)
             valminmax(nc_comp,'sst_wv',np.float32(sst_wv)) 
 
