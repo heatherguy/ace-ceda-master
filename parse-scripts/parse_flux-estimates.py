@@ -145,15 +145,25 @@ def main():
             continue
     
         # Get SnD data
-        
+        snd_flag = 1
         if os.path.isfile(in_loc+'SnD/snd_%s'%day_str):
             snd = pd.read_csv(in_loc+'SnD/snd_%s'%day_str, index_col=0, parse_dates=[0])
             # Crop to date, time
             snd = snd[day:day+pd.Timedelta(hours=24)] 
         else:
             print('Error: Snd File empty, '+day_str)
-            continue   
-    
+            # When the SND sensor is down between April 21st and June 10th 2020: use average data from April 20th and add a note into the netcdf. 
+            if dt.datetime(2020,4,1)  <= day <= dt.datetime(2020,6,15):
+                print('Using SnD data from April 20th 2020')
+                snd1 = pd.read_csv(in_loc+'SnD/snd_2020-04-20', index_col=0, parse_dates=[0])
+                snd = pd.DataFrame(index=HMP1.index,columns=snd1.columns)
+                snd['depth_Tcorrected']= snd1['depth_Tcorrected'].mean()
+                snd_flag=0
+            else:
+                continue
+
+
+  
         # Set up netcdf files.
     
         f1 = 'ace-flux-%s'%level #instrument name
@@ -181,7 +191,14 @@ def main():
     
         NC_SpecificVariables(nc_comp, var_components, np)
         NC_SpecificVariables(nc_est, var_estimates, np)    
-
+          
+        # Modify comment if no Snd Data available in May 2020
+        if snd_flag ==0:
+            base_str1 = nc_est.__getattribute__('comment') 
+            base_str2 = nc_comp.__getattribute__('comment')       
+            nc_est.setncattr('comment', base_str1 + ' NOTE: No snow height data available, heights above surface based on measurements from 2020-04-20')
+            nc_comp.setncattr('comment', base_str2 + ' NOTE: No snow height data available, heights above surface based on measurements from 2020-04-20')
+        
         
         # Clean metek data 
 
