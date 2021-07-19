@@ -11,7 +11,7 @@ source /home/users/guyh/miniconda3/etc/profile.d/conda.sh
 conda activate guyh
 
 # Extract data files from .raw
-ext_start='200701'
+ext_start='200501'
 ext_stop='200901'
 raw_dir_flux='/gws/nopw/j04/ncas_radar_vol2/data/ICECAPSarchive/fluxtower/raw/'
 raw_dir_ace='/gws/nopw/j04/ncas_radar_vol2/data/ICECAPSarchive/ace/raw/'

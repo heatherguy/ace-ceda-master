@@ -217,7 +217,12 @@ def main():
         Ta = HMP1['Ta'] + 273.15   # 2m air temperature,  K
         P = licor['P']             # 2m air pressure form licor, Pa
         m_rot['P']=P
-        m_rot['height']=snd['depth_Tcorrected'].reindex(m_rot.index,method='nearest')
+       
+        if level==1: 
+            m_rot['height']=snd['depth_Tcorrected'].reindex(m_rot.index,method='nearest') - 0.4
+        elif level==2:
+            m_rot['height']=snd['depth_Tcorrected'].reindex(m_rot.index,method='nearest') +1.03+5.3+3.5
+       
         Nconc = licor['H2OD']      # H2O number concentration from licor, mol/m3
         m_rot['Nconc']=Nconc
         m_rot['q'],m_rot['PPw'],m_rot['PPd'],m_rot['mmr'] = licor_mmr(Ta,P,Nconc)  # H2O mass mixing ratio, kg/kg
