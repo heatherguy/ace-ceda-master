@@ -35,21 +35,30 @@ def extract_tar(start,stop, dloc,outdir,instr):
     day_range = pd.date_range(dt.datetime.strptime(start,'%y%m%d'),dt.datetime.strptime(stop,'%y%m%d'),freq='1D')
     fnames=[]
     for i in range(0,len(day_range)):
-        fnames.append(glob.glob(dloc + r'%s*.tar.gz'%dt.datetime.strftime(day_range[i],'%y%m%d')))
-        fnames.append(glob.glob(dloc + r'%s*.tar.gz'%dt.datetime.strftime(day_range[i],'%Y-%m-%d')))
-        
+        try:
+            fnames.append(glob.glob(dloc + r'%s*.tar.gz'%dt.datetime.strftime(day_range[i],'%y%m%d')))
+            fnames.append(glob.glob(dloc + r'%s*.tar.gz'%dt.datetime.strftime(day_range[i],'%Y-%m-%d')))
+        except:
+            print('glob fail')
+            continue
+
     # flatten list
     fnames_flat = [item for sublist in fnames for item in sublist]
         
     for f in fnames_flat: 
-        t = tarfile.open(f,'r')
-        mems = t.getmembers()
-        for m in mems:
-            if instr in m.name:
-                if m.isreg():  # skip if the TarInfo is not files
-                    m.name = os.path.basename(m.name) # remove the path by reset it
-                    t.extract(m,outdir)
-        t.close()
+        print(f)
+        try:
+            t = tarfile.open(f,'r')
+            mems = t.getmembers()
+            for m in mems:
+                if instr in m.name:
+                    if m.isreg():  # skip if the TarInfo is not files
+                        m.name = os.path.basename(m.name) # remove the path by reset it
+                        t.extract(m,outdir)
+            t.close()
+        except:
+            print('tar read fail')
+            continue
         
     return
         

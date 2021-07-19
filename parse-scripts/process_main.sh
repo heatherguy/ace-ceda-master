@@ -23,9 +23,12 @@ cpc_dir='/gws/nopw/j04/ncas_radar_vol1/heather/extracted/CPC/'
 sky_dir='/gws/nopw/j04/ncas_radar_vol1/heather/extracted/SKYOPC/'
 hmp_dir='/gws/nopw/j04/ncas_radar_vol1/heather/extracted/HMP/' 
 opc_dir='/gws/nopw/j04/ncas_radar_vol1/heather/extracted/msf-opc/'
+tawo_opc_dir='/gws/nopw/j04/ncas_radar_vol1/heather/extracted/tawo-opc/'
 
-all_start='202008310000'
-all_stop='202009010000'
+
+
+all_start='201907010000'
+all_stop='202107010000'
 hmp_path='/gws/nopw/j04/ncas_radar_vol1/heather/processed/HMP/'
 kt_qcf='/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/qc-files/KT_bad_dates'
 skyopc_qc='/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/qc-files/skyopc_percent_loss_data.csv'
@@ -38,7 +41,8 @@ skyopc_qc='/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/qc-files/skyopc
 #python process_raw.py $li_dir $proc_dir 'licor' $all_start $all_stop
 #python process_raw.py $cpc_dir $proc_dir 'CPC' $all_start $all_stop
 #python process_raw.py $sky_dir $proc_dir 'SKYOPC' $all_start $all_stop $skyopc_qc
-python process_raw.py $opc_dir $proc_dir 'MSF_OPC' $all_start $all_stop
+#python process_raw.py $opc_dir $proc_dir 'MSF_OPC' $all_start $all_stop
+python process_raw.py $tawo_opc_dir $proc_dir 'TAWO_OPC' $all_start $all_stop
 
 
 

@@ -687,8 +687,12 @@ def get_opc(start,stop,d_loc):
         try:
             data = pd.read_csv(f,parse_dates=[0],index_col=[0],skiprows=1,names=list(np.arange(0,24,1))+['QC'])
         except:
-            print('No data for %s'%str(date.date()))
-            continue
+            try: 
+                f = d_loc + r'TAWO_OPC_%s'%(str(date.date()))
+                data = pd.read_csv(f,parse_dates=[0],index_col=[0],skiprows=1,names=list(np.arange(0,24,1))+['QC'])
+            except:            
+                print('No data for %s'%str(date.date()))
+                continue
         
         out = out.append(data,sort=True)    
     
