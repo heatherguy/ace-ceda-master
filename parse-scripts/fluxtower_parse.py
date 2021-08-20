@@ -18,7 +18,7 @@ import io
 import datetime
 import pandas as pd
 from scipy.signal import medfilt
-
+import datetime as dt
 
 def replace_outliers(var,sd):
     """
@@ -244,7 +244,11 @@ def extract_snd_data(start,stop,dpath,hmp_dpath,save=False):
         snd['depth']=replace_outliers(snd['depth'],snd['depth'].std())
         
         # Correct for temperature
-        HMP1 = get_hmp(start,stop,hmp_dpath,'HMP1')
+        if start >= dt.datetime(2021,7,1):
+            HMP1 = get_hmp(start,stop,hmp_dpath,'HMP2')
+        else:
+            HMP1 = get_hmp(start,stop,hmp_dpath,'HMP1')
+        
         tc = HMP1['Ta']
         tk = tc + 273.15 # convert to celcius    
         snd['HMP1_T'] = tk

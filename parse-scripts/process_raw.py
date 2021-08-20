@@ -115,11 +115,11 @@ def main():
                 continue            
             
         elif instrument=='SnD':
-            try:
-                snd = extract_snd_data(start,stop,in_loc,calfile,save=out_loc)
-            except:
-                print('Unable to parse')
-                continue
+           # try:
+            snd = extract_snd_data(start,stop,in_loc,calfile,save=out_loc)
+           # except:
+             #   print('Unable to parse')
+             #   continue
 
         elif instrument=='CPC':
             try:
