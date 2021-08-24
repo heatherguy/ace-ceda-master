@@ -113,7 +113,14 @@ def main():
     for day in days:
         day_str = str(day.date()) 
         print(day_str)
-        
+
+        # Update meta data for level 1 after 01 July 2021 raise
+        if day >= dt.datetime(2021,7,1):
+            if level==1:
+                meta_f = '/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/metadata/flux_metadata_level1_%smin.xlsx'%(level,avp)
+                meta = pd.read_excel(meta_f)
+
+
         # Get the 3D sonic data
 
         if os.path.isfile(in_loc+'metek/metek%s_%s'%(level,day_str)):
@@ -219,7 +226,10 @@ def main():
         m_rot['P']=P
        
         if level==1: 
-            m_rot['height']=snd['depth_Tcorrected'].reindex(m_rot.index,method='nearest') - 0.4
+            if day < dt.datetime(2021,7,1):
+                m_rot['height']=snd['depth_Tcorrected'].reindex(m_rot.index,method='nearest') - 0.4
+            else:
+                m_rot['height']=snd['depth_Tcorrected'].reindex(m_rot.index,method='nearest') + 1.03
         elif level==2:
             m_rot['height']=snd['depth_Tcorrected'].reindex(m_rot.index,method='nearest') +1.03+5.3+3.5
        
