@@ -45,8 +45,12 @@ def valminmax(ncf,varn,arr):
         ncf.variables[varn].valid_max=np.nanmax(arr)
     if np.nanmin(arr)< ncf.variables[varn].valid_min:
         ncf.variables[varn].valid_min=np.nanmin(arr)
-    if max(arr)> ncf.variables[varn].valid_max:
-        ncf.variables[varn].valid_max=np.nanmax(arr) 
+    try:
+        if max(arr)> ncf.variables[varn].valid_max:
+            ncf.variables[varn].valid_max=np.nanmax(arr)
+    except:
+        if max([arr])> ncf.variables[varn].valid_max:
+            ncf.variables[varn].valid_max=np.nanmax([arr])     
 
 def get_args(args_in):
     """
