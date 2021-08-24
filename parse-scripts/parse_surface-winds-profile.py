@@ -102,6 +102,12 @@ def main():
     for year in years: 
         for month in months:
             start = dt.datetime(year, month, 1, 0, 0)
+
+            # Change meta data after 01 July 2021 raise
+            if start>= dt.datetime(2021,7,1):
+                meta_f = '/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/metadata/wind_profile_metadata_July2021.xlsx'
+                meta = pd.read_excel(meta_f)               
+
             if month==12: 
                 stop = dt.datetime(year+1,1,1,0,0)
             else:
@@ -161,11 +167,16 @@ def main():
             #    nc.setncattr('comment', new_str+base_str)
 
             # Calculate altitude above snow surface
-        
-            alt_1 = snow_height['snd'] - 0.4
-            alt_2 = snow_height['snd']  + 1.03
-            alt_3 = snow_height['snd'] + 1.03 + 5.3
-            alt_4 = snow_height['snd'] + 1.03 + 5.3 + 3.5
+            if start< dt.datetime(2021,7,1):
+                alt_1 = snow_height['snd'] - 0.4
+                alt_2 = snow_height['snd']  + 1.03
+                alt_3 = snow_height['snd'] + 1.03 + 5.3
+                alt_4 = snow_height['snd'] + 1.03 + 5.3 + 3.5
+            else:
+                alt_1 = snow_height['snd']  + 1.03
+                alt_2 = np.nan
+                alt_3 = snow_height['snd'] + 1.03 + 5.3
+                alt_4 = snow_height['snd'] + 1.03 + 5.3 + 3.5                
         
             # do QC's
             # 1b is good data
@@ -243,8 +254,9 @@ def main():
 
             # Write note to netcdf file indicating date used. 
             #base_str = 'Platform altitude is the top of the Met tower, Instrument height: M1=h0-12.3m, V1=h0-9.8m,M2=h0-4.5m, V2=h0-1m. Index: [M1, V1, V2, M2].' #, until 2020-07-07 1648Z, after this date m1 altitude is platform altitude minus 10.87 m'
-            base_str = 'Platform altitude (h0) is the top of the Met tower. Instrument altitude: M1=h0-10.87m, V1=h0-9.8m,V2=h0-4.5m, M2=h0-1m. Index: [M1, V1, V2, M2].'
-            nc.setncattr('comment', base_str)
+            if start < dt.datetime(2021,7,1):
+                base_str = 'Platform altitude (h0) is the top of the Met tower. Instrument altitude: M1=h0-10.87m, V1=h0-9.8m,V2=h0-4.5m, M2=h0-1m. Index: [M1, V1, V2, M2].'
+                nc.setncattr('comment', base_str)
 
     
             # Close netcdf file
