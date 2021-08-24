@@ -174,7 +174,7 @@ def main():
                 alt_4 = snow_height['snd'] + 1.03 + 5.3 + 3.5
             else:
                 alt_1 = snow_height['snd']  + 1.03
-                alt_2 = np.nan
+                alt_2 = np.ones(len(snow_height))*np.nan
                 alt_3 = snow_height['snd'] + 1.03 + 5.3
                 alt_4 = snow_height['snd'] + 1.03 + 5.3 + 3.5                
         
