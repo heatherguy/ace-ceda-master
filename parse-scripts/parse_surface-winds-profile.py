@@ -35,6 +35,7 @@ from netCDF4 import Dataset, num2date
 
 # For 3D sonics, use diff = -45
 # For 2D sonics, use diff = -18.07
+# For m1 after 2021 07 01, = -67
 def deg_rot(orig,diff):
     """
     Adds a fixed number of degrees to a wind direction. 
@@ -145,8 +146,14 @@ def main():
             # Get metek data
 
             print('Extracting m1')    
-            m1 = get_metek(start,stop,in_loc+'processed/metek/','metek1', avp='1min')    
-            m1['wdir_corrected'] = deg_rot(m1['wdir'],-45)     
+            if start < dt.datetime(2021,7,1):
+                m1 = get_metek(start,stop,in_loc+'processed/metek/','metek1', avp='1min')    
+                m1['wdir_corrected'] = deg_rot(m1['wdir'],-45)     
+
+            else:
+                m1 = get_metek(start,stop,in_loc+'processed/metek/','metek1', avp='1min')    
+                m1['wdir_corrected'] = deg_rot(m1['wdir'],-67)                    
+
             print('Extracting m2')    
             m2 = get_metek(start,stop,in_loc+'processed/metek/','metek2', avp='1min')    
             m2['wdir_corrected'] = deg_rot(m2['wdir'],-45) 
