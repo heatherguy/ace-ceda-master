@@ -230,7 +230,10 @@ def main():
             nc.variables['wind_speed'][:,1]= v1['wsd'].to_numpy()
             nc.variables['wind_from_direction'][:,1]= v1['wdir_corrected'].to_numpy()
             nc.variables['qc_flag'][:,1]= qc2
-            nc.variables['height_above_snow_surface'][:,1]= alt_2.to_numpy()
+            try:
+                nc.variables['height_above_snow_surface'][:,1]= alt_2.to_numpy()
+            except:
+                nc.variables['height_above_snow_surface'][:,1]= alt_2
         
             nc.variables['wind_speed'][:,2]= v2['wsd'].to_numpy()
             nc.variables['wind_from_direction'][:,2]= v2['wdir_corrected'].to_numpy()
