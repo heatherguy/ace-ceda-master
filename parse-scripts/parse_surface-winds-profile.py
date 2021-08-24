@@ -152,7 +152,7 @@ def main():
 
             else:
                 m1 = get_metek(start,stop,in_loc+'processed/metek/','metek1', avp='1min')    
-                m1['wdir_corrected'] = deg_rot(m1['wdir'],-23)                    
+                m1['wdir_corrected'] = deg_rot(m1['wdir'],-67-40)                    
 
             print('Extracting m2')    
             m2 = get_metek(start,stop,in_loc+'processed/metek/','metek2', avp='1min')    
