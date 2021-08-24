@@ -45,7 +45,7 @@ def valminmax(ncf,varn,arr):
         ncf.variables[varn].valid_max=np.nanmax(arr)
     if np.nanmin(arr)< ncf.variables[varn].valid_min:
         ncf.variables[varn].valid_min=np.nanmin(arr)
-    if np.nanmax(arr)> ncf.variables[varn].valid_max:
+    if max(arr)> ncf.variables[varn].valid_max:
         ncf.variables[varn].valid_max=np.nanmax(arr) 
 
 def get_args(args_in):
@@ -117,7 +117,7 @@ def main():
         # Update meta data for level 1 after 01 July 2021 raise
         if day >= dt.datetime(2021,7,1):
             if level==1:
-                meta_f = '/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/metadata/flux_metadata_level1_%smin.xlsx'%(level,avp)
+                meta_f = '/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/metadata/flux_metadata_level1_%smin.xlsx'%(avp)
                 meta = pd.read_excel(meta_f)
 
 
