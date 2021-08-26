@@ -150,7 +150,7 @@ def main():
             if os.path.isfile(in_loc+'HMP/HMP2_%s'%day_str):
                 HMP1 = pd.read_csv(in_loc+'HMP/HMP2_%s'%day_str, index_col=0, parse_dates=[0])
                 # Crop to date, time
-                HMP1 = HMP2[day:day+pd.Timedelta(hours=24)] 
+                HMP1 = HMP1[day:day+pd.Timedelta(hours=24)] 
             else:
                 print('Error: HMP File empty, '+day_str)
                 continue 
