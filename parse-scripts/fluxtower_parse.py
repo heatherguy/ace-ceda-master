@@ -585,11 +585,15 @@ def extract_metek_data(start,stop,dpath,save=False):
         f_dat = f_dat[0:36000]
         
         # Now split up strings and put in pandas df.
-        pdf = pd.DataFrame(f_dat)
-        pdf[1] = pdf[0].str.split()
-        df = pd.DataFrame(pdf[1].values.tolist(), columns=['Year','Month','Day','Hour','Minute','Second','Status','junk1','x','junk2','junk3','y','junk4','junk5','z','junk6','junk7','T'])
-        df['Logger_Date'] = pd.to_datetime(df[['Year','Month','Day','Hour','Minute','Second']])
-        del df['junk1'],df['junk2'],df['junk3'],df['junk4'],df['junk5'],df['junk6'],df['junk7'],df['Year'],df['Month'],df['Day'],df['Hour'],df['Minute'],df['Second']
+        try:
+        	pdf = pd.DataFrame(f_dat)
+        	pdf[1] = pdf[0].str.split()
+        	df = pd.DataFrame(pdf[1].values.tolist(), columns=['Year','Month','Day','Hour','Minute','Second','Status','junk1','x','junk2','junk3','y','junk4','junk5','z','junk6','junk7','T'])
+        	df['Logger_Date'] = pd.to_datetime(df[['Year','Month','Day','Hour','Minute','Second']])
+        	del df['junk1'],df['junk2'],df['junk3'],df['junk4'],df['junk5'],df['junk6'],df['junk7'],df['Year'],df['Month'],df['Day'],df['Hour'],df['Minute'],df['Second']
+        except:
+        	print('Column error with %s'%f)
+        	continue
 
         # Make a standard 10Hz time series. 
         # Start time
