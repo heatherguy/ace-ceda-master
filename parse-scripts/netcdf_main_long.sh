@@ -16,8 +16,8 @@ conda activate guyh
 # Generate netcdf file
 meta_dir='/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master'
 netcdf_out='/gws/nopw/j04/ncas_radar_vol1/heather/final_nc/'
-months=[9,10,11,12]
-years=[2020]
+months=[1,2,3,4,5]
+years=[2021]
 avp=1
 
 
@@ -33,11 +33,11 @@ in_loc_proc='/gws/nopw/j04/ncas_radar_vol1/heather/processed/'
 #python parse_aerosol-size-distribution.py $in_loc_proc $netcdf_out $months $years $avp
 #python parse_aerosol-opc.py $in_loc_proc $netcdf_out $months $years $avp
 
-start_dat='202007080000'
-stop_dat='202101010000'
+start_dat='202101010000'
+stop_dat='202106010000'
 
 #python parse_flux-estimates.py $in_loc_proc $netcdf_out $start_dat $stop_dat 30 1
 #python parse_flux-estimates.py $in_loc_proc $netcdf_out $start_dat $stop_dat 30 2
-#python parse_flux-estimates.py $in_loc_proc $netcdf_out $start_dat $stop_dat 15 1
+python parse_flux-estimates.py $in_loc_proc $netcdf_out $start_dat $stop_dat 15 1
 python parse_flux-estimates.py $in_loc_proc $netcdf_out $start_dat $stop_dat 15 2
 

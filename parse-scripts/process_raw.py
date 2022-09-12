@@ -101,11 +101,11 @@ def main():
                 continue
             
         elif instrument=='metek':
-            try:
-                m1,m2 = extract_metek_data(start,stop,in_loc,save=out_loc)
-            except:
-                print('Unable to parse')
-                continue
+            #try:
+            m1,m2 = extract_metek_data(start,stop,in_loc,save=out_loc)
+            #except:
+            #    print('Unable to parse')
+            #    continue
             
         elif instrument=='licor':
             try:

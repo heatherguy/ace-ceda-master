@@ -2,7 +2,7 @@
 #SBATCH --partition=short-serial
 #SBATCH -o /gws/nopw/j04/ncas_radar_vol1/heather/logs/%j.out 
 #SBATCH -e /gws/nopw/j04/ncas_radar_vol1/heather/logs/%j.err
-#SBATCH -t 12:00:00
+#SBATCH -t 24:00:00
 # Check we're in the right directory
 cd /gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/parse-scripts
 
@@ -11,11 +11,11 @@ source /home/users/guyh/miniconda3/etc/profile.d/conda.sh
 conda activate guyh
 
 # Extract data files from .raw
-ext_start='210330'
-ext_stop='210820'
+ext_start='220731'
+ext_stop='220731'
 
-#raw_dir_flux='/gws/nopw/j04/ncas_radar_vol2/data/ICECAPSarchive/fluxtower/raw/'
-raw_dir_flux='/gws/nopw/j04/ncas_radar_vol1/heather/fluxtower_temp/'
+raw_dir_flux='/gws/nopw/j04/ncas_radar_vol2/data/ICECAPSarchive/fluxtower/raw/'
+#raw_dir_flux='/gws/nopw/j04/ncas_radar_vol1/heather/fluxtower_temp/'
 
 raw_dir_ace='/gws/nopw/j04/ncas_radar_vol2/data/ICECAPSarchive/ace/raw/'
 extract_dir='/gws/nopw/j04/ncas_radar_vol1/heather/extracted/'
