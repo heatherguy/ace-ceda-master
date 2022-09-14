@@ -121,7 +121,7 @@ def main():
         # Update meta data for level 1 after 01 July 2021 raise
         if day >= dt.datetime(2021,7,1):
             if level==1:
-                meta_f = '/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/metadata/flux_metadata_level1_%smin.xlsx'%(avp)
+                meta_f = '/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/metadata/flux_metadata_level1_%smin_July2021.xlsx'%(avp)
                 meta = pd.read_excel(meta_f)
 
 
