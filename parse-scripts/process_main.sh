@@ -27,8 +27,8 @@ tawo_opc_dir='/gws/nopw/j04/ncas_radar_vol1/heather/extracted/tawo-opc/'
 
 
 
-all_start='20210801000'
-all_stop='202201010000'
+all_start='20211113000'
+all_stop='202111180000'
 hmp_path='/gws/nopw/j04/ncas_radar_vol1/heather/processed/HMP/'
 kt_qcf='/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/qc-files/KT_bad_dates'
 skyopc_qc='/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/qc-files/skyopc_percent_loss_data.csv'

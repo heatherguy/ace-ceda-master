@@ -174,6 +174,7 @@ def main():
             # Add in one off errors here
             # Betwen 18-Aug-20 and 3-Sept-20, the fan on the hmp4 aspirated shield was down. 
             hmp4['QC'][dt.datetime(2020,8,18):dt.datetime(2020,9,3)]=2            
+            hmp2.loc[dt.datetime(2021,11,15,14):dt.datetime(2021,11,15,16),'QC']=2
 
             # 3b is unspecified instrument error
             qc1[np.where(hmp1['QC']==2)[0]]=3
