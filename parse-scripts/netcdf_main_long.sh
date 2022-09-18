@@ -33,8 +33,8 @@ in_loc_proc='/gws/nopw/j04/ncas_radar_vol1/heather/processed/'
 #python parse_aerosol-size-distribution.py $in_loc_proc $netcdf_out $months $years $avp
 #python parse_aerosol-opc.py $in_loc_proc $netcdf_out $months $years $avp
 
-start_dat='202101010000'
-stop_dat='202106010000'
+start_dat='202107200000'
+stop_dat='202201010000'
 
 #python parse_flux-estimates.py $in_loc_proc $netcdf_out $start_dat $stop_dat 30 1
 #python parse_flux-estimates.py $in_loc_proc $netcdf_out $start_dat $stop_dat 30 2
