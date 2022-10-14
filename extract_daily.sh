@@ -16,7 +16,7 @@ today=`date '+%y%m%d'`
 
 # try the last 10 days incase some got missed. 
 # Clean up data over a week old
-old_date=`date -d "10 days ago" '+%y%m%d'`
+old_date=`date -d "20 days ago" '+%y%m%d'`
 extract_date=$old_date
 
 raw_dir_flux='/gws/nopw/j04/ncas_radar_vol1/heather/fluxtower_temp/'
@@ -33,8 +33,8 @@ while [ "$extract_date" != "$today" ]; do
     	echo "Trying to run extract..."
 
     	# only for ace and fluxtower files exist
-    	if test -f "/gws/nopw/j04/ncas_radar_vol1/heather/fluxtower_temp/"$yesterday"_fluxtower.tar.gz"; then
-    		if test -f "/gws/nopw/j04/ncas_radar_vol1/heather/fluxtower_temp/"$yesterday"_ACE.tgz"; then
+    	if test -f "/gws/nopw/j04/ncas_radar_vol1/heather/fluxtower_temp/"$extract_date"_fluxtower.tar.gz"; then
+    		if test -f "/gws/nopw/j04/ncas_radar_vol1/heather/fluxtower_temp/"$extract_date"_ACE.tgz"; then
     			echo 'Extracting SnD'
 				python tar_extract.py $extract_date $extract_date $raw_dir_flux $extract_dir 'SnD'
 
