@@ -86,6 +86,7 @@ while [ "$extract_date" != "$today" ]; do
 				mv /gws/nopw/j04/ncas_radar_vol1/heather/extracted/*POPS* /gws/nopw/j04/ncas_radar_vol1/heather/extracted/pops/
 				mv /gws/nopw/j04/ncas_radar_vol1/heather/extracted/Peak* /gws/nopw/j04/ncas_radar_vol1/heather/extracted/pops/
 				mv /gws/nopw/j04/ncas_radar_vol1/heather/extracted/HK* /gws/nopw/j04/ncas_radar_vol1/heather/extracted/pops/
+                                mv /gws/nopw/j04/ncas_radar_vol1/heather/extracted/Log_*.txt /gws/nopw/j04/ncas_radar_vol1/heather/extracted/pops/
 
     			echo  "$extract_date" >> /gws/nopw/j04/ncas_radar_vol1/heather/logs/fluxtower_extract_list.log
     		else
