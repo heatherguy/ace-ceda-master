@@ -276,22 +276,23 @@ def extract_skyopc(start,stop,dpath,qcf,save=False):
         params_1min = params_1min.reindex(new_index)
 
         # Correct for inlet loss
-        loss = pd.read_csv(qcf,skiprows=1,names=['d','loss'])
+        # After 20 August 2022, SKYOPC was moved to MSF to share NOAA total air inlet. Correction no longer needed
+        #loss = pd.read_csv(qcf,skiprows=1,names=['d','loss'])
         bin_centers = np.asarray([0.265,0.29,0.325,0.375,0.425,0.475,0.54,0.615,
         0.675,  0.75 ,  0.9  ,  1.15 ,  1.45 ,  1.8  ,  2.25 ,  2.75 ,
         3.25 ,  3.75 ,  4.5  ,  5.75 ,  7.   ,  8.   ,  9.25 , 11.25 ,
         13.75 , 16.25 , 18.75 , 22.5  , 27.5  , 31.   ])
-        idxs = [find_nearest(loss['d'],i) for i in bin_centers]
-        percent_loss = [loss['loss'][idx] for idx in idxs]
-        correction_factor = [1/(1-(x/100)) for x in percent_loss]
+        #idxs = [find_nearest(loss['d'],i) for i in bin_centers]
+        #percent_loss = [loss['loss'][idx] for idx in idxs]
+        #correction_factor = [1/(1-(x/100)) for x in percent_loss]
 
         # remove bins for where correction factor is over 5 times original amount#
-        skyopc_1min = skyopc_1min[skyopc_1min.columns[0:20]]
-        correction_factor=correction_factor[0:20]        
+        #skyopc_1min = skyopc_1min[skyopc_1min.columns[0:20]]
+        #correction_factor=correction_factor[0:20]        
 
         # Apply correction
-        for i in range(0,np.shape(skyopc_1min)[1]):
-            skyopc_1min[skyopc_1min.columns[i]] = skyopc_1min[skyopc_1min.columns[i]] * correction_factor[i]
+        #for i in range(0,np.shape(skyopc_1min)[1]):
+        #    skyopc_1min[skyopc_1min.columns[i]] = skyopc_1min[skyopc_1min.columns[i]] * correction_factor[i]
     
         # QC for north winds/ flight days 
         skyopc_qcd = qc_aerosol(skyopc_1min)
