@@ -339,10 +339,14 @@ def extract_opc(opc_n,start,stop,dpath,save=False):
     """
     os.chdir(dpath)                  # Change directory to where the data is
     all_files = glob.glob('*%s*OPC*'%opc_n)
-    if opc_n=='TAWO':
-        file_dates = np.asarray([(dt.datetime.strptime(f[-12:-4], '%Y%m%d')).date() for f in all_files])
-    else:
-        file_dates = np.asarray([(dt.datetime.strptime(f[-14:-4], '%Y-%m-%d')).date() for f in all_files])
+    file_dates=[]
+    for f in all_files: 
+        try:
+            file_dates.append((dt.datetime.strptime(f[-12:-4], '%Y%m%d')).date())
+        except:
+            file_dates.append((dt.datetime.strptime(f[-14:-4], '%Y-%m-%d')).date())
+
+    file_dates = np.asarray(file_dates)
            
     idxs = np.where(np.logical_and(file_dates>=start.date(), file_dates<=stop.date()))[0]
     dfs = [all_files[i] for i in idxs]
