@@ -731,21 +731,21 @@ def extract_biral(start,stop,dpath,save=False):
     headers = ['time','adr','int','avg_vis','xx_a','pw','xx_b','inst_vis','self-test']
     custom_date_parse = lambda x: dt.datetime.strptime(x,'%Y %m %d %H %M %S.%f SWS100')
     weather_codes={10:'No weather',20:'Haze',30:'Fog',40:'Indeterminate precip',50:'Drizzle',60:'Rain',70:'Snow'}
-
+    
     os.chdir(dpath)                  # Change directory to where the data is
     all_files = glob.glob('*.biral')
-
+    
     # Get start and stop filenames
     start_f = int(start.strftime("%y%m%d"))
     stop_f = int(stop.strftime("%y%m%d"))
-
+    
     # Extract daterange
     file_dates = np.asarray([int(f[0:6]) for f in all_files])
     idxs = np.where(np.logical_and(file_dates>=start_f, file_dates<=stop_f))[0]
     dfs = [all_files[i] for i in idxs]
     dfs.sort()
     biral_df = pd.DataFrame(columns=headers)
-
+    
     for f in dfs: 
         # Ignore file if it's empty
         if os.path.getsize(f)==0:
@@ -761,10 +761,9 @@ def extract_biral(start,stop,dpath,save=False):
             biral_df = pd.concat([biral_df,temp],sort=True)
         except:
             print('Skipping: %s'%files[i])
-
+    
     biral_df.sort_index(inplace=True)
-    biral_df.drop_duplicates(inplace=True)
-
+    
     # sort dates
     if len(biral_df)>0:
         resample_dates = pd.date_range(biral_df.index[0].replace(second=0,microsecond=0),biral_df.index[-1].replace(second=0,microsecond=0),freq='1min')
@@ -778,7 +777,7 @@ def extract_biral(start,stop,dpath,save=False):
     fail_self_check_indices = biral_df[((biral_df['self-test']!='OOO') & (biral_df['self-test']!='XOO'))].index
     # round to nearest minute
     fail_self_check = [fsc.round('min') for fsc in fail_self_check_indices]
-
+    
     # Get rid of 'xx' values from present weather:
     biral_df['pw'] = pd.to_numeric(biral_df['pw'],errors='coerce')
     
@@ -789,10 +788,10 @@ def extract_biral(start,stop,dpath,save=False):
     
     biral_df['qc']=1
     biral_df.loc[fail_self_check,'qc']=0
-      
+    
     # Save if neccesary
     if save:
         biral_df.to_csv(save+'biral_%s'%(str(start.date())))
-
+    
     return biral_df
 
