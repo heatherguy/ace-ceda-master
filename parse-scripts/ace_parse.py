@@ -766,9 +766,13 @@ def extract_biral(start,stop,dpath,save=False):
     biral_df.drop_duplicates(inplace=True)
 
     # sort dates
-    resample_dates = pd.date_range(biral_df.index[0].replace(second=0,microsecond=0),biral_df.index[-1].replace(second=0,microsecond=0),freq='1min')
-    biral_df = biral_df.reindex(resample_dates,method='nearest',tolerance='30s')
-    biral_df = biral_df[~biral_df.index.duplicated()]
+    if len(biral_df)>0:
+        resample_dates = pd.date_range(biral_df.index[0].replace(second=0,microsecond=0),biral_df.index[-1].replace(second=0,microsecond=0),freq='1min')
+        biral_df = biral_df.reindex(resample_dates,method='nearest',tolerance='30s')
+        biral_df = biral_df[~biral_df.index.duplicated()]
+    else:
+        print('No data')
+        return biral_df
     
     # Get bad data times
     fail_self_check_indices = biral_df[((biral_df['self-test']!='OOO') & (biral_df['self-test']!='XOO'))].index
