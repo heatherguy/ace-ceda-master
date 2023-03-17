@@ -286,20 +286,19 @@ def HMP_pdf_sort(df,start,stop):
     # Sort out the date referencing and columns
     if df.empty==False:
         df = df.dropna()
-        df['Second'] = df['Second'].astype(float)
-        df['Second'] = df['Second'].astype(int)
-        df['Minute'] = df['Minute'].astype(int)
-        df['Hour'] = df['Hour'].astype(int)
-        df['Day'] = df['Day'].astype(int)
-        df['Month'] = df['Month'].astype(int)
-        df['Year'] = df['Year'].astype(int)
+        df['Second'] =pd.to_numeric(df['Second'],errors='coerce')
+        df['Minute'] =pd.to_numeric(df['Minute'],errors='coerce')
+        df['Hour'] =pd.to_numeric(df['Hour'],errors='coerce')
+        df['Day'] =pd.to_numeric(df['Day'],errors='coerce')
+        df['Month'] =pd.to_numeric(df['Month'],errors='coerce')
+        df['Year'] =pd.to_numeric(df['Year'],errors='coerce')
         df['Date'] = pd.to_datetime(df['Year']*10000000000+df['Month']*100000000+df['Day']*1000000+df['Hour']*10000+df['Minute']*100+df['Second'],format='%Y%m%d%H%M%S')
         df = df.set_index('Date')
         del df['Year'],df['Month'],df['Day'],df['Hour'],df['Minute'],df['Second'],df['junk']
         df.columns = ['RH', 'Ta', 'Tw', 'Err', 'h']
-        df['RH']=df['RH'].astype(float)
-        df['Tw']=df['Tw'].astype(float)
-        df['Ta']=df['Ta'].astype(float)
+        df['RH']=pd.to_numeric(df['RH'],errors='coerce')
+        df['Tw']=pd.to_numeric(df['Tw'],errors='coerce')
+        df['Ta']=pd.to_numeric(df['Ta'],errors='coerce')
         df = df.sort_values('Date')
         df.index = pd.DatetimeIndex(df.index)
         df = df[~df.index.duplicated()]
@@ -353,9 +352,9 @@ def extract_HMP_data(name,start,stop,dpath,save=False):
         clean_dat = [i for i in f_dat if len(i)>=60 and len(i)<=63]
         pdf = pd.DataFrame(clean_dat)
         pdf[1] = pdf[0].str.split()
-        final_df = pd.DataFrame(pdf[1].values.tolist(), columns=['Year','Month','Day','Hour','Minute','Second','junk','RH','Ta', 'Tw', 'Err', 'h'])
         # Store good data
         try:
+            final_df = pd.DataFrame(pdf[1].values.tolist(), columns=['Year','Month','Day','Hour','Minute','Second','junk','RH','Ta', 'Tw', 'Err', 'h'])
             HMP = HMP.append(final_df)
         except:
             print('Bad data file, %s'%f)
