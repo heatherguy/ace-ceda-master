@@ -249,14 +249,18 @@ def extract_snd_data(start,stop,dpath,hmp_dpath,save=False):
         HMP1 = get_hmp(start,stop,hmp_dpath,'HMP1')
         if len(HMP1.dropna())==0:
             HMP1 = get_hmp(start,stop,hmp_dpath,'HMP2')
-        
-        tc = HMP1['Ta']
-        tk = tc + 273.15 # convert to celcius    
-        snd['HMP1_T'] = tk
-        snd['depth_Tcorrected'] = snd['depth'] * np.sqrt(snd['HMP1_T']/273.15)
+        if len(HMP1.dropna())==0:
+            print('No HMP data')
+            snd['HMP1_T'] = np.nan
+            snd['depth_Tcorrected'] = np.nan
+        else:
+            tc = HMP1['Ta']
+            tk = tc + 273.15 # convert to celcius    
+            snd['HMP1_T'] = tk
+            snd['depth_Tcorrected'] = snd['depth'] * np.sqrt(snd['HMP1_T']/273.15)
 
-        # Check for crazy values
-        snd['depth_Tcorrected']=replace_outliers(snd['depth_Tcorrected'],snd['depth_Tcorrected'].std())
+            # Check for crazy values
+            snd['depth_Tcorrected']=replace_outliers(snd['depth_Tcorrected'],snd['depth_Tcorrected'].std())
        
         if save: 
             snd.to_csv(save+'snd_%s'%(str(start.date())))
