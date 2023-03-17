@@ -244,10 +244,10 @@ def extract_snd_data(start,stop,dpath,hmp_dpath,save=False):
         snd['depth']=replace_outliers(snd['depth'],snd['depth'].std())
         
         # Correct for temperature
-        if start >= dt.datetime(2021,7,1):
+        # use HMP2 if HMP1 is offline (1st july 2021 to 21st august 2022)
+        HMP1 = get_hmp(start,stop,hmp_dpath,'HMP1')
+        if len(HMP1)==0:
             HMP1 = get_hmp(start,stop,hmp_dpath,'HMP2')
-        else:
-            HMP1 = get_hmp(start,stop,hmp_dpath,'HMP1')
         
         tc = HMP1['Ta']
         tk = tc + 273.15 # convert to celcius    
