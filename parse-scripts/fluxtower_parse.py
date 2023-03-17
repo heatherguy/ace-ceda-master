@@ -364,7 +364,8 @@ def extract_HMP_data(name,start,stop,dpath,save=False):
     HMP = HMP_pdf_sort(HMP,start,stop)
 
     if save: 
-        HMP.to_csv(save+'%s_%s'%(name,str(start.date())))
+        if len(HMP)!=0:
+            HMP.to_csv(save+'%s_%s'%(name,str(start.date())))
 
     return HMP
 
