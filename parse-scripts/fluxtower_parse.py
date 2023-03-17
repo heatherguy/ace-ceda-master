@@ -355,7 +355,11 @@ def extract_HMP_data(name,start,stop,dpath,save=False):
         pdf[1] = pdf[0].str.split()
         final_df = pd.DataFrame(pdf[1].values.tolist(), columns=['Year','Month','Day','Hour','Minute','Second','junk','RH','Ta', 'Tw', 'Err', 'h'])
         # Store good data
-        HMP = HMP.append(final_df)
+        try:
+            HMP = HMP.append(final_df)
+        except:
+            print('Bad data file, %s'%f)
+            continue
      
     # Sort out the date referencing and columns
     HMP = HMP_pdf_sort(HMP,start,stop)
