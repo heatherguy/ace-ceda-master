@@ -122,6 +122,8 @@ def main():
             qc=np.ones(len(dat)) # good data
             qc[np.where(dat['QC']==0)[0]]=2 # suspect data in log
             qc[np.where(dat['QC'].isnull())[0]]=0 # no data
+            qc[np.where(dat['QC']==24)[0]]=3 # Error code 24, under ref limit
+
             # Check in instrument range of -100 to 100 C
             qc[np.where(dat['T']>100)[0]]=3
             qc[np.where(dat['T']<-100)[0]]=3
