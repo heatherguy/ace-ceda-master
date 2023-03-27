@@ -11,8 +11,8 @@ source /home/users/guyh/miniconda3/etc/profile.d/conda.sh
 conda activate guyh
 
 # Extract data files from .raw
-ext_start='220604'
-ext_stop='230215'
+ext_start='220820'
+ext_stop='220920'
 
 raw_dir_flux='/gws/nopw/j04/ncas_radar_vol2/data/ICECAPSarchive/fluxtower/raw/'
 #raw_dir_flux='/gws/nopw/j04/ncas_radar_vol1/heather/fluxtower_temp/'
@@ -39,8 +39,8 @@ extract_dir='/gws/nopw/j04/ncas_radar_vol1/heather/extracted/'
 #echo 'Extracting msf-opc'
 #python tar_extract.py $ext_start $ext_stop $raw_dir_ace $extract_dir 'MSF'
 
-echo 'Extracting tawo-opc'
-python tar_extract.py $ext_start $ext_stop $raw_dir_ace $extract_dir 'TAWO'
+#echo 'Extracting tawo-opc'
+#python tar_extract.py $ext_start $ext_stop $raw_dir_ace $extract_dir 'TAWO'
 
 #echo 'Extracting licor'
 #python tar_extract.py $ext_start $ext_stop $raw_dir_flux $extract_dir 'licor'
@@ -51,4 +51,5 @@ python tar_extract.py $ext_start $ext_stop $raw_dir_ace $extract_dir 'TAWO'
 #echo 'Extracting ventus'
 #python tar_extract.py $ext_start $ext_stop $raw_dir_flux $extract_dir 'ventus'
 
-
+echo 'Extracting simba'
+python tar_extract.py $ext_start $ext_stop $raw_dir_flux $extract_dir 'simba'
