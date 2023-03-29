@@ -90,10 +90,10 @@ def extract_KT_data(start,stop,dpath,qcf,save=False):
             continue
         
         # Filter and report files with non-ascii characters
-        content = open(f).read()
-        try:
+        try: 
+            content = open(f).read()
             content.encode('ascii')
-        except UnicodeDecodeError:
+        except:
             print("Error with: %s contains non-ascii characters.\n"%f)  
             continue
         
