@@ -269,7 +269,7 @@ def main():
             elif start< dt.datetime(2022,6,1):
                 base_str = 'Platform altitude (h0) is the top of the Met tower. V1 was offline between July 2021 and August 2022. V2 was offline after 28 Jan 2022. Instrument altitude: M1=h0-9.8m, V2=h0-4.5m, M2=h0-1m. Index: [M1, V1, V2, M2].'
             elif start< dt.datetime(2022,8,1):
-                base_str = 'Platform altitude (h0) is the top of the Met tower. V1 was offline between July 2021 and August 2022. V2 was offline after 28 Jan 2022. Instrument altitude: M1=h0-9.8m until 2022-06-06 10:00, after which it was raised to h0-9.6,V2=h0-4.5m, M2=h0-1m. Index: [M1, V1, V2, M2].' V2=h0-4.5m, M2=h0-1m. Index: [M1, V1, V2, M2].'
+                base_str = 'Platform altitude (h0) is the top of the Met tower. V1 was offline between July 2021 and August 2022. V2 was offline after 28 Jan 2022. Instrument altitude: M1=h0-9.8m until 2022-06-06 10:00, after which it was raised to h0-9.6,V2=h0-4.5m, M2=h0-1m. Index: [M1, V1, V2, M2]. V2=h0-4.5m, M2=h0-1m. Index: [M1, V1, V2, M2].'
 
 
             nc.setncattr('comment', base_str)
