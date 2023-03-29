@@ -266,12 +266,13 @@ def main():
             #base_str = 'Platform altitude is the top of the Met tower, Instrument height: M1=h0-12.3m, V1=h0-9.8m,M2=h0-4.5m, V2=h0-1m. Index: [M1, V1, V2, M2].' #, until 2020-07-07 1648Z, after this date m1 altitude is platform altitude minus 10.87 m'
             if start < dt.datetime(2021,7,1):
                 base_str = 'Platform altitude (h0) is the top of the Met tower. Instrument altitude: M1=h0-10.87m, V1=h0-9.8m,V2=h0-4.5m, M2=h0-1m. Index: [M1, V1, V2, M2].'
-                nc.setncattr('comment', base_str)
-            else:
+            elif start< dt.datetime(2022,6,1):
                 base_str = 'Platform altitude (h0) is the top of the Met tower. V1 was offline between July 2021 and August 2022. V2 was offline after 28 Jan 2022. Instrument altitude: M1=h0-9.8m, V2=h0-4.5m, M2=h0-1m. Index: [M1, V1, V2, M2].'
-                nc.setncattr('comment', base_str)               
+            elif start< dt.datetime(2022,8,1):
+                base_str = 'Platform altitude (h0) is the top of the Met tower. V1 was offline between July 2021 and August 2022. V2 was offline after 28 Jan 2022. Instrument altitude: M1=h0-9.8m until 2022-06-06 10:00, after which it was raised to h0-9.6,V2=h0-4.5m, M2=h0-1m. Index: [M1, V1, V2, M2].' V2=h0-4.5m, M2=h0-1m. Index: [M1, V1, V2, M2].'
 
-    
+
+            nc.setncattr('comment', base_str)
             # Close netcdf file
     
             nc.close()

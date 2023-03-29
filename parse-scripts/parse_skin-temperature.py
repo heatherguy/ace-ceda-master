@@ -136,9 +136,15 @@ def main():
             
             nc.variables['qc_flag_skin_temperature'][:]=qc
     
-            # Write note to netcdf file indicating date used. 
-            #base_str = 'Platform altitude is the top of the Met tower, Instrument altitude is platform altitude minus 10.8 m until 2020-06-26, after which it is platform altitude minus 10.3 m. '
-            base_str = 'Platform altitude is the top of the Met tower. Instrument altitude is platform altitude minus 10.3 m. Technician log used to QC data is located here: https://github.com/heatherguy/ace-ceda-master/blob/master/qc-files/KT_bad_dates. Spectral range of sensor is 9.6 to 11.5 um.'
+            # Write note to netcdf file indicating date used.
+            if start < dt.datetime(2020,7,1):
+                base_str = 'Platform altitude is the top of the Met tower, Instrument altitude is platform altitude minus 10.8 m until 2020-06-26, after which it is platform altitude minus 10.3 m. '
+            elif start < dt.datetime(2022,6,1):   
+                base_str = 'Platform altitude is the top of the Met tower. Instrument altitude is platform altitude minus 10.3 m. Technician log used to QC data is located here: https://github.com/heatherguy/ace-ceda-master/blob/master/qc-files/KT_bad_dates. Spectral range of sensor is 9.6 to 11.5 um.'
+            elif start < dt.datetime(2022,8,1):
+                base_str = 'Platform altitude is the top of the Met tower. Instrument altitude is platform altitude minus 10.3 m until 2022-06-06 1000, after which it was raised by 1.1 m to h0-9.2. Intermittent data throughout June and July 2022 due to a damaged cable. Technician log used to QC data is located here: https://github.com/heatherguy/ace-ceda-master/blob/master/qc-files/KT_bad_dates. Spectral range of sensor is 9.6 to 11.5 um.'
+            
+
             nc.setncattr('comment', base_str)
 
             # Close netcdf file
