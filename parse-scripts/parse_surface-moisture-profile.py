@@ -234,12 +234,36 @@ def main():
             #     new_str = 'Note: Height above snow surface corresponds to last available data on 2020-04-21.'
             #     nc.setncattr('comment', new_str+base_str)
 
+
             # Calculate altitude above snow surface
-        
-            alt_HMP1 = snow_height['snd'] - 0.4
-            alt_HMP2 = snow_height['snd'] + 1.03
-            alt_HMP3 = snow_height['snd'] + 1.03 + 5.3
-            alt_HMP4 = snow_height['snd'] + 1.03 + 5.3 + 3.5
+            
+            if start< dt.datetime(2021,7,1):
+                alt_HMP1 = snow_height['snd'] - 0.4
+                alt_HMP2 = snow_height['snd']  + 1.03
+                alt_HMP3 = snow_height['snd'] + 1.03 + 5.3
+                alt_HMP4 = snow_height['snd'] + 1.03 + 5.3 + 3.5
+
+            elif start< dt.datetime(2022,6,1):
+                alt_HMP1 = np.ones(len(snow_height))*np.nan
+                alt_HMP2 = snow_height['snd']  + 1.03
+                alt_HMP3 = snow_height['snd'] + 1.03 + 5.3
+                alt_HMP4 = snow_height['snd'] + 1.03 + 5.3 + 3.5
+                
+            elif start< dt.datetime(2022,7,1):
+                alt_HMP1 = np.ones(len(snow_height))*np.nan
+                alt_HMP2 = snow_height['snd']  + 0.8
+                alt_HMP3 = snow_height['snd'] + 0.8 + 5.3
+                alt_HMP4 = snow_height['snd'] + 0.8 + 5.3 + 3.5 
+
+            else:
+                alt_HMP1 = snow_height['snd']  + 0.7
+                alt_HMP2 = snow_height['snd']  + 0.7 + 2.0
+                alt_HMP3 = snow_height['snd'] + 0.7 + 5.7
+                alt_HMP4 = snow_height['snd'] + 0.7 + 5.3 + 3.5
+
+
+
+            
             
             # Write in data
 
@@ -277,11 +301,16 @@ def main():
             if start < dt.datetime(2021,7,1):
                 #base_str = 'Platform altitude is the top of the Met tower, sensor height is platform altitude minus 12.3 m until 2020-07-07 1648Z, after this date sensor height is platform altitude minus 10.83 m'
                 base_str = 'Platform altitude (h0) is the top of the Met tower. Instrument altitude: HMP1=h0-10.87m, HMP2=h0-9.8m, HMP3=h0-4.5m, HMP4=h0-1m , Index: [HMP1, HMP2, HMP3, HMP4].'
-            elif start < dt.datetime(2022,6,1): 
+            elif start < dt.datetime(2022,6,1):                
                 base_str = 'Platform height (h0) is the top of the Met tower. HMP1 was offline between 1 July 2021 and 22 August 2022. Instrument height: HMP2=h0-9.8m, HMP3=h0-4.5m, HMP4=h0-1m , Index: [HMP1, HMP2, HMP3, HMP4]'
-            elif start < dt.datetime(2022,8,1):
+            elif start< dt.datetime(2022,7,1):
                 base_str = 'Platform height (h0) is the top of the Met tower. HMP1 was offline between 1 July 2021 and 22 August 2022. Instrument height: HMP2=h0-9.8m until 2022-06-06 10:00, after which it was raised to h0-9.6, HMP3=h0-4.5m, HMP4=h0-1m , Index: [HMP1, HMP2, HMP3, HMP4]'
-
+            elif start < dt.datetime(2022,8,1):
+                base_str = 'Platform height (h0) is the top of the Met tower. HMP1 was offline between 1 July 2021 and 22 August 2022. Instrument height: HMP2=h0-9.6, HMP3=h0-4.5m until 2022-07-23 1200,after which it was raised to h0-3.9m, HMP4=h0-1m , Index: [HMP1, HMP2, HMP3, HMP4]'
+            elif start < dt.datetime(2022,9,1):
+                base_str = 'Platform height (h0) is the top of the Met tower. HMP1 was offline between 1 July 2021 and 22 August 2022. Instrument height: HMP1=h0-9.6 (installed 22 August 2022), HMP2=h0-9.6 until 22 August 2022, after which it was raised to h0-7.6m, HMP3=h0-3.9m, HMP4=h0-1m , Index: [HMP1, HMP2, HMP3, HMP4]'
+            else:
+                base_str = 'Platform height (h0) is the top of the Met tower. Instrument height: HMP1=h0-9.6, HMP2=h0-7.6m, HMP3=h0-3.9m, HMP4=h0-1m , Index: [HMP1, HMP2, HMP3, HMP4]'
             nc.setncattr('comment', base_str)
  
     

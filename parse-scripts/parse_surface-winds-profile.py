@@ -179,12 +179,25 @@ def main():
                 alt_2 = snow_height['snd']  + 1.03
                 alt_3 = snow_height['snd'] + 1.03 + 5.3
                 alt_4 = snow_height['snd'] + 1.03 + 5.3 + 3.5
-            else:
+
+            elif start<dt.datetime(2022,6,1):
                 alt_1 = snow_height['snd']  + 1.03
                 alt_2 = np.ones(len(snow_height))*np.nan
                 alt_3 = snow_height['snd'] + 1.03 + 5.3
-                alt_4 = snow_height['snd'] + 1.03 + 5.3 + 3.5                
-        
+                alt_4 = snow_height['snd'] + 1.03 + 5.3 + 3.5
+                
+            elif start< dt.datetime(2022,7,1):
+                alt_1 = snow_height['snd']  + 0.8
+                alt_2 = np.ones(len(snow_height))*np.nan
+                alt_3 = snow_height['snd'] + 0.8 + 5.3
+                alt_4 = snow_height['snd'] + 0.8 + 5.3 + 3.5 
+
+            else:
+                alt_1 = snow_height['snd']  + 0.7
+                alt_2 = snow_height['snd']  + 0.7 + 2.0
+                alt_3 = snow_height['snd'] + 0.7 + 5.7
+                alt_4 = snow_height['snd'] + 0.7 + 5.3 + 3.5
+            
             # do QC's
             # 1b is good data
             qc1 = np.ones(len(m1))
@@ -268,8 +281,10 @@ def main():
                 base_str = 'Platform altitude (h0) is the top of the Met tower. Instrument altitude: M1=h0-10.87m, V1=h0-9.8m,V2=h0-4.5m, M2=h0-1m. Index: [M1, V1, V2, M2].'
             elif start< dt.datetime(2022,6,1):
                 base_str = 'Platform altitude (h0) is the top of the Met tower. V1 was offline between July 2021 and August 2022. V2 was offline after 28 Jan 2022. Instrument altitude: M1=h0-9.8m, V2=h0-4.5m, M2=h0-1m. Index: [M1, V1, V2, M2].'
+            elif start< dt.datetime(2022,7,1):
+                base_str = 'Platform altitude (h0) is the top of the Met tower. V1 was offline between July 2021 and August 2022. V2 was offline after 28 Jan 2022. Instrument altitude: M1=h0-9.8m until 2022-06-06 10:00, after which it was raised to h0-9.6,V2=h0-4.5m, M2=h0-1m. Index: [M1, V1, V2, M2].'
             elif start< dt.datetime(2022,8,1):
-                base_str = 'Platform altitude (h0) is the top of the Met tower. V1 was offline between July 2021 and August 2022. V2 was offline after 28 Jan 2022. Instrument altitude: M1=h0-9.8m until 2022-06-06 10:00, after which it was raised to h0-9.6,V2=h0-4.5m, M2=h0-1m. Index: [M1, V1, V2, M2]. V2=h0-4.5m, M2=h0-1m. Index: [M1, V1, V2, M2].'
+                base_str = 'Platform altitude (h0) is the top of the Met tower. V1 was offline between July 2021 and August 2022. V2 was offline after 28 Jan 2022. Instrument altitude: M1=h0-9.6, V1=h0-7.6m, V2=h0-4.5m until 2022-07-23 1200,after which it was raised to h0-3.9m, M2=h0-1m. Index: [M1, V1, V2, M2].'
 
 
             nc.setncattr('comment', base_str)
