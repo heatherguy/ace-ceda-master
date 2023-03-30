@@ -249,7 +249,7 @@ def main():
             
             alt_HMP1[dt.datetime(2021,7,1):dt.datetime(2022,6,6,10)] = np.ones(len(snow_height))*np.nan
             alt_HMP2[dt.datetime(2021,7,1):dt.datetime(2022,6,6,10)] = snow_height['snd'][dt.datetime(2021,7,1):dt.datetime(2022,6,6,10)] + 1.03
-            alt_HMP3[dt.datetime(2021,7,1):dt.datetime(2022,6,6,10)] = snow_height['snd'][[dt.datetime(2021,7,1):dt.datetime(2022,6,6,10)] + 1.03 + 5.3
+            alt_HMP3[dt.datetime(2021,7,1):dt.datetime(2022,6,6,10)] = snow_height['snd'][dt.datetime(2021,7,1):dt.datetime(2022,6,6,10)] + 1.03 + 5.3
             alt_HMP4[dt.datetime(2021,7,1):dt.datetime(2022,6,6,10)] = snow_height['snd'][dt.datetime(2021,7,1):dt.datetime(2022,6,6,10)] + 1.03 + 5.3 + 3.5
             
             alt_HMP1[dt.datetime(2022,6,6,10):dt.datetime(2022,7,23,12)] = np.ones(len(snow_height))*np.nan
