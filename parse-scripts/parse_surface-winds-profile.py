@@ -174,29 +174,38 @@ def main():
             #    nc.setncattr('comment', new_str+base_str)
 
             # Calculate altitude above snow surface
-            if start< dt.datetime(2021,7,1):
-                alt_1 = snow_height['snd'] - 0.4
-                alt_2 = snow_height['snd']  + 1.03
-                alt_3 = snow_height['snd'] + 1.03 + 5.3
-                alt_4 = snow_height['snd'] + 1.03 + 5.3 + 3.5
+            # Initialise
+            alt_1 = snow_height['snd'] * np.nan
+            alt_2 = snow_height['snd'] * np.nan
+            alt_3 = snow_height['snd'] * np.nan
+            alt_4 = snow_height['snd'] * np.nan
+            
+            alt_1[dt.datetime(2019,5,1):dt.datetime(2021,7,1)] = snow_height['snd'][dt.datetime(2019,5,1):dt.datetime(2021,7,1)] - 0.4
+            alt_2[dt.datetime(2019,5,1):dt.datetime(2021,7,1)] = snow_height['snd'][dt.datetime(2019,5,1):dt.datetime(2021,7,1)] + 1.03
+            alt_3[dt.datetime(2019,5,1):dt.datetime(2021,7,1)] = snow_height['snd'][dt.datetime(2019,5,1):dt.datetime(2021,7,1)] + 1.03 + 5.3
+            alt_4[dt.datetime(2019,5,1):dt.datetime(2021,7,1)] = snow_height['snd'][dt.datetime(2019,5,1):dt.datetime(2021,7,1)] + 1.03 + 5.3 + 3.5
 
-            elif start<dt.datetime(2022,6,1):
-                alt_1 = snow_height['snd']  + 1.03
-                alt_2 = np.ones(len(snow_height))*np.nan
-                alt_3 = snow_height['snd'] + 1.03 + 5.3
-                alt_4 = snow_height['snd'] + 1.03 + 5.3 + 3.5
-                
-            elif start< dt.datetime(2022,7,1):
-                alt_1 = snow_height['snd']  + 0.8
-                alt_2 = np.ones(len(snow_height))*np.nan
-                alt_3 = snow_height['snd'] + 0.8 + 5.3
-                alt_4 = snow_height['snd'] + 0.8 + 5.3 + 3.5 
+            # After 1 July 2021 tower raise
+            alt_1[dt.datetime(2021,7,1):dt.datetime(2022,6,6,10)] = snow_height['snd'][dt.datetime(2021,7,1):dt.datetime(2022,6,6,10)] + 1.03
+            alt_3[dt.datetime(2021,7,1):dt.datetime(2022,6,6,10)] = snow_height['snd'][dt.datetime(2021,7,1):dt.datetime(2022,6,6,10)] + 1.03 + 5.3
+            alt_4[dt.datetime(2021,7,1):dt.datetime(2022,6,6,10)] = snow_height['snd'][dt.datetime(2021,7,1):dt.datetime(2022,6,6,10)] + 1.03 + 5.3 + 3.5
 
-            else:
-                alt_1 = snow_height['snd']  + 0.7
-                alt_2 = snow_height['snd']  + 0.7 + 2.0
-                alt_3 = snow_height['snd'] + 0.7 + 5.7
-                alt_4 = snow_height['snd'] + 0.7 + 5.3 + 3.5
+            # After 6 June 2022 raise of lower level booms
+            alt_1[dt.datetime(2022,6,6,10):dt.datetime(2022,7,22,14)] = snow_height['snd'][dt.datetime(2022,6,6,10):dt.datetime(2022,7,22,14)] + 0.8
+            alt_3[dt.datetime(2022,6,6,10):dt.datetime(2022,7,22,14)] = snow_height['snd'][dt.datetime(2022,6,6,10):dt.datetime(2022,7,22,14)] + 0.8 + 4.7
+            alt_4[dt.datetime(2022,6,6,10):dt.datetime(2022,7,22,14)] = snow_height['snd'][dt.datetime(2022,6,6,10):dt.datetime(2022,7,22,14)] + 0.8 + 4.7 + 3.5 
+
+            # After 23 July 2022 raise of mid level booms and some lower adjustments
+            alt_1[dt.datetime(2022,7,22,14):dt.datetime(2022,8,20,20,30)] = snow_height['snd'][dt.datetime(2022,7,23,14):dt.datetime(2022,8,20,20,30)] + 0.7
+            alt_3[dt.datetime(2022,7,22,14):dt.datetime(2022,8,20,20,30)] = snow_height['snd'][dt.datetime(2022,7,23,14):dt.datetime(2022,8,20,20,30)] + 0.7 + 5.3
+            alt_4[dt.datetime(2022,7,22,14):dt.datetime(2022,8,20,20,30)] = snow_height['snd'][dt.datetime(2022,7,23,14):dt.datetime(2022,8,20,20,30)] + 0.7 + 5.3 + 2.9
+
+            # After 20 August 2022 HMP1 reinstalled 
+            alt_1[dt.datetime(2022,8,20,20,30):] = snow_height['snd'][dt.datetime(2022,8,20,20,30):] + 0.7
+            alt_2[dt.datetime(2022,8,20,20,30):] = snow_height['snd'][dt.datetime(2022,8,20,20,30):] + 0.7 + 1.8
+            alt_3[dt.datetime(2022,8,20,20,30):] = snow_height['snd'][dt.datetime(2022,8,20,20,30):] + 0.7 + 1.8 + 3.5
+            alt_4[dt.datetime(2022,8,20,20,30):] = snow_height['snd'][dt.datetime(2022,8,20,20,30):] + 0.7 + 1.8 + 3.5 + 2.9
+
             
             # do QC's
             # 1b is good data
@@ -282,10 +291,14 @@ def main():
             elif start< dt.datetime(2022,6,1):
                 base_str = 'Platform altitude (h0) is the top of the Met tower. V1 was offline between July 2021 and August 2022. V2 was offline after 28 Jan 2022. Instrument altitude: M1=h0-9.8m, V2=h0-4.5m, M2=h0-1m. Index: [M1, V1, V2, M2].'
             elif start< dt.datetime(2022,7,1):
-                base_str = 'Platform altitude (h0) is the top of the Met tower. V1 was offline between July 2021 and August 2022. V2 was offline after 28 Jan 2022. Instrument altitude: M1=h0-9.8m until 2022-06-06 10:00, after which it was raised to h0-9.6,V2=h0-4.5m, M2=h0-1m. Index: [M1, V1, V2, M2].'
+                base_str = 'Platform altitude (h0) is the top of the Met tower. V1 was offline between July 2021 and August 2022. V2 was offline after 28 Jan 2022. Instrument altitude: M1=h0-9.8m until 2022-06-06 10:00, after which it was raised to h0-9.2m, V2=h0-4.5m, M2=h0-1m. Index: [M1, V1, V2, M2].'
             elif start< dt.datetime(2022,8,1):
-                base_str = 'Platform altitude (h0) is the top of the Met tower. V1 was offline between July 2021 and August 2022. V2 was offline after 28 Jan 2022. Instrument altitude: M1=h0-9.6, V1=h0-7.6m, V2=h0-4.5m until 2022-07-23 1200,after which it was raised to h0-3.9m, M2=h0-1m. Index: [M1, V1, V2, M2].'
-
+                base_str = 'Platform altitude (h0) is the top of the Met tower. V1 was offline between July 2021 and August 2022. V2 was offline after 28 Jan 2022. Instrument altitude: M1=h0-9.2, V2=h0-4.5m until 2022-07-23 1200,after which it was raised to h0-3.9m, M2=h0-1m. Index: [M1, V1, V2, M2].'
+            elif start < dt.datetime(2022,9,1):
+                base_str = 'Platform height (h0) is the top of the Met tower. V1 was offline between 1 July 2021 and 22 August 2022. V2 was offline after 28 Jan 2022. Instrument height: M1=h0-9.2, v1=h0-7.4m (reinstalled 22 August 2022), v2=h0-3.9m, HMP4=h0-1m , Index: [M1, V1, V2, M2]'
+            else:
+                base_str = 'Platform height (h0) is the top of the Met tower. Instrument height: M11=h0-9.2, V1=h0-7.4m, V2=h0-3.9m, M2=h0-1m , Index: [M1, V1, V2, M2]'
+            nc.setncattr('comment', base_str)
 
             nc.setncattr('comment', base_str)
             # Close netcdf file
