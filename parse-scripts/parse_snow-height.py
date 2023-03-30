@@ -132,13 +132,6 @@ def main():
                 # Derive valid max and min
                 nc.variables['distance_to_surface'].valid_min = dat['depth_Tcorrected'].min()
                 nc.variables['distance_to_surface'].valid_max = dat['depth_Tcorrected'].max()
-                
-               # Write note to netcdf file indicating date used. 
-                #base_str = 'Platform altitude is the top of the Met tower, sensor height is platform altitude minus 12.3 m until 2020-07-07 1648Z, after this date sensor height is platform altitude minus 10.83 m'
-                #base_str = 'Platform altitude is the top of the Met tower, sensor height is platform altitude minus 10.83 m'
-                base_str = 'Platform altitude is the top of the Met tower, sensor height is platform altitude minus 10.83 m until 2022-06-06 1900Z, after this date sensor height is platform altitude minus 10.24 m'
-                
-                nc.setncattr('comment', base_str)
 
             else:
                 # If there are no SnD data, update with last measured value and correct qc-flag
@@ -159,29 +152,29 @@ def main():
                 
                 nc.variables['distance_to_surface'][:]=np.ones(len(time_list))*last_depth
                 nc.variables['qc_flag_distance_to_surface'][:]=np.ones(len(time_list))*4
-                # Write note to netcdf file indicating date used.
-                if start < dt.datetime(2022,6,1):
-                    base_str = 'Platform altitude is the top of the Met tower, sensor height is platform altitude minus 12.3 m until 2020-07-07 1648Z, after this date sensor height is platform altitude minus 10.83 m'
-                    #base_str = 'Platform altitude is the top of the Met tower, sensor height is platform altitude minus 10.83 m'
-                    new_str = 'NOTE: QC flag 4, data corresponds to last available data collected on %s .'%str(last_file_date.date())
-                    nc.setncattr('comment', new_str+base_str)
-                elif start<dt.datetime(2022,6,7):
-                    base_str = 'Platform altitude is the top of the Met tower, sensor height is platform altitude minus 10.83 m until 2022-06-06 1900Z, after this date sensor height is platform altitude minus 10.24 m'
-                    new_str = 'Instrument raised by 60 cm between 10:00 and 19:00 UTC on 06 June 2022. NOTE: QC flag 4, data corresponds to last available data collected on %s .'%str(last_file_date.date())
-                    nc.setncattr('comment', new_str+base_str)
-                elif start<dt.datetime(2022,7,23):
-                    base_str = 'Platform altitude is the top of the Met tower, sensor height is platform altitude minus 10.24 m until 2022-07-22 1500Z, after this date sensor height is platform altitude minus 10.1 m'
-                    new_str = 'Instrument raised by 14 cm between 1442 and 1500 UTC on 22 July 2022. NOTE: QC flag 4, data corresponds to last available data collected on %s .'%str(last_file_date.date())
-                    nc.setncattr('comment', new_str+base_str)                    
-                else:
-                    base_str = 'Platform altitude is the top of the Met tower, sensor height is platform altitude minus 10.1 m'
-                    new_str = 'NOTE: QC flag 4, data corresponds to last available data collected on %s .'%str(last_file_date.date())
-                    nc.setncattr('comment', new_str+base_str)
-                
+
                 # Derive valid max and min
                 nc.variables['distance_to_surface'].valid_min = last_depth
                 nc.variables['distance_to_surface'].valid_max = last_depth
+                
+                
+            # Write note to netcdf file indicating date used.
+            if start < dt.datetime(2022,6,1):
+                base_str = 'Platform altitude is the top of the Met tower, sensor height is platform altitude minus 12.3 m until 2020-07-07 1648Z, after this date sensor height is platform altitude minus 10.83 m'
+                #base_str = 'Platform altitude is the top of the Met tower, sensor height is platform altitude minus 10.83 m'
+            elif start<dt.datetime(2022,6,7):
+                base_str = 'Instrument raised by 60 cm between 10:00 and 19:00 UTC on 06 June 2022. Platform altitude is the top of the Met tower, sensor height is platform altitude minus 10.83 m until 2022-06-06 1900Z, after this date sensor height is platform altitude minus 10.24 m'
+            elif start<dt.datetime(2022,7,23):
+                base_str = 'Instrument raised by 14 cm between 1442 and 1500 UTC on 22 July 2022. Platform altitude is the top of the Met tower, sensor height is platform altitude minus 10.24 m until 2022-07-22 1500Z, after this date sensor height is platform altitude minus 10.1 m'
+            else:
+                base_str = 'Platform altitude is the top of the Met tower, sensor height is platform altitude minus 10.1 m'
+
             
+            if len(snd)!=0:   
+                nc.setncattr('comment', base_str)
+            else:
+                new_str = 'NOTE: QC flag 4, data corresponds to last available data collected on %s .'%str(last_file_date.date())
+                nc.setncattr('comment', new_str+base_str)
     
             # Close netcdf file
     
