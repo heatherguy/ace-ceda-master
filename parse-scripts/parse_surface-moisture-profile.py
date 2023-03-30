@@ -253,14 +253,14 @@ def main():
             alt_HMP4[dt.datetime(2021,7,1):dt.datetime(2022,6,6,10)] = snow_height['snd'][dt.datetime(2021,7,1):dt.datetime(2022,6,6,10)] + 1.03 + 5.3 + 3.5
 
             # After 6 June 2022 raise of lower level booms
-            alt_HMP2[dt.datetime(2022,6,6,10):dt.datetime(2022,7,23,14)] = snow_height['snd'][dt.datetime(2022,6,6,10):dt.datetime(2022,7,23,14)] + 0.8
-            alt_HMP3[dt.datetime(2022,6,6,10):dt.datetime(2022,7,23,14)] = snow_height['snd'][dt.datetime(2022,6,6,10):dt.datetime(2022,7,23,14)] + 0.8 + 4.7
-            alt_HMP4[dt.datetime(2022,6,6,10):dt.datetime(2022,7,23,14)] = snow_height['snd'][dt.datetime(2022,6,6,10):dt.datetime(2022,7,23,14)] + 0.8 + 4.7 + 3.5 
+            alt_HMP2[dt.datetime(2022,6,6,10):dt.datetime(2022,7,22,14)] = snow_height['snd'][dt.datetime(2022,6,6,10):dt.datetime(2022,7,22,14)] + 0.8
+            alt_HMP3[dt.datetime(2022,6,6,10):dt.datetime(2022,7,22,14)] = snow_height['snd'][dt.datetime(2022,6,6,10):dt.datetime(2022,7,22,14)] + 0.8 + 4.7
+            alt_HMP4[dt.datetime(2022,6,6,10):dt.datetime(2022,7,22,14)] = snow_height['snd'][dt.datetime(2022,6,6,10):dt.datetime(2022,7,22,14)] + 0.8 + 4.7 + 3.5 
 
             # After 23 July 2022 raise of mid level booms and some lower adjustments
-            alt_HMP2[dt.datetime(2022,7,23,14):dt.datetime(2022,8,20,20,30)] = snow_height['snd'][dt.datetime(2022,7,23,14):dt.datetime(2022,8,20,20,30)] + 0.7
-            alt_HMP3[dt.datetime(2022,7,23,14):dt.datetime(2022,8,20,20,30)] = snow_height['snd'][dt.datetime(2022,7,23,14):dt.datetime(2022,8,20,20,30)] + 0.7 + 5.3
-            alt_HMP4[dt.datetime(2022,7,23,14):dt.datetime(2022,8,20,20,30)] = snow_height['snd'][dt.datetime(2022,7,23,14):dt.datetime(2022,8,20,20,30)] + 0.7 + 5.3 + 2.9
+            alt_HMP2[dt.datetime(2022,7,22,14):dt.datetime(2022,8,20,20,30)] = snow_height['snd'][dt.datetime(2022,7,23,14):dt.datetime(2022,8,20,20,30)] + 0.7
+            alt_HMP3[dt.datetime(2022,7,22,14):dt.datetime(2022,8,20,20,30)] = snow_height['snd'][dt.datetime(2022,7,23,14):dt.datetime(2022,8,20,20,30)] + 0.7 + 5.3
+            alt_HMP4[dt.datetime(2022,7,22,14):dt.datetime(2022,8,20,20,30)] = snow_height['snd'][dt.datetime(2022,7,23,14):dt.datetime(2022,8,20,20,30)] + 0.7 + 5.3 + 2.9
 
             # After 20 August 2022 HMP1 reinstalled 
             alt_HMP1[dt.datetime(2022,8,20,20,30):] = snow_height['snd'][dt.datetime(2022,8,20,20,30):] + 0.7
@@ -308,13 +308,13 @@ def main():
             elif start < dt.datetime(2022,6,1):                
                 base_str = 'Platform height (h0) is the top of the Met tower. HMP1 was offline between 1 July 2021 and 22 August 2022. Instrument height: HMP2=h0-9.8m, HMP3=h0-4.5m, HMP4=h0-1m , Index: [HMP1, HMP2, HMP3, HMP4]'
             elif start< dt.datetime(2022,7,1):
-                base_str = 'Platform height (h0) is the top of the Met tower. HMP1 was offline between 1 July 2021 and 22 August 2022. Instrument height: HMP2=h0-9.8m until 2022-06-06 10:00, after which it was raised to h0-9.6, HMP3=h0-4.5m, HMP4=h0-1m , Index: [HMP1, HMP2, HMP3, HMP4]'
+                base_str = 'Platform height (h0) is the top of the Met tower. HMP1 was offline between 1 July 2021 and 22 August 2022. Instrument height: HMP2=h0-9.8m until 2022-06-06 10:00, after which it was raised to h0-9.2, HMP3=h0-4.5m, HMP4=h0-1m , Index: [HMP1, HMP2, HMP3, HMP4]'
             elif start < dt.datetime(2022,8,1):
-                base_str = 'Platform height (h0) is the top of the Met tower. HMP1 was offline between 1 July 2021 and 22 August 2022. Instrument height: HMP2=h0-9.6, HMP3=h0-4.5m until 2022-07-23 1200,after which it was raised to h0-3.9m, HMP4=h0-1m , Index: [HMP1, HMP2, HMP3, HMP4]'
+                base_str = 'Platform height (h0) is the top of the Met tower. HMP1 was offline between 1 July 2021 and 22 August 2022. Instrument height: HMP2=h0-9.2, HMP3=h0-4.5m until 2022-07-22 1400,after which it was raised to h0-3.9m, HMP4=h0-1m , Index: [HMP1, HMP2, HMP3, HMP4]'
             elif start < dt.datetime(2022,9,1):
-                base_str = 'Platform height (h0) is the top of the Met tower. HMP1 was offline between 1 July 2021 and 22 August 2022. Instrument height: HMP1=h0-9.6 (installed 22 August 2022), HMP2=h0-9.6 until 22 August 2022, after which it was raised to h0-7.6m, HMP3=h0-3.9m, HMP4=h0-1m , Index: [HMP1, HMP2, HMP3, HMP4]'
+                base_str = 'Platform height (h0) is the top of the Met tower. HMP1 was offline between 1 July 2021 and 22 August 2022. Instrument height: HMP1=h0-9.2 (installed 22 August 2022), HMP2=h0-9.2 until 22 August 2022, after which it was raised to h0-7.4m, HMP3=h0-3.9m, HMP4=h0-1m , Index: [HMP1, HMP2, HMP3, HMP4]'
             else:
-                base_str = 'Platform height (h0) is the top of the Met tower. Instrument height: HMP1=h0-9.6, HMP2=h0-7.6m, HMP3=h0-3.9m, HMP4=h0-1m , Index: [HMP1, HMP2, HMP3, HMP4]'
+                base_str = 'Platform height (h0) is the top of the Met tower. Instrument height: HMP1=h0-9.2, HMP2=h0-7.4m, HMP3=h0-3.9m, HMP4=h0-1m , Index: [HMP1, HMP2, HMP3, HMP4]'
             nc.setncattr('comment', base_str)
  
     
