@@ -143,8 +143,11 @@ def main():
                 base_str = 'Platform altitude is the top of the Met tower. Instrument altitude is platform altitude minus 10.3 m. Technician log used to QC data is located here: https://github.com/heatherguy/ace-ceda-master/blob/master/qc-files/KT_bad_dates. Spectral range of sensor is 9.6 to 11.5 um.'
             elif start < dt.datetime(2022,8,1):
                 base_str = 'Platform altitude is the top of the Met tower. Instrument altitude is platform altitude minus 10.3 m until 2022-06-06 1000, after which it was raised by 1.1 m to h0-9.2. Intermittent data throughout June and July 2022 due to a damaged cable. Technician log used to QC data is located here: https://github.com/heatherguy/ace-ceda-master/blob/master/qc-files/KT_bad_dates. Spectral range of sensor is 9.6 to 11.5 um.'
+            elif start < dt.datetime(2022,9,1): 
+                base_str = 'Platform altitude is the top of the Met tower. Instrument altitude is platform altitude minus 9.2 m. Instrument reinstalled after cable repair on 20 August 2022. Technician log used to QC data is located here: https://github.com/heatherguy/ace-ceda-master/blob/master/qc-files/KT_bad_dates. Spectral range of sensor is 9.6 to 11.5 um.'
+            else:
+                base_str = 'Platform altitude is the top of the Met tower. Instrument altitude is platform altitude minus 9.2 m. Technician log used to QC data is located here: https://github.com/heatherguy/ace-ceda-master/blob/master/qc-files/KT_bad_dates. Spectral range of sensor is 9.6 to 11.5 um.'
             
-
             nc.setncattr('comment', base_str)
 
             # Close netcdf file
