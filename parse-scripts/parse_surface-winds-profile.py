@@ -196,9 +196,9 @@ def main():
             alt_4[dt.datetime(2022,6,6,10):dt.datetime(2022,7,22,14)] = snow_height['snd'][dt.datetime(2022,6,6,10):dt.datetime(2022,7,22,14)] + 0.8 + 4.7 + 3.5 
 
             # After 23 July 2022 raise of mid level booms and some lower adjustments
-            alt_1[dt.datetime(2022,7,22,14):dt.datetime(2022,8,20,20,30)] = snow_height['snd'][dt.datetime(2022,7,23,14):dt.datetime(2022,8,20,20,30)] + 0.7
-            alt_3[dt.datetime(2022,7,22,14):dt.datetime(2022,8,20,20,30)] = snow_height['snd'][dt.datetime(2022,7,23,14):dt.datetime(2022,8,20,20,30)] + 0.7 + 5.3
-            alt_4[dt.datetime(2022,7,22,14):dt.datetime(2022,8,20,20,30)] = snow_height['snd'][dt.datetime(2022,7,23,14):dt.datetime(2022,8,20,20,30)] + 0.7 + 5.3 + 2.9
+            alt_1[dt.datetime(2022,7,22,14):dt.datetime(2022,8,20,20,30)] = snow_height['snd'][dt.datetime(2022,7,22,14):dt.datetime(2022,8,20,20,30)] + 0.7
+            alt_3[dt.datetime(2022,7,22,14):dt.datetime(2022,8,20,20,30)] = snow_height['snd'][dt.datetime(2022,7,22,14):dt.datetime(2022,8,20,20,30)] + 0.7 + 5.3
+            alt_4[dt.datetime(2022,7,22,14):dt.datetime(2022,8,20,20,30)] = snow_height['snd'][dt.datetime(2022,7,22,14):dt.datetime(2022,8,20,20,30)] + 0.7 + 5.3 + 2.9
 
             # After 20 August 2022 HMP1 reinstalled 
             alt_1[dt.datetime(2022,8,20,20,30):] = snow_height['snd'][dt.datetime(2022,8,20,20,30):] + 0.7
