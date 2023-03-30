@@ -236,34 +236,32 @@ def main():
 
 
             # Calculate altitude above snow surface
+            # Initialise
+            alt_HMP1 = snow_height['snd'] * np.nan
+            alt_HMP2 = snow_height['snd'] * np.nan
+            alt_HMP3 = snow_height['snd'] * np.nan
+            alt_HMP4 = snow_height['snd'] * np.nan
             
-            if start< dt.datetime(2021,7,1):
-                alt_HMP1 = snow_height['snd'] - 0.4
-                alt_HMP2 = snow_height['snd']  + 1.03
-                alt_HMP3 = snow_height['snd'] + 1.03 + 5.3
-                alt_HMP4 = snow_height['snd'] + 1.03 + 5.3 + 3.5
-
-            elif start< dt.datetime(2022,6,1):
-                alt_HMP1 = np.ones(len(snow_height))*np.nan
-                alt_HMP2 = snow_height['snd']  + 1.03
-                alt_HMP3 = snow_height['snd'] + 1.03 + 5.3
-                alt_HMP4 = snow_height['snd'] + 1.03 + 5.3 + 3.5
-                
-            elif start< dt.datetime(2022,7,1):
-                alt_HMP1 = np.ones(len(snow_height))*np.nan
-                alt_HMP2 = snow_height['snd']  + 0.8
-                alt_HMP3 = snow_height['snd'] + 0.8 + 5.3
-                alt_HMP4 = snow_height['snd'] + 0.8 + 5.3 + 3.5 
-
-            else:
-                alt_HMP1 = snow_height['snd']  + 0.7
-                alt_HMP2 = snow_height['snd']  + 0.7 + 2.0
-                alt_HMP3 = snow_height['snd'] + 0.7 + 5.7
-                alt_HMP4 = snow_height['snd'] + 0.7 + 5.3 + 3.5
-
-
-
+            alt_HMP1[dt.datetime(2019,5,1):dt.datetime(2021,7,1)] = snow_height['snd'][dt.datetime(2019,5,1):dt.datetime(2021,7,1)] - 0.4
+            alt_HMP2[dt.datetime(2019,5,1):dt.datetime(2021,7,1)] = snow_height['snd'][dt.datetime(2019,5,1):dt.datetime(2021,7,1)] + 1.03
+            alt_HMP3[dt.datetime(2019,5,1):dt.datetime(2021,7,1)] = snow_height['snd'][dt.datetime(2019,5,1):dt.datetime(2021,7,1)] + 1.03 + 5.3
+            alt_HMP4[dt.datetime(2019,5,1):dt.datetime(2021,7,1)] = snow_height['snd'][dt.datetime(2019,5,1):dt.datetime(2021,7,1)] + 1.03 + 5.3 + 3.5
             
+            alt_HMP1[dt.datetime(2021,7,1):dt.datetime(2022,6,6,10)] = np.ones(len(snow_height))*np.nan
+            alt_HMP2[dt.datetime(2021,7,1):dt.datetime(2022,6,6,10)] = snow_height['snd'][dt.datetime(2021,7,1):dt.datetime(2022,6,6,10)] + 1.03
+            alt_HMP3[dt.datetime(2021,7,1):dt.datetime(2022,6,6,10)] = snow_height['snd'][[dt.datetime(2021,7,1):dt.datetime(2022,6,6,10)] + 1.03 + 5.3
+            alt_HMP4[dt.datetime(2021,7,1):dt.datetime(2022,6,6,10)] = snow_height['snd'][dt.datetime(2021,7,1):dt.datetime(2022,6,6,10)] + 1.03 + 5.3 + 3.5
+            
+            alt_HMP1[dt.datetime(2022,6,6,10):dt.datetime(2022,7,23,12)] = np.ones(len(snow_height))*np.nan
+            alt_HMP2[dt.datetime(2022,6,6,10):dt.datetime(2022,7,23,12)] = snow_height['snd'][dt.datetime(2022,6,6,10):dt.datetime(2022,7,23,12)]  + 0.8
+            alt_HMP3[dt.datetime(2022,6,6,10):dt.datetime(2022,7,23,12)] = snow_height['snd'][dt.datetime(2022,6,6,10):dt.datetime(2022,7,23,12)] + 0.8 + 5.3
+            alt_HMP4[dt.datetime(2022,6,6,10):dt.datetime(2022,7,23,12)] = snow_height['snd'][dt.datetime(2022,6,6,10):dt.datetime(2022,7,23,12)] + 0.8 + 5.3 + 3.5 
+            
+            alt_HMP1[dt.datetime(2022,7,23,12):] = snow_height['snd'][dt.datetime(2022,7,23,12):]  + 0.7
+            alt_HMP2[dt.datetime(2022,7,23,12):] = snow_height['snd'][dt.datetime(2022,7,23,12):]   + 0.7 + 2.0
+            alt_HMP3[dt.datetime(2022,7,23,12):] = snow_height['snd'][dt.datetime(2022,7,23,12):]  + 0.7 + 5.7
+            alt_HMP4[dt.datetime(2022,7,23,12):] = snow_height['snd'][dt.datetime(2022,7,23,12):] + 0.7 + 5.3 + 3.5
+          
             
             # Write in data
 
