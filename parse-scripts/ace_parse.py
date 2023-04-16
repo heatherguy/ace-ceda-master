@@ -736,7 +736,7 @@ def extract_biral(start,stop,dpath,save=False):
     all_files = glob.glob('*.biral')
     
     # Get start and stop filenames
-    start_f = int(start.strftime("%y%m%d"))
+    start_f = int((start-dt.timedelta(days=1)).strftime("%y%m%d"))
     stop_f = int(stop.strftime("%y%m%d"))
     
     # Extract daterange
@@ -767,8 +767,8 @@ def extract_biral(start,stop,dpath,save=False):
     # sort dates
     if len(biral_df)>0:
         resample_dates = pd.date_range(biral_df.index[0].replace(second=0,microsecond=0),biral_df.index[-1].replace(second=0,microsecond=0),freq='1min')
-        biral_df = biral_df.reindex(resample_dates,method='nearest',tolerance='30s')
         biral_df = biral_df[~biral_df.index.duplicated()]
+        biral_df = biral_df.reindex(resample_dates,method='nearest',tolerance='30s')
     else:
         print('No data')
         return biral_df
@@ -788,6 +788,10 @@ def extract_biral(start,stop,dpath,save=False):
     
     biral_df['qc']=1
     biral_df.loc[fail_self_check,'qc']=0
+    
+    # reindex to daterange
+    biral_df = biral_df.reindex(pd.date_range(start,stop,freq='1min'))
+    
     
     # Save if neccesary
     if save:
