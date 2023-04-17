@@ -63,7 +63,7 @@ def main():
     
     # check / get args:
     try:
-        in_loc,out_loc,months,years
+        in_loc,out_loc,months,years= get_args(sys.argv)
     except:
         print('Input error')
         sys.exit()
