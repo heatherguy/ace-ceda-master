@@ -112,8 +112,8 @@ def main():
             
             # Write in data
             nc.variables['present_weather_code'][:]=biral['pw'].fillna(-999).astype(int).to_numpy()
-            nc.variables['optical_range'][:] = biral['avg_vis'].to_numpy()
-            nc.variables['instantaneous_optical_range'][:]= biral['inst_vis'].to_numpy()
+            nc.variables['optical_range'][:] = biral['avg_vis'].to_numpy()*1000
+            nc.variables['instantaneous_optical_range'][:]= biral['inst_vis'].to_numpy()*1000
                 
             # qc
             # no_data = 0
