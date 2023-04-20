@@ -21,7 +21,11 @@ def NC_SpecificVariables(fn_nc, var, np):
         np:     numpy
     
     """
-    #from netCDF4 import stringtoarr
+    type_dict = {'float32': np.float32,
+             'float64': np.float64,
+             'int32'  : np.int32,
+             'byte'   : np.byte}
+    
     for i in range(0,len(var['Variable'].dropna())):
         if i+1 == len(var['Variable'].dropna()):
             att_end = var.index[-1]
@@ -30,25 +34,24 @@ def NC_SpecificVariables(fn_nc, var, np):
            
         att_list = var['Attribute'][var['Variable'].dropna().index[i]:att_end+1].dropna()
         val_list = var['Value'][att_list.index]       
-       
+    
+        varname = var['Variable'].dropna().iloc[i]
+        datatype = type_dict.get(val_list[att_list[att_list=='type'].index].to_numpy()[0])
+        dimensions = dimensions=val_list.iloc[1].split(', ')
+    
         if len(att_list[att_list=='_FillValue'])==1:
             fv=float(val_list[att_list[att_list=='_FillValue'].index])
         else:
             fv=None
        
-        varn = fn_nc.createVariable(var['Variable'].dropna().iloc[i], np.float64, val_list.iloc[1].split(', '),fill_value=fv)
-
+        varn = fn_nc.createVariable(varname,datatype,dimensions,fill_value=fv)
+        
         for j in range(0,len(att_list)):
             if att_list.iloc[j][0]=='_':
                 continue
             else:
                 if att_list.iloc[j]=='units':
                     varn.setncattr(att_list.iloc[j],str(val_list.iloc[j]))
-                    #print(att_list.iloc[j],str(val_list.iloc[j]))
-                #elif att_list.iloc[j]=='flag_values':
-                #    string_list = [int(s) for s in val_list.iloc[j].split(', ')]
-                #    varn.setncattr(att_list.iloc[j],stringtoarr(string_list,len(string_list)))
-                    #print(att_list.iloc[j],val_list.iloc[j].split(','))
                 else:
                     varn.setncattr(att_list.iloc[j],val_list.iloc[j])
                     #print(att_list.iloc[j],val_list.iloc[j])
