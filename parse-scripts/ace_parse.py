@@ -71,8 +71,16 @@ def qc_aerosol(qc_in):
     w_dloc = '/gws/nopw/j04/ncas_radar_vol1/heather/Summit_Met/met_sum_insitu_1_obop_minute_%s_%s.txt'%(sdate.year,str(sdate.month))
     try:
         met = get_NOAA_met(w_dloc)
-        qc_in['QC'][met['ws']<1]=0
-        qc_in['QC'][met['wd']>270]=0
+        # try the qc
+        # Change qc direction when aerosol instruments moved to the AWO
+        if sdate < dt.datetime(2022,7,1):
+            qc_in['QC'][ace_winds['ws']<1]=0
+            qc_in['QC'][ace_winds['wdir']>270]=0
+        else: 
+            # updated north winds criteria between 345 and 55 degrees
+            qc_in['QC'][ace_winds['ws']<1]=0
+            qc_in['QC'][ace_winds['wdir']>345]=0  
+            qc_in['QC'][ace_winds['wdir']<55]=0
     except:
         try:
             # Try to get met data from ace netcdfs
@@ -87,10 +95,17 @@ def qc_aerosol(qc_in):
             # Put in dataframe and qc
             ace_winds = pd.DataFrame({'ws':ws,'wdir':wdir,'qc':qc},index=wind_times)
             ace_winds[ace_winds['qc']!=1]=np.nan
-        
+
             # try the qc
-            qc_in['QC'][ace_winds['ws']<1]=0
-            qc_in['QC'][ace_winds['wdir']>270]=0
+            # Change qc direction when aerosol instruments moved to the AWO
+            if sdate < dt.datetime(2022,7,1):
+                qc_in['QC'][ace_winds['ws']<1]=0
+                qc_in['QC'][ace_winds['wdir']>270]=0
+            else: 
+                # updated north winds criteria between 345 and 55 degrees
+                qc_in['QC'][ace_winds['ws']<1]=0
+                qc_in['QC'][ace_winds['wdir']>345]=0  
+                qc_in['QC'][ace_winds['wdir']<55]=0
         
         except:
         
@@ -533,6 +548,90 @@ def get_clasp(d_loc,d1,d2,claspn,calfile,save=False):
     
     return
 
+def extract_pops(start,stop,dpath,save=False):
+    """
+    Extracts POPS data from Housekeeping csv files. 
+    Resamples to 1 minutely mean
+    Saves as .csv if requested
+    
+    Parameters:
+        start:     Start datetime for processing
+        stop:     Stop datetime for processing
+        dpath:  Filepath for housekeeping files
+        save:   Output directory (optional)
+    
+    """
+    os.chdir(dpath)
+    all_files = glob.glob('HK_*.csv')
+    all_files.sort()
+    file_dates = np.asarray([(dt.datetime.strptime(f[3:11], '%Y%m%d')).date() for f in all_files])
+    idxs = np.where(np.logical_and(file_dates>=start.date(), file_dates<=stop.date()))[0]
+    fils = [all_files[i] for i in idxs]
+    
+    for fil in fils:
+        print(str(fil))
+        if fil == fils[0]:
+            df = pd.read_csv(fil)
+            df['time'] = pd.to_datetime(df['DateTime'],unit='s')
+            df.set_index('time',inplace=True)
+            #df.index = df['time'].dt.round('1s')
+            df = df[~df.index.duplicated()]
+            df.sort_index(inplace=True)
+    
+            # resample to 1-minutely means 
+            new_index = pd.date_range(df.index[0].round('1min'),df.index[-1].round('1min'), freq='min')      
+            df_1min = df.resample('1min').mean()
+            df_1min = df_1min.reindex(new_index,fill_value=np.NaN)
+        else:
+            df_temp = pd.read_csv(fil)
+            df_temp['time'] = pd.to_datetime(df_temp['DateTime'],unit='s')
+            df_temp.set_index('time',inplace=True)
+            #df.index = df['time'].dt.round('1s')
+            df_temp = df_temp[~df_temp.index.duplicated()]
+            df_temp.sort_index(inplace=True)
+    
+            # resample to 1-minutely means 
+            new_index = pd.date_range(df_temp.index[0].round('1min'),df_temp.index[-1].round('1min'), freq='min')      
+            df_1min_temp = df_temp.resample('1min').mean()
+            df_1min_temp = df_1min_temp.reindex(new_index,fill_value=np.NaN)   
+            
+            df_1min = df_1min.append(df_1min_temp)
+    
+    
+    # PartCt = particle counds / s, Note this is the same as 'HistSum'
+    # PartCon = particle concentration cm-3
+    # POPS_Flow = current sample flow rate (cm3 /s)
+    # LD_Mon = Laser diode output power mointor
+    # BatV = Battery DV power voltage
+    # Bins: b0 .... nbins
+    
+    df_1min  = df_1min[~df_1min.index.duplicated()]
+    df_1min.sort_index(inplace=True)
+
+    nbins = list(set(df_1min['nbins'].dropna()))
+    if len(nbins)!=1: 
+        print('Caution, bin length changed.')
+    
+    data_keys = ['b%s'%int(s) for s in np.arange(0,nbins[0])]
+    data = df_1min[data_keys]
+    total_conc = df_1min['PartCon']
+  
+    # QC for winds/ flight days
+    df_1min = qc_aerosol(df_1min)
+    data = qc_aerosol(data)
+
+    # QC for params
+    # Currently not implemented.
+    # flow qc
+    # if pops flow rate < 2 cm3 s-1 mark as suspect
+    df_1min.loc
+    
+    
+    # Save if neccessary
+    if save: 
+        df_1min.to_csv(save+'POPS_%s'%(str(d1.date())))
+
+    return df_1min, data, total_conc
 
 
 
