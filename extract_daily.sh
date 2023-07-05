@@ -68,8 +68,8 @@ while [ "$flux_extract_date" != "$today" ]; do
     	else
     		echo "can't find fluxtower file"
     	fi
-    flux_extract_date=$(date -d "$flux_extract_date + 1 day" '+%y%m%d')
     fi
+    flux_extract_date=$(date -d "$flux_extract_date + 1 day" '+%y%m%d')
 done
 
 while [ "$ace_extract_date" != "$today" ]; do
@@ -105,6 +105,6 @@ while [ "$ace_extract_date" != "$today" ]; do
     	else
     		echo "can't find ace file"
     	fi
-    ace_extract_date=$(date -d "$ace_extract_date + 1 day" '+%y%m%d')
 	fi
+	ace_extract_date=$(date -d "$ace_extract_date + 1 day" '+%y%m%d')
 done
