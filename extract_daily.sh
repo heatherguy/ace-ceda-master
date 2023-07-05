@@ -64,7 +64,6 @@ while [ "$flux_extract_date" < "$today" ]; do
 			mv /gws/nopw/j04/ncas_radar_vol1/heather/extracted/*.ventus* /gws/nopw/j04/ncas_radar_vol1/heather/extracted/ventus/
 			mv /gws/nopw/j04/ncas_radar_vol1/heather/extracted/*.simba /gws/nopw/j04/ncas_radar_vol1/heather/extracted/simba/
 			echo  "$flux_extract_date" >> /gws/nopw/j04/ncas_radar_vol1/heather/logs/fluxtower_extract_list.log
-    		flux_extract_date=$(date -d "$flux_extract_date + 1 day" '+%y%m%d')
     	else
     		echo "can't find fluxtower file"
     	fi
