@@ -33,27 +33,27 @@ while [ "$flux_extract_date" != "$today" ]; do
 	else
     	echo "Trying to run fluxtower extract..."
 
-    	if test -f "/gws/nopw/j04/ncas_radar_vol1/heather/fluxtower_temp/"$extract_date"_fluxtower.tar.gz"; then
+    	if test -f "/gws/nopw/j04/ncas_radar_vol1/heather/fluxtower_temp/"$flux_extract_date"_fluxtower.tar.gz"; then
   			echo 'Extracting SnD'
-			python tar_extract.py $extract_date $extract_date $raw_dir_flux $extract_dir 'SnD'
+			python tar_extract.py $flux_extract_date $flux_extract_date $raw_dir_flux $extract_dir 'SnD'
 
 			echo 'Extracting HMP'
-			python tar_extract.py $extract_date $extract_date $raw_dir_flux $extract_dir 'HMP'
+			python tar_extract.py $flux_extract_date $flux_extract_date $raw_dir_flux $extract_dir 'HMP'
 
 			echo 'Extracting KT'
-			python tar_extract.py $extract_date $extract_date $raw_dir_flux $extract_dir 'KT'
+			python tar_extract.py $flux_extract_date $flux_extract_date $raw_dir_flux $extract_dir 'KT'
 
 			echo 'Extracting licor'
-			python tar_extract.py $extract_date $extract_date $raw_dir_flux $extract_dir 'licor'
+			python tar_extract.py $flux_extract_date $flux_extract_date $raw_dir_flux $extract_dir 'licor'
 
 			echo 'Extracting metek'
-			python tar_extract.py $extract_date $extract_date $raw_dir_flux $extract_dir 'metek'
+			python tar_extract.py $flux_extract_date $flux_extract_date $raw_dir_flux $extract_dir 'metek'
 
 			echo 'Extracting ventus'
-			python tar_extract.py $extract_date $extract_date $raw_dir_flux $extract_dir 'ventus'
+			python tar_extract.py $flux_extract_date $flux_extract_date $raw_dir_flux $extract_dir 'ventus'
 
 			echo 'Extracting simba'
-			python tar_extract.py $extract_date $extract_date $raw_dir_flux $extract_dir 'simba'
+			python tar_extract.py $flux_extract_date $flux_extract_date $raw_dir_flux $extract_dir 'simba'
 
 			echo 'Moving data into appropriate directories...'
 			mv /gws/nopw/j04/ncas_radar_vol1/heather/extracted/*.SnD /gws/nopw/j04/ncas_radar_vol1/heather/extracted/SnD/
@@ -80,18 +80,18 @@ while [ "$ace_extract_date" != "$today" ]; do
     	echo "File already processed"
 	else
     	echo "Trying to run ace extract..."
-    	if test -f "/gws/nopw/j04/ncas_radar_vol1/heather/fluxtower_temp/"$extract_date"_ACE.tgz"; then
+    	if test -f "/gws/nopw/j04/ncas_radar_vol1/heather/fluxtower_temp/"$ace_extract_date"_ACE.tgz"; then
 			echo 'Extracting SKYOPC'
-			python tar_extract.py $extract_date $extract_date $raw_dir_ace $extract_dir 'skyopc'
+			python tar_extract.py $ace_extract_date $ace_extract_date $raw_dir_ace $extract_dir 'skyopc'
 
 			echo 'Extracting tawo-opc'
-			python tar_extract.py $extract_date $extract_date $raw_dir_ace $extract_dir 'TAWO_AQRPI8_OPCN3'
+			python tar_extract.py $ace_extract_date $ace_extract_date $raw_dir_ace $extract_dir 'TAWO_AQRPI8_OPCN3'
 
 			echo 'Extracting biral'
-			python tar_extract.py $extract_date $extract_date $raw_dir_ace $extract_dir 'biral'
+			python tar_extract.py $ace_extract_date $ace_extract_date $raw_dir_ace $extract_dir 'biral'
 
 			echo 'Extracting pops'
-			python tar_extract.py $extract_date $extract_date $raw_dir_ace $extract_dir 'F20'
+			python tar_extract.py $ace_extract_date $ace_extract_date $raw_dir_ace $extract_dir 'F20'
 
 			echo 'Moving data into appropriate directories...'
 			mv /gws/nopw/j04/ncas_radar_vol1/heather/extracted/*.skyopc /gws/nopw/j04/ncas_radar_vol1/heather/extracted/SKYOPC/
