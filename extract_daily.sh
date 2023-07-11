@@ -24,7 +24,7 @@ raw_dir_flux='/gws/nopw/j04/ncas_radar_vol1/heather/fluxtower_temp/'
 raw_dir_ace='/gws/nopw/j04/ncas_radar_vol1/heather/fluxtower_temp/'
 extract_dir='/gws/nopw/j04/ncas_radar_vol1/heather/extracted/'
 
-while [ "$flux_extract_date" < "$today" ]; do
+while [ "$flux_extract_date" -lt "$today" ]; do
     echo "$flux_extract_date"
     # If date is not in log file, then run extract
 	if grep -Fx "$flux_extract_date" /gws/nopw/j04/ncas_radar_vol1/heather/logs/fluxtower_extract_list.log
@@ -71,7 +71,7 @@ while [ "$flux_extract_date" < "$today" ]; do
     flux_extract_date=$(date -d "$flux_extract_date + 1 day" '+%y%m%d')
 done
 
-while [ "$ace_extract_date" < "$today" ]; do
+while [ "$ace_extract_date" -lt "$today" ]; do
     echo "$ace_extract_date"
     # If date is not in log file, then run extract
 	if grep -Fx "$ace_extract_date" /gws/nopw/j04/ncas_radar_vol1/heather/logs/ace_extract_list.log
