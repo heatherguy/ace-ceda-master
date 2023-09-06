@@ -146,7 +146,9 @@ def main():
             continue
         
         # Get HMP 2m T data
-        if day >= dt.datetime(2021,7,1):
+        
+        # HMP1 offline between 1 July 2021 and 20 August 2022, use HMP2
+        if (day >= dt.datetime(2021,7,1)) & (day <= dt.datetime(2022,8,20)):
             if os.path.isfile(in_loc+'HMP/HMP2_%s'%day_str):
                 HMP1 = pd.read_csv(in_loc+'HMP/HMP2_%s'%day_str, index_col=0, parse_dates=[0])
                 # Crop to date, time
@@ -154,7 +156,7 @@ def main():
             else:
                 print('Error: HMP File empty, '+day_str)
                 continue 
-
+        
         else:
             if os.path.isfile(in_loc+'HMP/HMP1_%s'%day_str):
                 HMP1 = pd.read_csv(in_loc+'HMP/HMP1_%s'%day_str, index_col=0, parse_dates=[0])
