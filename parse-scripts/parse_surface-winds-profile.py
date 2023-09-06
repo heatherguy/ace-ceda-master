@@ -297,7 +297,7 @@ def main():
             elif start < dt.datetime(2022,9,1):
                 base_str = 'Platform height (h0) is the top of the Met tower. V1 was offline between 1 July 2021 and 22 August 2022. V2 was offline after 28 Jan 2022. Instrument height: M1=h0-9.2, v1=h0-7.4m (reinstalled 22 August 2022), v2=h0-3.9m, HMP4=h0-1m , Index: [M1, V1, V2, M2]'
             else:
-                base_str = 'Platform height (h0) is the top of the Met tower. Instrument height: M11=h0-9.2, V1=h0-7.4m, V2=h0-3.9m, M2=h0-1m , Index: [M1, V1, V2, M2]'
+                base_str = 'Platform height (h0) is the top of the Met tower. V2 was offline between  28 Jan 2022 and 07 August 2023. Instrument height: M11=h0-9.2, V1=h0-7.4m, V2=h0-3.9m, M2=h0-1m , Index: [M1, V1, V2, M2]'
             nc.setncattr('comment', base_str)
 
             nc.setncattr('comment', base_str)
