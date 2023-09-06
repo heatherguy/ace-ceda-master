@@ -130,7 +130,7 @@ def main():
                 meta_f = '/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/metadata/flux_metadata_level1_%smin_June2022.xlsx'%(avp)
                 meta = pd.read_excel(meta_f)
             if level==2:
-                meta_f = '/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/metadata/flux_metadata_level1_%smin_June2022.xlsx'%(avp)
+                meta_f = '/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/metadata/flux_metadata_level2_%smin_June2022.xlsx'%(avp)
                 meta = pd.read_excel(meta_f)
 
         # Get the 3D sonic data
