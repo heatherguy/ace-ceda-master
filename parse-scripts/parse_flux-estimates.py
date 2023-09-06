@@ -124,6 +124,14 @@ def main():
                 meta_f = '/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/metadata/flux_metadata_level1_%smin_July2021.xlsx'%(avp)
                 meta = pd.read_excel(meta_f)
 
+        # Update meta data for after 2022 raise
+        if day >= dt.datetime(2022,6,6):
+            if level==1:
+                meta_f = '/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/metadata/flux_metadata_level1_%smin_June2022.xlsx'%(avp)
+                meta = pd.read_excel(meta_f)
+            if level==2:
+                meta_f = '/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/metadata/flux_metadata_level1_%smin_June2022.xlsx'%(avp)
+                meta = pd.read_excel(meta_f)
 
         # Get the 3D sonic data
 
@@ -708,7 +716,7 @@ def main():
             valminmax(nc_est,'momentum_flux_u', np.float32(- rho * wprimeuprimebar)) 
             nc_est.variables['momentum_flux_v'][i]  = np.float32(- rho * wprimevprimebar)
             valminmax(nc_est,'momentum_flux_v', np.float32(- rho * wprimevprimebar)) 
-         
+
         # Close netcdf files
         
         nc_est.close()
