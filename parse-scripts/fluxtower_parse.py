@@ -799,7 +799,7 @@ def extract_licor_data(start,stop,dpath,save=False):
             pll.append(int(binar[2]))
             sync.append(int(binar[3]))
             agc_temp = binar[4:]
-            agc.append(int(agc_temp, 3)* 6.25)
+            agc.append(int(agc_temp, 2)* 6.25)
     
         licor['chopper']=chopper
         licor['detector']=detector
