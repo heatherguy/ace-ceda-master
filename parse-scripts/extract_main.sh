@@ -11,13 +11,13 @@ source /home/users/guyh/miniconda3/etc/profile.d/conda.sh
 conda activate guyh
 
 # Extract data files from .raw
-ext_start='220820'
-ext_stop='220920'
+ext_start='220801'
+ext_stop='220915'
 
-raw_dir_flux='/gws/nopw/j04/ncas_radar_vol2/data/ICECAPSarchive/fluxtower/raw/'
+raw_dir_flux='/gws/nopw/j04/icecaps/ICECAPSarchive/fluxtower/raw/'
 #raw_dir_flux='/gws/nopw/j04/ncas_radar_vol1/heather/fluxtower_temp/'
 
-raw_dir_ace='/gws/nopw/j04/ncas_radar_vol2/data/ICECAPSarchive/ace/raw/'
+raw_dir_ace='/gws/nopw/j04/icecaps/ICECAPSarchive/ace/raw/'
 extract_dir='/gws/nopw/j04/ncas_radar_vol1/heather/extracted/'
 
 
@@ -27,8 +27,8 @@ extract_dir='/gws/nopw/j04/ncas_radar_vol1/heather/extracted/'
 #echo 'Extracting HMP'
 #python tar_extract.py $ext_start $ext_stop $raw_dir_flux $extract_dir 'HMP'
 
-#echo 'Extracting KT'
-#python tar_extract.py $ext_start $ext_stop $raw_dir_flux $extract_dir 'KT'
+echo 'Extracting KT'
+python tar_extract.py $ext_start $ext_stop $raw_dir_flux $extract_dir 'KT'
 
 #echo 'Extracting CPC'
 #python tar_extract.py $ext_start $ext_stop $raw_dir_ace $extract_dir 'CPC'
