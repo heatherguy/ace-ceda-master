@@ -138,14 +138,18 @@ def main():
                 # / note accordingly
                 
                 # Get last measured value
-                all_files = sorted(glob.glob(in_loc+'processed/SnD/*'))
-                try_fil = -1
+                all_files = sorted(glob.glob(in_loc+'processed/SnD/snd_*'))
+                # crop all files to most recent from start
+                dates = [dt.datetime.strptime(fil[-10:],'%Y-%m-%d') for fil in all_files]
+                c=1
+                try_date = np.asarray(dates)[np.asarray(dates)<start][-c]
+                try_fil = in_loc+'processed/SnD/snd_%s'%(dt.datetime.strftime(try_date,'%Y-%m-%d'))
                 while os.path.getsize(all_files[try_fil])==0:
-                    try_fil=try_fil-1
+                    c=c+1
+                    try_date = np.asarray(dates)[np.asarray(dates)<start][-c]
+                    try_fil = in_loc+'processed/SnD/snd_%s'%(dt.datetime.strftime(try_date,'%Y-%m-%d'))
                     
-                last_file = all_files[try_fil]
-                last_file_date = dt.datetime.strptime(last_file[-10:],'%Y-%m-%d')
-                with open(last_file,mode='r') as f:
+                with open(try_fil,mode='r') as f:
                     dats = f.readlines()
                 
                 last_depth = float(dats[-1].split(',')[-1][:-2])
@@ -175,7 +179,7 @@ def main():
             if len(snd)!=0:   
                 nc.setncattr('comment', base_str)
             else:
-                new_str = 'NOTE: QC flag 4, data corresponds to last available data collected on %s .'%str(last_file_date.date())
+                new_str = 'NOTE: QC flag 4, data corresponds to last available data collected on %s .'%str(try_date.date())
                 nc.setncattr('comment', new_str+base_str)
     
             # Close netcdf file
