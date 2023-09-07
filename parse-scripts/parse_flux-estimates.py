@@ -264,14 +264,14 @@ def main():
             # After 1 July 2021 tower raise
             m_rot['height'][dt.datetime(2019,7,1):dt.datetime(2022,6,6,10)] =snd['depth_Tcorrected'].reindex(m_rot.index,method='nearest')[dt.datetime(2019,7,1):dt.datetime(2022,6,6,10)] + 1.03
             # 6 june 2022 raise of lower level booms
-            m_rot['height'][dt.datetime(2022,6,6,10):dt.datetime(2022,7,22,14)] =snd['depth_Tcorrected'].reindex(m_rot.index,method='nearest')dt.datetime(2022,6,6,10):dt.datetime(2022,7,22,14)] + 0.8
+            m_rot['height'][dt.datetime(2022,6,6,10):dt.datetime(2022,7,22,14)] =snd['depth_Tcorrected'].reindex(m_rot.index,method='nearest')[dt.datetime(2022,6,6,10):dt.datetime(2022,7,22,14)] + 0.8
             # 23 july 2022 raise of mid level booms and some lower level adjustments
             m_rot['height'][dt.datetime(2022,7,22,14):dt.datetime(2022,8,20,20,30)] =snd['depth_Tcorrected'].reindex(m_rot.index,method='nearest')[dt.datetime(2022,7,22,14):dt.datetime(2022,8,20,20,30)] + 0.7
             
         elif level==2:
             m_rot['height'][dt.datetime(2019,5,1):dt.datetime(2022,6,6,10)] =snd['depth_Tcorrected'].reindex(m_rot.index,method='nearest')[dt.datetime(2019,5,1):dt.datetime(2022,6,6,10)] + 1.03 + 5.3 + 3.5
             # 6 june 2022 raise of lower level booms
-            m_rot['height'][dt.datetime(2022,6,6,10):dt.datetime(2022,7,22,14)] =snd['depth_Tcorrected'].reindex(m_rot.index,method='nearest')dt.datetime(2022,6,6,10):dt.datetime(2022,7,22,14)] + 0.8 + 4.7 + 3.5 
+            m_rot['height'][dt.datetime(2022,6,6,10):dt.datetime(2022,7,22,14)] =snd['depth_Tcorrected'].reindex(m_rot.index,method='nearest')[dt.datetime(2022,6,6,10):dt.datetime(2022,7,22,14)] + 0.8 + 4.7 + 3.5 
             # 23 july 2022 raise of mid level booms and some lower level adjustments
             m_rot['height'][dt.datetime(2022,7,22,14):dt.datetime(2022,8,20,20,30)] =snd['depth_Tcorrected'].reindex(m_rot.index,method='nearest')[dt.datetime(2022,7,22,14):dt.datetime(2022,8,20,20,30)] + 0.7 + 5.3 + 2.9
        
