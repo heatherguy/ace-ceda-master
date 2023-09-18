@@ -216,6 +216,7 @@ def extract_snd_data(start,stop,dpath,hmp_dpath,save=False):
         except:
             print('Data error with: '+f+' \n')
             continue
+        
         good_lines = [y for y in dat_lines if len(y)==48]
         date =[]
         x=[]
@@ -242,10 +243,10 @@ def extract_snd_data(start,stop,dpath,hmp_dpath,save=False):
         snd = snd[~snd.index.duplicated()]
 
         # Check diagnostic tests pass.
-        snd['depth'][snd['V'].astype(int)!=11]=np.nan
+        snd['depth'][pd.to_numeric(snd['V'],errors='coerce')!=11]=np.nan
 
         # Check data quality
-        snd['Q'] = snd['Q'].astype(int)
+        snd['Q'] = pd.to_numeric(snd['Q'],errors='coerce')
         snd['depth'][snd['Q']<151]=np.nan
         snd['depth']=replace_outliers(snd['depth'],snd['depth'].std())
         
