@@ -189,7 +189,7 @@ def main():
                 snd = pd.DataFrame(index=HMP1.index,columns=snd1.columns)
                 snd['depth_Tcorrected']= snd1['depth_Tcorrected'].mean()
                 snd_flag=0
-            elif dt.datetime(2022,8,3)  <= day <= dt.datetime(2022,8,21):
+            elif dt.datetime(2022,7,25)  <= day <= dt.datetime(2022,8,21):
                 print('Using SnD data from August 2nd 2022')
                 snd1 = pd.read_csv(in_loc+'SnD/snd_2022-08-02', index_col=0, parse_dates=[0])
                 snd = pd.DataFrame(index=HMP1.index,columns=snd1.columns)
