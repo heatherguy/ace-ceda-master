@@ -392,9 +392,9 @@ def flux_devel_test(itc_w,sst):
             3 = Highly suspect data
     """    
     # Check for nan's
-    if np.isnan(sst) or np.isnan(itc_w):
-        QC = np.nan
-    elif itc_w < 0 or sst < 0:
+    #if np.isnan(sst) or np.isnan(itc_w):
+    #    QC = np.nan
+    if itc_w < 0 or sst < 0:
         QC = 0
     elif itc_w <=75 and sst <=30:
         QC = 1
