@@ -267,6 +267,8 @@ def main():
             m_rot['height'][dt.datetime(2022,6,6,10):dt.datetime(2022,7,22,14)] =snd['depth_Tcorrected'].reindex(m_rot.index,method='nearest')[dt.datetime(2022,6,6,10):dt.datetime(2022,7,22,14)] + 0.8
             # 23 july 2022 raise of mid level booms and some lower level adjustments
             m_rot['height'][dt.datetime(2022,7,22,14):dt.datetime(2022,8,20,20,30)] =snd['depth_Tcorrected'].reindex(m_rot.index,method='nearest')[dt.datetime(2022,7,22,14):dt.datetime(2022,8,20,20,30)] + 0.7
+            # After 20 August 2022 HMP1 reinstalled
+            m_rot['height'][dt.datetime(2022,8,20,20,30):dt.datetime(2023,7,31)] =snd['depth_Tcorrected'].reindex(m_rot.index,method='nearest')[dt.datetime(2022,8,20,20,30):dt.datetime(2023,7,31)] + 0.7
             
         elif level==2:
             m_rot['height'][dt.datetime(2019,5,1):dt.datetime(2022,6,6,10)] =snd['depth_Tcorrected'].reindex(m_rot.index,method='nearest')[dt.datetime(2019,5,1):dt.datetime(2022,6,6,10)] + 1.03 + 5.3 + 3.5
@@ -274,6 +276,10 @@ def main():
             m_rot['height'][dt.datetime(2022,6,6,10):dt.datetime(2022,7,22,14)] =snd['depth_Tcorrected'].reindex(m_rot.index,method='nearest')[dt.datetime(2022,6,6,10):dt.datetime(2022,7,22,14)] + 0.8 + 4.7 + 3.5 
             # 23 july 2022 raise of mid level booms and some lower level adjustments
             m_rot['height'][dt.datetime(2022,7,22,14):dt.datetime(2022,8,20,20,30)] =snd['depth_Tcorrected'].reindex(m_rot.index,method='nearest')[dt.datetime(2022,7,22,14):dt.datetime(2022,8,20,20,30)] + 0.7 + 5.3 + 2.9
+            # After 20 August 2022 HMP1 reinstalled
+            m_rot['height'][dt.datetime(2022,8,20,20,30):dt.datetime(2023,7,31)] =snd['depth_Tcorrected'].reindex(m_rot.index,method='nearest')[dt.datetime(2022,8,20,20,30):dt.datetime(2023,7,31)] + 0.7 + 1.8 + 3.5 + 2.9
+
+            
        
         Nconc = licor['H2OD']      # H2O number concentration from licor, mol/m3
         m_rot['Nconc']=Nconc
