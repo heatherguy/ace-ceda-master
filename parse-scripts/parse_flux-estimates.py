@@ -106,7 +106,7 @@ def main():
 
     # Days to loop through
     days = pd.date_range(start,stop,freq='1D')
-    m = avp * 60 * 10 # Sample length of interval
+    m = avp * 60 * sf # Sample length of interval
     # Make sure m is even
     m=np.fix(m/2)*2
     #df = sf/m                    # Frequency intervals
@@ -328,6 +328,10 @@ def main():
             k=keys[i]
             try:
                 m = m_g.get_group(k)
+                # reindex to cover the entire period and fill with nans
+                nidx=pd.date_range(k, k+dt.timedelta(minutes=avp),freq='%sms'%(sf*10))[:-1]
+                m = m.reindex(nidx,method='nearest',limit=1,tolerance=dt.timedelta(seconds=(sf/2) /100))
+                
             except:
                 # If this part of the file is missing, skip all. 
                 continue
