@@ -149,6 +149,7 @@ def main():
         if os.path.isfile(in_loc+'licor/licor_%s'%day_str):
             licor = pd.read_csv(in_loc+'licor/licor_%s'%day_str, index_col=0, parse_dates=[0])
             licor[licor['QC']!=1]=np.nan
+            licor = licor[~licor.index.duplicated()]
         else:
             print('Error: Licor File empty, '+day_str)
             continue
