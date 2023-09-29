@@ -194,7 +194,7 @@ def main():
                 snd1 = pd.read_csv(in_loc+'SnD/snd_2022-08-21', index_col=0, parse_dates=[0])
                 snd = pd.DataFrame(index=HMP1.index,columns=snd1.columns)
                 snd['depth_Tcorrected']= snd1['depth_Tcorrected'].mean()
-                snd_flag=0
+                snd_flag=-1
                 
             else:
                 continue
@@ -235,7 +235,11 @@ def main():
             base_str2 = nc_comp.__getattribute__('comment')       
             nc_est.setncattr('comment', base_str1 + ' NOTE: No snow height data available, heights above surface based on measurements from 2020-04-20')
             nc_comp.setncattr('comment', base_str2 + ' NOTE: No snow height data available, heights above surface based on measurements from 2020-04-20')
-        
+        elif snd_flag==-1:
+            base_str1 = nc_est.__getattribute__('comment')
+            base_str2 = nc_comp.__getattribute__('comment')
+            nc_est.setncattr('comment', base_str1 + ' NOTE: No snow height data available, heights above surface based on measurements from 2022-08-22')
+            nc_comp.setncattr('comment', base_str2 + ' NOTE: No snow height data available, heights above surface based on measurements from 2022-08-22')
         
         # Clean metek data 
 
