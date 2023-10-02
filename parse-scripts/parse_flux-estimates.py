@@ -207,7 +207,13 @@ def main():
         f1 = 'ace-flux-%s'%level #instrument name
         f2 = 'summit' #platform name  
         f3 = dt.datetime.strftime(day,'%Y%m%d')
-        f5 = "v1" #version number
+
+        # When re-running june 2019 to june 2022 with corrected licor qc, change to v2
+        if day<dt.datetime(2022,6,1):
+            f5="v2"
+        else:
+            f5 = "v1" #version number
+        
         f6 = ".nc"
         fn_components = out_loc + 'flux-components/' + f1 + chr(95) + f2 + chr(95) + f3 + chr(95) + 'flux-components' + chr(95) + '%smin'%avp + chr(95) + f5 + f6
         fn_estimates = out_loc + 'flux-estimates/' + f1 + chr(95) + f2 + chr(95) + f3 + chr(95) + 'flux-estimates' + chr(95) + '%smin'%avp + chr(95) + f5 + f6
@@ -241,7 +247,12 @@ def main():
             base_str2 = nc_comp.__getattribute__('comment')
             nc_est.setncattr('comment', base_str1 + ' NOTE: No snow height data available, heights above surface based on measurements from 2022-08-22')
             nc_comp.setncattr('comment', base_str2 + ' NOTE: No snow height data available, heights above surface based on measurements from 2022-08-22')
-        
+
+        # Modify product version for updated licor qc
+        if day<dt.datetime(2022,6,1):
+            nc_est.setncattr('product_version', "v2.0")
+            nc_comp.setncattr('product_version', "v2.0")
+
         # Clean metek data 
 
         m1 = clean_metek(m1_orig)
