@@ -182,9 +182,15 @@ def extract_skyopc(start,stop,dpath,qcf,save=False):
     
     """
     os.chdir(dpath)                  # Change directory to where the data is
-    all_files = glob.glob('*SKYOPC*')
-    file_dates = np.asarray([(dt.datetime.strptime(f[-14:-4], '%Y-%m-%d')).date() for f in all_files])
-    idxs = np.where(np.logical_and(file_dates>=start.date(), file_dates<=stop.date()))[0]
+    if start<dt.datetime(2022,8,1):
+        all_files = glob.glob('*SKYOPC*')
+        file_dates = np.asarray([(dt.datetime.strptime(f[-14:-4], '%Y-%m-%d')).date() for f in all_files])
+        idxs = np.where(np.logical_and(file_dates>=start.date(), file_dates<=stop.date()))[0]
+    else:
+        all_files = glob.glob('*skyopc*')
+        file_dates = np.asarray([(dt.datetime.strptime(f[0:9], '%Y%m%d_%H')) for f in all_files])
+        idxs = np.where(np.logical_and(file_dates>=start, file_dates<=stop))[0]
+
     dfs = [all_files[i] for i in idxs]
     c=np.nan
     skyopc = pd.DataFrame()
@@ -199,6 +205,9 @@ def extract_skyopc(start,stop,dpath,qcf,save=False):
         f_data.close()
         for i in range(0,len(d)):
             line=d[i].split()
+            if start< dt.datetime(2022,8,1):
+                line = line[6:]
+                
             if line[0] =='P':
                 if len(line)!=17:
                     c=0
