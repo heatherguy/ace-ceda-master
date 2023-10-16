@@ -165,32 +165,24 @@ def extract_cpc(start,stop,dpath,save=False):
     return
 
 
-def extract_skyopc(start,stop,dpath,qcf,save=False):
+def extract_skyopc(start,stop,dpath,save=False):
     """
     Extracts skyopc data from raw output. 
     QC's for bad data. 
     resamples to 1 minutely mean
-    Corrects for inlet loss
     Saves as .csv if requested
     
     Parameters:
         start: Start datetime for processing
         stop:  Stop datetime for processing
         dpath: Raw data filepath
-        qcf: path to file to use for inlet loss correction
         save:  Output directory (optional)
     
     """
     os.chdir(dpath)                  # Change directory to where the data is
-    if start<dt.datetime(2022,8,1):
-        all_files = glob.glob('*SKYOPC*')
-        file_dates = np.asarray([(dt.datetime.strptime(f[-14:-4], '%Y-%m-%d')).date() for f in all_files])
-        idxs = np.where(np.logical_and(file_dates>=start.date(), file_dates<=stop.date()))[0]
-    else:
-        all_files = glob.glob('*skyopc*')
-        file_dates = np.asarray([(dt.datetime.strptime(f[0:9], '%Y%m%d_%H')) for f in all_files])
-        idxs = np.where(np.logical_and(file_dates>=start, file_dates<=stop))[0]
-
+    all_files = glob.glob('*skyopc')
+    file_dates = np.asarray([(dt.datetime.strptime(f[0:9], '%y%m%d_%H')) for f in all_files])
+    idxs = np.where(np.logical_and(file_dates>=start, file_dates<=stop))[0]
     dfs = [all_files[i] for i in idxs]
     c=np.nan
     skyopc = pd.DataFrame()
@@ -205,143 +197,129 @@ def extract_skyopc(start,stop,dpath,qcf,save=False):
         f_data.close()
         for i in range(0,len(d)):
             line=d[i].split()
-            if start< dt.datetime(2022,8,1):
-                line = line[6:]
-                
-            if line[0] =='P':
-                if len(line)!=17:
+            if line[0+6] =='P':
+                if len(line)!=17+6:
                     c=0
                     datetime=np.nan
                     continue
                 #Year Mon Day Hr Min Loc 4Tmp Err pA/p pR/p UeL Ue4 Ue3 Ue2 Ue1 Iv 
-                datetime = dt.datetime(int(line[1])+2000,int(line[2]),int(line[3]),int(line[4]),int(line[5]))
+                datetime = dt.datetime(int(line[1+6])+2000,int(line[2+6]),int(line[3+6]),int(line[4+6]),int(line[5+6]))
                 #datetime = dt.datetime.strptime('20'+line[1]+line[2]+line[3]+line[4]+line[5],'%Y%m%d%H%M')
-                quad_Tmp = int(line[7])
-                Err = int(line[8])
-                pAp = int(line[9])
-                pRp = int(line[10])
-                Int = int(line[16])
+                quad_Tmp = int(line[7+6])
+                Err = int(line[8+6])
+                pAp = int(line[9+6])
+                pRp = int(line[10+6])
+                Int = int(line[16+6])
                 c=0
             
-            elif len(line)!=9:
+            elif len(line)!=9+6:
                 continue
-
+                
             elif c==0: 
-                ch1=int(line[1])
-                ch2=int(line[2])
-                ch3=int(line[3])
-                ch4=int(line[4])
-                ch5=int(line[5])
-                ch6=int(line[6])
-                ch7=int(line[7])
-                ch8=int(line[8])
+                ch1=int(line[1+6])
+                ch2=int(line[2+6])
+                ch3=int(line[3+6])
+                ch4=int(line[4+6])
+                ch5=int(line[5+6])
+                ch6=int(line[6+6])
+                ch7=int(line[7+6])
+                ch8=int(line[8+6])
                 c = c+1    
             elif c ==1:
-                ch9=int(line[1])
-                ch10=int(line[2])
-                ch11=int(line[3])
-                ch12=int(line[4])
-                ch13=int(line[5])
-                ch14=int(line[6])
-                ch15=int(line[7])
-                ch16=int(line[8])
+                ch9=int(line[1+6])
+                ch10=int(line[2+6])
+                ch11=int(line[3+6])
+                ch12=int(line[4+6])
+                ch13=int(line[5+6])
+                ch14=int(line[6+6])
+                ch15=int(line[7+6])
+                ch16=int(line[8+6])
                 c = c+1
             elif c == 2:
-                ch17=int(line[1])
-                ch18=int(line[2])
-                ch19=int(line[3])
-                ch20=int(line[4])
-                ch21=int(line[5])
-                ch22=int(line[6])
-                ch23=int(line[7])
-                ch24 =int(line[8])
+                ch17=int(line[1+6])
+                ch18=int(line[2+6])
+                ch19=int(line[3+6])
+                ch20=int(line[4+6])
+                ch21=int(line[5+6])
+                ch22=int(line[6+6])
+                ch23=int(line[7+6])
+                ch24 =int(line[8+6])
                 c= c+1
             elif c==3:
-                ch25=int(line[1])
-                ch26=int(line[2])
-                ch27=int(line[3])
-                ch28=int(line[4])
-                ch29=int(line[5])
-                ch30=int(line[6])
-                ch31=int(line[7])
-                ch32=int(line[8])
+                ch25=int(line[1+6])
+                ch26=int(line[2+6])
+                ch27=int(line[3+6])
+                ch28=int(line[4+6])
+                ch29=int(line[5+6])
+                ch30=int(line[6+6])
+                ch31=int(line[7+6])
+                ch32=int(line[8+6])
                 c = 0
-                n = int(line[0][-2])
+                n = int(line[0+6][-2])
                 if isinstance(datetime,dt.datetime):
                     skyopc = skyopc.append(pd.Series([datetime+dt.timedelta(seconds=n*6), ch1, ch2, ch3, ch4, ch5, ch6, ch7, ch8, ch9, ch10, ch11, ch12, ch13, ch14, ch15, ch16, ch17, ch18, ch19, ch20, ch21, ch22, ch23, ch24, ch25, ch26, ch27, ch28, ch29, ch30, ch31, ch32, quad_Tmp,Err,pAp,pRp,Int]),ignore_index=True)
 
     #try: 
         # remove repeated channel 16
-        del skyopc[16]
+    del skyopc[16]
         # Correct counts for size bins 'all counts above lower threshold.'        
-        for i in range(2,16):
-            skyopc[i-1]=skyopc[i-1]-skyopc[i]
-        for i in range(18,33):
-            skyopc[i-1]=skyopc[i-1]-skyopc[i]
+    for i in range(2,16):
+        skyopc[i-1]=skyopc[i-1]-skyopc[i]
+    for i in range(18,33):
+        skyopc[i-1]=skyopc[i-1]-skyopc[i]
     
-        skyopc=skyopc.rename(columns={0: 'Date',1:'ch1' ,2: 'ch2', 3: 'ch3',4: 'ch4',5: 'ch5',6: 'ch6',7: 'ch7',8: 'ch8',9: 'ch9',10: 'ch10',11: 'ch11',12: 'ch12',13: 'ch13',14: 'ch14',15: 'ch15',16: 'ch16',17: 'ch17',18: 'ch18',19: 'ch19', 20:'ch20',21: 'ch21',22: 'ch22',23: 'ch23',24: 'ch24',25: 'ch25',26: 'ch26',27: 'ch27',28: 'ch28',29: 'ch29',30: 'ch30',31: 'ch31',32: 'ch32',33: 'quad_Tmp',34:'Err',35:'pAp',36:'pRp',37:'Int'})
-        skyopc.dropna(inplace=True)
-        skyopc = skyopc.set_index('Date')
-        skyopc = skyopc.sort_values('Date')
-        skyopc.index = pd.DatetimeIndex(skyopc.index)
-        skyopc = skyopc[~skyopc.index.duplicated()]
+    skyopc=skyopc.rename(columns={0: 'Date',1:'ch1' ,2: 'ch2', 3: 'ch3',4: 'ch4',5: 'ch5',6: 'ch6',7: 'ch7',8: 'ch8',9: 'ch9',10: 'ch10',11: 'ch11',12: 'ch12',13: 'ch13',14: 'ch14',15: 'ch15',16: 'ch16',17: 'ch17',18: 'ch18',19: 'ch19', 20:'ch20',21: 'ch21',22: 'ch22',23: 'ch23',24: 'ch24',25: 'ch25',26: 'ch26',27: 'ch27',28: 'ch28',29: 'ch29',30: 'ch30',31: 'ch31',32: 'ch32',33: 'quad_Tmp',34:'Err',35:'pAp',36:'pRp',37:'Int'})
+    skyopc.dropna(inplace=True)
+    skyopc = skyopc.set_index('Date')
+    skyopc = skyopc.sort_values('Date')
+    skyopc.index = pd.DatetimeIndex(skyopc.index)
+    skyopc = skyopc[~skyopc.index.duplicated()]
         
-        # resample to 1 minute before calculating concentrations
-        skyopc_counts = skyopc[skyopc.columns[0:31]]
-        skyopc_counts = skyopc_counts.apply(pd.to_numeric, errors='coerce') # Counts in counts/ 6 seconds
-        skyopc_params = skyopc[skyopc.columns[31:]]
-        skyopc_counts =skyopc_counts / 100.0 # convert from counts/100ml to counts/cm3    
+    # resample to 1 minute before calculating concentrations
+    skyopc_counts = skyopc[skyopc.columns[0:31]]
+    skyopc_counts = skyopc_counts.apply(pd.to_numeric, errors='coerce') # Counts in counts/ 6 seconds
+    skyopc_params = skyopc[skyopc.columns[31:]]
+    skyopc_counts =skyopc_counts / 100.0 # convert from counts/100ml to counts/cm3    
 
-        # Resample to minutly average
-        new_index = pd.date_range(start.round('min'),stop.round('min')-pd.Timedelta(minutes=1), freq='min')     
-        skyopc_1min = skyopc_counts.resample('1min').mean()
-        skyopc_1min = skyopc_1min.reindex(new_index)
-        params_1min = skyopc_params.resample('1min').mean()
-        params_1min = params_1min.reindex(new_index)
+    # Resample to minutly average
+    new_index = pd.date_range(pd.to_datetime(start).round('min'),pd.to_datetime(stop).round('min'), freq='min') 
 
-        # Correct for inlet loss
-        # After 20 August 2022, SKYOPC was moved to MSF to share NOAA total air inlet. Correction no longer needed
-        #loss = pd.read_csv(qcf,skiprows=1,names=['d','loss'])
-        bin_centers = np.asarray([0.265,0.29,0.325,0.375,0.425,0.475,0.54,0.615,
-        0.675,  0.75 ,  0.9  ,  1.15 ,  1.45 ,  1.8  ,  2.25 ,  2.75 ,
-        3.25 ,  3.75 ,  4.5  ,  5.75 ,  7.   ,  8.   ,  9.25 , 11.25 ,
-        13.75 , 16.25 , 18.75 , 22.5  , 27.5  , 31.   ])
-        #idxs = [find_nearest(loss['d'],i) for i in bin_centers]
-        #percent_loss = [loss['loss'][idx] for idx in idxs]
-        #correction_factor = [1/(1-(x/100)) for x in percent_loss]
-
-        # remove bins for where correction factor is over 5 times original amount#
-        #skyopc_1min = skyopc_1min[skyopc_1min.columns[0:20]]
-        #correction_factor=correction_factor[0:20]        
-
-        # Apply correction
-        #for i in range(0,np.shape(skyopc_1min)[1]):
-        #    skyopc_1min[skyopc_1min.columns[i]] = skyopc_1min[skyopc_1min.columns[i]] * correction_factor[i]
+    skyopc_1min = skyopc_counts.resample('1min').mean()
+    skyopc_1min = skyopc_1min.reindex(new_index)
+    params_1min = skyopc_params.resample('1min').mean()
+    params_1min = params_1min.reindex(new_index)
     
-        # QC for north winds/ flight days 
-        skyopc_qcd = qc_aerosol(skyopc_1min)
+    # QC for north winds/ flight days 
+    #skyopc_qcd = qc_aerosol(skyopc_1min)
+    skyopc_qcd=skyopc_1min.copy()
         
-        # QC for params
-        skyopc_qcd['qc_pap']=np.ones(len(skyopc_qcd))
-        skyopc_qcd['qc_pap'][params_1min['pAp']>120]=0
+    # QC for params
+    skyopc_qcd['qc_pap']=np.ones(len(skyopc_qcd))
+    skyopc_qcd['qc_pap'][params_1min['pAp']>120]=0
         
-        skyopc_qcd['qc_prp']=np.ones(len(skyopc_qcd))
-        skyopc_qcd['qc_prp'][params_1min['pRp']>120]=0
+    skyopc_qcd['qc_prp']=np.ones(len(skyopc_qcd))
+    skyopc_qcd['qc_prp'][params_1min['pRp']>120]=0
         
-        skyopc_qcd['qc_err']=np.ones(len(skyopc_qcd))
-        skyopc_qcd['qc_err'][params_1min['Err']!=0]=0
+    skyopc_qcd['qc_err']=np.ones(len(skyopc_qcd))
+    skyopc_qcd['qc_err'][params_1min['Err']!=0]=0
         
-        skyopc_qcd['qc_int']=np.ones(len(skyopc_qcd))
-        skyopc_qcd['qc_int'][params_1min['Int']!=6]=0
+    skyopc_qcd['qc_int']=np.ones(len(skyopc_qcd))
+    skyopc_qcd['qc_int'][params_1min['Int']!=6]=0
         
-        if save: 
-            skyopc_qcd.to_csv(save+'SKYOPC_%s'%(str(start.date())))
-            skyopc_params.to_csv(save+'SKYOPC_params_%s'%(str(start.date())))
+    if save: 
+        skyopc_qcd.to_csv(save+'SKYOPC_%s'%(str(start.date())))
+        skyopc_params.to_csv(save+'SKYOPC_params_%s'%(str(start.date())))
 
     #except:
         #print('no data')
-    
-    return 
+    try:
+        return skyopc_qcd, skyopc_params
+    except:
+        print('Cant find any suitable data')
+        return pd.DataFrame(columns=['ch1', 'ch2', 'ch3', 'ch4', 'ch5', 'ch6', 'ch7', 'ch8', 'ch9', 'ch10',
+       'ch11', 'ch12', 'ch13', 'ch14', 'ch15', 'ch17', 'ch18', 'ch19', 'ch20',
+       'ch21', 'ch22', 'ch23', 'ch24', 'ch25', 'ch26', 'ch27', 'ch28', 'ch29',
+       'ch30', 'ch31', 'ch32', 'qc_pap', 'qc_prp', 'qc_err', 'qc_int']),pd.DataFrame(columns=['quad_Tmp', 'Err', 'pAp', 'pRp', 'Int'])
 
 
 
