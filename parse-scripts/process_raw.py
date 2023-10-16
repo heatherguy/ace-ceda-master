@@ -130,7 +130,7 @@ def main():
             
         elif instrument=='SKYOPC':
             #try:
-            extract_skyopc(start,stop,in_loc,calfile,save=out_loc)
+            extract_skyopc(start,stop,in_loc,save=out_loc)
             #except:
             #    print('Unable to parse')
             #    continue
