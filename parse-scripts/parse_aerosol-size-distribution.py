@@ -113,11 +113,15 @@ def main():
             # Get data
         
             skyopc = get_skyopc(start,stop,in_loc+'SKYOPC/')
+
+            # QC for technichian log and bad wind directions
+            skyopc_qc = qc_aerosol(skyopc)
+            
             
             # Sort QC's
             qc=np.ones(len(skyopc))
-            qc[np.where(skyopc['QC']==0)]=2 # 2b is bad due to station pollution
-            qc[np.where(skyopc['QC']==2)]=3 # 3b Can't check for station pollution
+            qc[np.where(skyopc_qc['QC']==0)]=2 # 2b is bad due to station pollution
+            qc[np.where(skyopc_qc['QC']==2)]=3 # 3b Can't check for station pollution
             # 5b, unspecified instrumnet error
             qc[np.where(skyopc['qc_pap']==0)]=5
             qc[np.where(skyopc['qc_int']==0)]=5
