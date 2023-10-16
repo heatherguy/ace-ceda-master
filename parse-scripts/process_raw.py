@@ -129,11 +129,11 @@ def main():
                 continue
             
         elif instrument=='SKYOPC':
-            #try:
-            extract_skyopc(start,stop,in_loc,save=out_loc)
-            #except:
-            #    print('Unable to parse')
-            #    continue
+            try:
+                extract_skyopc(start,stop,in_loc,save=out_loc)
+            except:
+                print('Unable to parse')
+                continue
             
         elif instrument=='TAWO_OPC':
             try:
