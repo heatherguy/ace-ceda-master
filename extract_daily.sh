@@ -33,7 +33,7 @@ while [ "$flux_extract_date" -lt "$today" ]; do
 	else
     	echo "Trying to run fluxtower extract..."
 
-    	if test -f "/gws/nopw/j04/ncas_radar_vol1/heather/fluxtower_temp/"$flux_extract_date"_fluxtower.tar.gz"; then
+    	if test -f "/gws/nopw/j04/icecaps/ICECAPSarchive/fluxtower/raw/"$flux_extract_date"_fluxtower.tar.gz"; then
   			echo 'Extracting SnD'
 			python tar_extract.py $flux_extract_date $flux_extract_date $raw_dir_flux $extract_dir 'SnD'
 
@@ -89,17 +89,17 @@ while [ "$ace_extract_date" -lt "$today" ]; do
 			echo 'Extracting biral'
 			python tar_extract.py $ace_extract_date $ace_extract_date $raw_dir_ace $extract_dir 'biral'
 
-			echo 'Extracting pops'
-			python tar_extract.py $ace_extract_date $ace_extract_date $raw_dir_ace $extract_dir 'F20'
+			#echo 'Extracting pops'
+			#python tar_extract.py $ace_extract_date $ace_extract_date $raw_dir_ace $extract_dir 'F20'
 
 			echo 'Moving data into appropriate directories...'
 			mv /gws/nopw/j04/ncas_radar_vol1/heather/extracted/*.skyopc /gws/nopw/j04/ncas_radar_vol1/heather/extracted/SKYOPC/
 			mv /gws/nopw/j04/ncas_radar_vol1/heather/extracted/*TAWO*OPC*.csv /gws/nopw/j04/ncas_radar_vol1/heather/extracted/tawo-opc/
 			mv /gws/nopw/j04/ncas_radar_vol1/heather/extracted/*.biral /gws/nopw/j04/ncas_radar_vol1/heather/extracted/biral/
-			mv /gws/nopw/j04/ncas_radar_vol1/heather/extracted/*POPS* /gws/nopw/j04/ncas_radar_vol1/heather/extracted/pops/
-			mv /gws/nopw/j04/ncas_radar_vol1/heather/extracted/Peak* /gws/nopw/j04/ncas_radar_vol1/heather/extracted/pops/
-			mv /gws/nopw/j04/ncas_radar_vol1/heather/extracted/HK* /gws/nopw/j04/ncas_radar_vol1/heather/extracted/pops/
-            mv /gws/nopw/j04/ncas_radar_vol1/heather/extracted/Log_*.txt /gws/nopw/j04/ncas_radar_vol1/heather/extracted/pops/
+			#mv /gws/nopw/j04/ncas_radar_vol1/heather/extracted/*POPS* /gws/nopw/j04/ncas_radar_vol1/heather/extracted/pops/
+			#mv /gws/nopw/j04/ncas_radar_vol1/heather/extracted/Peak* /gws/nopw/j04/ncas_radar_vol1/heather/extracted/pops/
+			#mv /gws/nopw/j04/ncas_radar_vol1/heather/extracted/HK* /gws/nopw/j04/ncas_radar_vol1/heather/extracted/pops/
+            #mv /gws/nopw/j04/ncas_radar_vol1/heather/extracted/Log_*.txt /gws/nopw/j04/ncas_radar_vol1/heather/extracted/pops/
 			echo  "$ace_extract_date" >> /gws/nopw/j04/ncas_radar_vol1/heather/logs/ace_extract_list.log
     	else
     		echo "can't find ace file"
