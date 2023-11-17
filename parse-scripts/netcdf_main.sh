@@ -30,13 +30,13 @@ in_loc_proc='/gws/nopw/j04/ncas_radar_vol1/heather/processed/'
 #python parse_surface-moisture-profile.py $in_loc $netcdf_out $months $years $avp
 #python parse_surface-winds-profile.py $in_loc $netcdf_out $months $years $avp
 #python parse_aerosol-concentration.py $in_loc_proc $netcdf_out $months $years $avp
-#python parse_aerosol-size-distribution.py $in_loc_proc $netcdf_out $months $years $avp
+python parse_aerosol-size-distribution.py $in_loc_proc $netcdf_out $months $years $avp
 #python parse_aerosol-opc.py $in_loc_proc $netcdf_out $months $years $avp
 #python parse_aerosol-opc_TAWO.py $in_loc_proc $netcdf_out $months $years $avp
-python parse_present-weather.py $in_loc_proc $netcdf_out $months $years
+#python parse_present-weather.py $in_loc $netcdf_out $months $years
 
-start_dat='202112170000'
-stop_dat='202201010000'
+start_dat='202207010000'
+stop_dat='202209010000'
 
 #python parse_flux-estimates.py $in_loc_proc $netcdf_out $start_dat $stop_dat 30 1
 #python parse_flux-estimates.py $in_loc_proc $netcdf_out $start_dat $stop_dat 30 2
