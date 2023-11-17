@@ -46,11 +46,11 @@ def parse_simba_serialstream(sample_dict, tstamp_dict,num_temp_sensors):
         cs = current_sample # shorthand so code is more readable
         
         # keep some timestamp information about this sample to write out
-        if len(tstamp_sample)>0:
+        try:
             cs['sample_start'] = tstamp_dict[tstamp_sample][0]
             cs['sample_end']   = tstamp_dict[tstamp_sample][-1]
             cs['sample_span']  = (cs['sample_end']-cs['sample_start'])#.total_seconds()
-        else:
+        except:
             print('bad data sample, no tstamp')
             number_bad_samples+=1
             continue
