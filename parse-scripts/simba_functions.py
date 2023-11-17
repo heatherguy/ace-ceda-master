@@ -187,15 +187,19 @@ def extract_serial_samples(file_list, first_char='['):
             # rip out timestamp from first N characters of the line of data
             # the timestamp format is specific to the minicom timestamp, it's always
             # formatted the same so we can just use some not-flexible indexing instead of regex
-            if first_char == '[':
-                sample_time = dt.datetime.strptime(data_line[1:20], '%Y-%m-%d %H:%M:%S')
-            else:
-                sample_time = dt.datetime.strptime(data_line[0:23], '%Y %m %d %H %M %S.%f')
+            try: 
+                if first_char == '[':
+                    sample_time = dt.datetime.strptime(data_line[1:20], '%Y-%m-%d %H:%M:%S')
+                else:
+                    sample_time = dt.datetime.strptime(data_line[0:23], '%Y %m %d %H %M %S.%f')
             
-            if (sample_time - first_timestamp) > dt.timedelta(minutes=sample_time_window):
-                first_timestamp                 = sample_time
-                sample_dict[first_timestamp]    = []
-                timestamp_dict[first_timestamp] = []
+                if (sample_time - first_timestamp) > dt.timedelta(minutes=sample_time_window):
+                    first_timestamp                 = sample_time
+                    sample_dict[first_timestamp]    = []
+                    timestamp_dict[first_timestamp] = []
+            except:
+                print(f'Cannot read time stamps {curr_file} is broken.. moving on')
+                break
             
             # sanity check, hasn't happened yet
             if first_timestamp > sample_time: 
