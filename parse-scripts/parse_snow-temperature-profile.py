@@ -148,7 +148,7 @@ def main():
                 if len(d['temperature'])!=num_temp_sensors:
                     print('Not enough tempearutre values for %s'%d_time)
                 else:
-                    for j in range(0,len(d['tempearture'])):
+                    for j in range(0,len(d['temperature'])):
                         try: 
                             nc.variables['temperature'][i,j] = float(d['temperature'][j])+273.15 # Conver to kelvin
                         except:
