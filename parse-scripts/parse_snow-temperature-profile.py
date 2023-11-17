@@ -181,6 +181,11 @@ def main():
             # Check for nan's
             qc_flag[np.where(nc.variables['temperature'][:].mask==1)] = 3
 
+            # Check that the temperature profile is continuous
+            # i.e. if one sensor is wildly different to it's neighbours, flag as unspecified error. 
+            diff = np.diff(nc.variables['temperature'][:])
+            qc_flag[np.where(np.abs(diff)>2)] = 3
+            
             nc.variables['qc_flag_temperature'][:]=qc_flag
 
             # Derive valid max and min
