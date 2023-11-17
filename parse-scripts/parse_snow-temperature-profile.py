@@ -144,11 +144,12 @@ def main():
                 # round time to nearest 15 for index
                 d_time = round_15(d['sample_start'])
 
-                # Ignore any data prior to sample start time
+                # Ignore any data prior to sample start time or not in the correct month
                 if d_time < dt.datetime(2022,8,22,0):
                     continue
-
-                print(d_time)
+                elif d_time.month != month:
+                    continue
+                
                 i = np.where(nc.variables['time'][:]==netCDF4.date2num(d_time,units='seconds since 1970-01-01 00:00:00 UTC'))[0][0]
                 
                 if len(d['temperature'])!=num_temp_sensors:
