@@ -148,8 +148,13 @@ def main():
                 if len(d['temperature'])!=num_temp_sensors:
                     print('Not enough tempearutre values for %s'%d_time)
                 else:
-                    nc.variables['temperature'][i,:] = np.asarray([float(s)+273.15 for s in d['temperature']]) # Conver to kelvin
-
+                    for j in range(0,len(d['tempearture'])):
+                        try: 
+                            nc.variables['temperature'][i,j] = float(d['temperature'][j])+273.15 # Conver to kelvin
+                        except:
+                            print('Cannot convert temperature to float: %s'%d['temperature'][j])
+                            continue
+                
                 nc.variables['sample_start'][i] = netCDF4.date2num(d['sample_start'],units='seconds since 1970-01-01 00:00:00 UTC')
                 nc.variables['sample_end'][i] = netCDF4.date2num(d['sample_end'],units='seconds since 1970-01-01 00:00:00 UTC')
                 nc.variables['sample_span'][i] = d['sample_span'].total_seconds()
