@@ -80,7 +80,9 @@ def parse_simba_serialstream(sample_dict, tstamp_dict,num_temp_sensors):
                 parsed_samples[tstamp_sample] = current_sample
                 
             except: 
-                raise(f"!!! sample from {tstamp_sample} failed !!!")
+                print(f"!!! sample from {tstamp_sample} failed !!!")
+                number_bad_samples+=1
+                continue
         else: 
             print(f"!!! there was a bad sample at... {tstamp_sample} !!!")
             number_bad_samples+=1
