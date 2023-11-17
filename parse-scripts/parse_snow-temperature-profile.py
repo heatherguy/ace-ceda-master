@@ -19,7 +19,7 @@ from netCDF4 import Dataset, num2date
 
 # global variables
 num_time_vals = 96   # this is hardcoded, heather and grab serial data at 15 min intervals  
-num_temp_sensors = 241  # number of sensors on chain 
+num_temp_sensors = 240  # number of sensors on chain 
 temp_sensor_spacing = 0.02 # m
 height_vals = np.arange(0, -1*num_temp_sensors*temp_sensor_spacing, -1*temp_sensor_spacing)       
 nat = np.datetime64('NaT').astype('<M8[ns]') 
@@ -173,7 +173,7 @@ def main():
             #2 = bad_data_temperature_outside_sensor_operational_range 
             #3 = bad_data_unspecified_instrument_error          
             qc_flag = np.ones(np.shape(nc.variables['temperature']))
-            
+
             # Check for reasonable values: 
             qc_flag[np.where(nc.variables['temperature'][:] > 295)] = 2
             qc_flag[np.where(nc.variables['temperature'][:] < 195)] = 2
