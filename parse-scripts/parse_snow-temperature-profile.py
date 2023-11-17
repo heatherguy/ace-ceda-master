@@ -143,6 +143,11 @@ def main():
             for d in all_samples:
                 # round time to nearest 15 for index
                 d_time = round_15(d['sample_start'])
+
+                # Ignore any data prior to sample start time
+                if d_time < dt.datetime(2022,8,22,0):
+                    continue
+
                 i = np.where(nc.variables['time'][:]==netCDF4.date2num(d_time,units='seconds since 1970-01-01 00:00:00 UTC'))[0][0]
                 
                 if len(d['temperature'])!=num_temp_sensors:
@@ -168,7 +173,7 @@ def main():
             #2 = bad_data_temperature_outside_sensor_operational_range 
             #3 = bad_data_unspecified_instrument_error          
             qc_flag = np.ones(np.shape(nc.variables['temperature']))
-
+            
             # Check for reasonable values: 
             qc_flag[np.where(nc.variables['temperature'][:] > 295)] = 2
             qc_flag[np.where(nc.variables['temperature'][:] < 195)] = 2
