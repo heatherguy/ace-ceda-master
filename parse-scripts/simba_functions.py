@@ -12,21 +12,21 @@ import xarray   as xr # installed python libs
 import numpy    as np
 import pandas   as pd
 
-def parse_simba_serialstream(sample_dict, tstamp_dict):
+def parse_simba_serialstream(sample_dict, tstamp_dict,num_temp_sensors):
     """
-
+    
     Take the raw data put into a dictionary by extract_serial_samples() and
     parse through all the strings to get meaningful data. We pull out the max
     possible amount of information that might or might not be useful. 
-
+    
     Args:
         sample_dict: (dictionary) timestamped [key] datastreams [value] from extract
         tstamp_dict: (dictionary) line timestamps from serial stream to know when each line came
     
-
+    
     Returns:
         parsed_samples: (dictionary) timestamped [key] dictionary of measurements vars  [value]
-
+    
     """
     simba_header_keywords = {
         'sequence_number' : re.compile('sequen\D*(?P<match>[0-9]+\.*[0-9]*)', re.IGNORECASE), 
