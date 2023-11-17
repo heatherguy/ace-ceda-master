@@ -184,8 +184,8 @@ def main():
             # Check that the temperature profile is continuous
             # i.e. if one sensor is wildly different to it's neighbours, flag as unspecified error. 
             diff = np.diff(nc.variables['temperature'][:])
-            qc_flag[np.where(np.abs(diff)>2)] = 3
-            
+            qc_flag[np.where(np.abs(diff)>5)] = 3
+
             nc.variables['qc_flag_temperature'][:]=qc_flag
 
             # Derive valid max and min
