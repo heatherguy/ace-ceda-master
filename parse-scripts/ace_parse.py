@@ -591,9 +591,12 @@ def extract_pops(start,stop,dpath,save=False):
     # LD_Mon = Laser diode output power mointor
     # BatV = Battery DV power voltage
     # Bins: b0 .... nbins
-    
-    df_1min  = df_1min[~df_1min.index.duplicated()]
-    df_1min.sort_index(inplace=True)
+    if len(df_1min)>0:
+        df_1min  = df_1min[~df_1min.index.duplicated()]
+        df_1min.sort_index(inplace=True)
+    else:
+        print('no data')
+        return pd.DataFrame(), pd.DataFrame(),pd.DataFrame()
 
     nbins = list(set(df_1min['nbins'].dropna()))
     if len(nbins)!=1: 
