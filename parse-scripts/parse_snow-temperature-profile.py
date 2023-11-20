@@ -182,7 +182,7 @@ def main():
                 try:
                     nc.variables['sample_end'][i] = netCDF4.date2num(d['sample_end'],units='seconds since 1970-01-01 00:00:00 UTC')
                 except:
-                    nc.variables['sample_end'][i] = nat
+                    nc.variables['sample_end'][i] = np.nan
                 try: 
                     nc.variables['sample_span'][i] = d['sample_span'].total_seconds()
                 except:
@@ -214,8 +214,8 @@ def main():
             nc.variables['qc_flag_temperature'][:]=qc_flag
 
             # Derive valid max and min
-            nc.variables['temperature'].valid_min = np.nanmin(nc.variables['temperature'][:])
-            nc.variables['temperature'].valid_max = np.nanmax(nc.variables['temperature'][:])
+            nc.variables['temperature'].valid_min = np.nanmin(nc.variables['temperature'][:][qc_flag==1])
+            nc.variables['temperature'].valid_max = np.nanmax(nc.variables['temperature'][:][qc_flag==1])
 
             nc.variables['sample_start'].valid_min = np.nanmin(nc.variables['sample_start'][:])
             nc.variables['sample_start'].valid_max = np.nanmax(nc.variables['sample_start'][:])
