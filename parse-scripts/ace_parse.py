@@ -606,13 +606,6 @@ def extract_pops(start,stop,dpath,save=False):
     # QC for winds/ flight days
     df_1min = qc_aerosol(df_1min)
     data = qc_aerosol(data)
-
-    # QC for params
-    # Currently not implemented.
-    # flow qc
-    # if pops flow rate < 2 cm3 s-1 mark as suspect
-    df_1min.loc
-    
     
     # Save if neccessary
     if save: 
