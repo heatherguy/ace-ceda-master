@@ -606,7 +606,7 @@ def extract_pops(start,stop,dpath,save=False):
     # QC for winds/ flight days
     df_1min = qc_aerosol(df_1min)
     data = qc_aerosol(data)
-    
+
     # Save if neccessary
     if save: 
         df_1min.to_csv(save+'POPS_%s'%(str(d1.date())))
@@ -634,7 +634,7 @@ def get_dist(df,nbins,bounds,sum_hist=False):
         return
 
     mid_points = [(bounds[i+1]+bounds[i])/2 for i in range(0,nbins)]
-    logd = np.log(bounds)   
+    logd = np.log10(bounds)   
     dlogd = [logd[i+1]-logd[i] for i in range(0,len(mid_points))]
     # Sum columns
     if sum_hist:
