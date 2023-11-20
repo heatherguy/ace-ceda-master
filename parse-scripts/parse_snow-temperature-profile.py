@@ -107,12 +107,13 @@ def main():
             NC_Dimensions(nc, len(time_list), index=num_temp_sensors)  
             NC_CommonVariables(nc, time_list, np)
             NC_SpecificVariables(nc, var, np)
-
+            
             # Get simba data
-        
             print('Extracting Simba')
             all_data=[]
             print(f" ... processing month: %s"%month)
+            
+            # Read from normal simba daq
             # if the simba daq was restarted today then there are multiple files
             all_files_today = get_file_list_serial(dt.datetime(year,month,1), in_loc+'extracted/simba/')
             file_samples    = extract_serial_samples(all_files_today, '2')
@@ -134,6 +135,18 @@ def main():
                     f"is there a good reason for that?!!")
                 continue
             
+            # Add in an exception for missing data between Febuary and july 2023: 
+            # Missing data is stored here: /gws/nopw/j04/icecaps/ICECAPSarchive/fluxtower/simba_processed/missing_data_summer23.csv
+            # feb 24th until april 24th need to get simba data from SD card
+            # May27th until 21st June - bad data due to multiple logging scripts. 
+            # Data file from SD card is backed up on 2nd August 2023
+
+            if (year==2023) and (month in [2,3,4,5,6]):
+                missing_data=pd.read_csv('/gws/nopw/j04/icecaps/ICECAPSarchive/fluxtower/simba_processed/missing_data_summer23.csv',index_col=0,parse_dates=[0])
+                for i in range(0,len(missing_data)):
+                    if missing_data.index[i].to_pydatetime().month == month: 
+                        all_samples.append({'sample_start':missing_data.index[i].to_pydatetime(), 'sample_end':nat, 'sample_span':np.nan, 'battery_voltage':np.nan, 'sequence_number':np.nan, 'temperature':missing_data.iloc[i].to_numpy()})
+
             print(f"... writing out {tot_samples} total data samples in timeseries !!!")
             
             # Write in data
