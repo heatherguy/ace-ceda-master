@@ -179,8 +179,15 @@ def main():
                             continue
                 
                 nc.variables['sample_start'][i] = netCDF4.date2num(d['sample_start'],units='seconds since 1970-01-01 00:00:00 UTC')
-                nc.variables['sample_end'][i] = netCDF4.date2num(d['sample_end'],units='seconds since 1970-01-01 00:00:00 UTC')
-                nc.variables['sample_span'][i] = d['sample_span'].total_seconds()
+                try:
+                    nc.variables['sample_end'][i] = netCDF4.date2num(d['sample_end'],units='seconds since 1970-01-01 00:00:00 UTC')
+                except:
+                    nc.variables['sample_end'][i] = nat
+                try: 
+                    nc.variables['sample_span'][i] = d['sample_span'].total_seconds()
+                except:
+                    nc.variables['sample_span'][i] = np.nan
+                
                 nc.variables['battery_voltage'][i] = np.float(d['battery_voltage'])
                 #nc.variables['qc_flag_temperature'][i] = d[]
             
