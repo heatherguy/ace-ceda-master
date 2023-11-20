@@ -138,7 +138,6 @@ def main():
             if tot_samples == 0: 
                 print(f"¿¡¡ There was no data for month: %s"%month+ \
                     f"is there a good reason for that?!!")
-                continue
             
             # Add in an exception for missing data between Febuary and july 2023: 
             # Missing data is stored here: /gws/nopw/j04/icecaps/ICECAPSarchive/fluxtower/simba_processed/missing_data_summer23.csv
