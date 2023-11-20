@@ -124,7 +124,12 @@ def main():
             tot_samples = 0
             for file_data in file_samples.items():
                 sample_dict = file_data[1][0]; tstamp_dict = file_data[1][1]; 
-                parsed_dict = parse_simba_serialstream(sample_dict, tstamp_dict, num_temp_sensors)
+                try:
+                    parsed_dict = parse_simba_serialstream(sample_dict, tstamp_dict, num_temp_sensors)
+                except:
+                    print('No good data found at all!')
+                    continue
+                
                 tot_samples += len(parsed_dict.keys())
                 for key,value in parsed_dict.items():
                     all_samples.append(value)
