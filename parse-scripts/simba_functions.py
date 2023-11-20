@@ -35,6 +35,7 @@ def parse_simba_serialstream(sample_dict, tstamp_dict,num_temp_sensors):
     
     good_file_regex   = re.compile(fnmatch.translate(f"*sd card*"), re.IGNORECASE)
     temps_start_regex = re.compile(fnmatch.translate(f"*chain sensor temperatures*"), re.IGNORECASE)
+    #heated_profile_regex = re.compile(fnmatch.translate(f"*Heater on at time*"), re.IGNORECASE)
     
     number_bad_samples = 0
     parsed_samples     = {} # a dict of dicts, keys are first timestamp of entire data sample 

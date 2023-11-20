@@ -236,12 +236,7 @@ def main():
             nc.variables['height'].valid_min = -5
             nc.variables['height'].valid_max = 0
 
-
-            # Write note to netcdf file indicating date used.
-            #base_str = 'Platform altitude (h0) is the top of the Met tower. Instrument altitude: HMP1=h0-10.87m, HMP2=h0-9.8m, HMP3=h0-4.5m, HMP4=h0-1m , Index: [HMP1, HMP2, HMP3, HMP4].'
-            #nc.setncattr('comment', base_str)
             # Close netcdf file
-    
             nc.close()
     
 if __name__ == '__main__':
