@@ -594,6 +594,10 @@ def extract_pops(start,stop,dpath,save=False):
     # BatV = Battery DV power voltage
     # Bins: b0 .... nbins
     
+    if len(df_1min)==0:
+        print('No POPS data')
+        return df_1min, data, total_conc
+    
     nbins = list(set(df_1min['nbins'].dropna()))
     if len(nbins)!=1: 
         print('Caution, bin length changed.')
