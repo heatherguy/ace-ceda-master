@@ -602,6 +602,11 @@ def extract_pops(start,stop,dpath,save=False):
     if len(nbins)!=1: 
         print('Caution, bin length changed.')
     
+    # Get rid of any duplicates
+    df_1min = df_1min[~df_1min.index.duplicated()]
+    data = data[~data.index.duplicated()]
+    total_conc = total_conc[~total_conc.index.duplicated()]
+    
     data_keys = ['b%s'%int(s) for s in np.arange(0,nbins[0])]
     data = df_1min[data_keys]
     total_conc = df_1min['PartCon']
