@@ -591,7 +591,7 @@ def extract_pops(start,stop,dpath,save=False):
     # LD_Mon = Laser diode output power mointor
     # BatV = Battery DV power voltage
     # Bins: b0 .... nbins
-    if len(df_1min)>0:
+    if df_1min:
         df_1min  = df_1min[~df_1min.index.duplicated()]
         df_1min.sort_index(inplace=True)
     else:
