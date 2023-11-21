@@ -555,6 +555,8 @@ def extract_pops(start,stop,dpath,save=False):
     idxs = np.where(np.logical_and(file_dates>=start.date(), file_dates<=stop.date()))[0]
     fils = [all_files[i] for i in idxs]
     
+    df_1min,data,total_conc = pd.DataFrame(), pd.DataFrame(),pd.DataFrame()
+
     for fil in fils:
         print(str(fil))
         if fil == fils[0]:
@@ -591,13 +593,7 @@ def extract_pops(start,stop,dpath,save=False):
     # LD_Mon = Laser diode output power mointor
     # BatV = Battery DV power voltage
     # Bins: b0 .... nbins
-    if df_1min:
-        df_1min  = df_1min[~df_1min.index.duplicated()]
-        df_1min.sort_index(inplace=True)
-    else:
-        print('no data')
-        return pd.DataFrame(), pd.DataFrame(),pd.DataFrame()
-
+    
     nbins = list(set(df_1min['nbins'].dropna()))
     if len(nbins)!=1: 
         print('Caution, bin length changed.')
