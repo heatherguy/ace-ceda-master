@@ -106,7 +106,7 @@ def main():
 
             NC_Global_Attributes(nc, meta, start,stop - pd.Timedelta(minutes=1))
             time_list = pd.date_range(start,stop - pd.Timedelta(minutes=1),freq='%smin'%avp)[:]
-            NC_Dimensions(nc, len(time_list),20)  
+            NC_Dimensions(nc, len(time_list),16)  
             NC_CommonVariables(nc, time_list, np)
             NC_SpecificVariables(nc, var, np)
 
