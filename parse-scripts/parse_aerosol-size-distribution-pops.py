@@ -189,11 +189,11 @@ def main():
             nc.variables['qc_flag'][:]=qc
             nc.variables['measurement_temperature'][:]=np.asarray(df_1min['TofP'])+273.15 # in K
             nc.variables['measurement_temperature'].valid_max = np.nanmax(np.asarray(df_1min[' POPS_Flow'],dtype='float32')+273.15)
-            nc.variables['measurement_temperature'].valid_mix = np.nanmix(np.asarray(df_1min[' POPS_Flow'],dtype='float32')+273.15)
+            nc.variables['measurement_temperature'].valid_mix = np.nanmin(np.asarray(df_1min[' POPS_Flow'],dtype='float32')+273.15)
 
             nc.variables['sample_flow_rate'][:]=np.asarray(df_1min[' POPS_Flow'])
             nc.variables['sample_flow_rate'].valid_max = np.nanmax(np.asarray(df_1min[' POPS_Flow'],dtype='float32'))
-            nc.variables['sample_flow_rate'].valid_mix = np.nanmix(np.asarray(df_1min[' POPS_Flow'],dtype='float32'))
+            nc.variables['sample_flow_rate'].valid_mix = np.nanmin(np.asarray(df_1min[' POPS_Flow'],dtype='float32'))
             
             # Close netcdf file
     
