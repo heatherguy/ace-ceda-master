@@ -71,16 +71,17 @@ def qc_aerosol(qc_in):
     w_dloc = '/gws/nopw/j04/ncas_radar_vol1/heather/Summit_Met/met_sum_insitu_1_obop_minute_%s_%s.txt'%(sdate.year,str(sdate.month))
     try:
         met = get_NOAA_met(w_dloc)
-        # try the qc
+        # resample to the sampe indices
+        met = met.reindex(qc_in.index,method='nearest',tolerance='1min')
         # Change qc direction when aerosol instruments moved to the AWO
         if sdate < dt.datetime(2022,7,1):
-            qc_in['QC'][ace_winds['ws']<1]=0
-            qc_in['QC'][ace_winds['wdir']>270]=0
+            qc_in['QC'][met['ws']<1]=0
+            qc_in['QC'][met['wdir']>270]=0
         else: 
             # updated north winds criteria between 345 and 55 degrees
-            qc_in['QC'][ace_winds['ws']<1]=0
-            qc_in['QC'][ace_winds['wdir']>345]=0  
-            qc_in['QC'][ace_winds['wdir']<55]=0
+            qc_in['QC'][met['ws']<1]=0
+            qc_in['QC'][met['wdir']>345]=0  
+            qc_in['QC'][met['wdir']<55]=0
     except:
         try:
             # Try to get met data from ace netcdfs
@@ -95,7 +96,8 @@ def qc_aerosol(qc_in):
             # Put in dataframe and qc
             ace_winds = pd.DataFrame({'ws':ws,'wdir':wdir,'qc':qc},index=wind_times)
             ace_winds[ace_winds['qc']!=1]=np.nan
-
+            # resample to the sampe indices
+            ace_winds = ace_winds.reindex(qc_in.index,method='nearest',tolerance='1min')
             # try the qc
             # Change qc direction when aerosol instruments moved to the AWO
             if sdate < dt.datetime(2022,7,1):
@@ -604,8 +606,6 @@ def extract_pops(start,stop,dpath,save=False):
     
     # Get rid of any duplicates
     df_1min = df_1min[~df_1min.index.duplicated()]
-    data = data[~data.index.duplicated()]
-    total_conc = total_conc[~total_conc.index.duplicated()]
     
     data_keys = ['b%s'%int(s) for s in np.arange(0,nbins[0])]
     data = df_1min[data_keys]
