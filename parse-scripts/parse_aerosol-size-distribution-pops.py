@@ -112,9 +112,15 @@ def main():
 
             # Get data (qc for flights and bad winds already applied in this step)
             df_1min, data, total_conc = extract_pops(start,stop,in_loc+'extracted/pops/')
+
             if len(df_1min)==0:
                 print('No POPS data for %s%s'%(month,year))
                 continue
+
+            # Resample to fill one month file
+            df_1min = df_1min.reindex(time_list,method='nearest',tolerance='1min')
+            total_conc = total_conc.reindex(time_list,method='nearest',tolerance='1min')
+            data = data.reindex(time_list,method='nearest',tolerance='1min')
 
             # Sort QC's
             qc=np.ones(len(total_conc))
