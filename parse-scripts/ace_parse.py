@@ -108,7 +108,7 @@ def qc_aerosol(qc_in):
                 qc_in['QC'][ace_winds['ws']<1]=0
                 qc_in['QC'][ace_winds['wdir']>345]=0  
                 qc_in['QC'][ace_winds['wdir']<55]=0
-        
+                qc_in['QC'][ace_winds['wdir']==np.nan]=2
         except:
         
             # If no met data, QC=2
@@ -617,7 +617,7 @@ def extract_pops(start,stop,dpath,save=False):
 
     # Save if neccessary
     if save: 
-        df_1min.to_csv(save+'POPS_%s'%(str(d1.date())))
+        df_1min.to_csv(save+'POPS_%s'%(str(df_1min.date())))
 
     return df_1min, data, total_conc
 
