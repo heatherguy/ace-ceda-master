@@ -568,6 +568,8 @@ def extract_pops(start,stop,dpath,save=False):
             #df.index = df['time'].dt.round('1s')
             df = df[~df.index.duplicated()]
             df.sort_index(inplace=True)
+            # POPS was running 6 minutes fast between installation and 09:52 on 4th November 2022
+            df.loc[df.index<dt.datetime(2022,11,4,9,52)] = df.loc[df.index<dt.datetime(2022,11,4,9,52)].set_index(df.loc[df.index<dt.datetime(2022,11,4,9,52)].index.shift(-6, freq='Min'))
     
             # resample to 1-minutely means 
             new_index = pd.date_range(df.index[0].round('1min'),df.index[-1].round('1min'), freq='min')      
@@ -580,6 +582,8 @@ def extract_pops(start,stop,dpath,save=False):
             #df.index = df['time'].dt.round('1s')
             df_temp = df_temp[~df_temp.index.duplicated()]
             df_temp.sort_index(inplace=True)
+            # POPS was running 6 minutes fast between installation and 09:52 on 4th November 2022
+            df_temp.loc[df_temp.index<dt.datetime(2022,11,4,9,52)] = df_temp.loc[df_temp.index<dt.datetime(2022,11,4,9,52)].set_index(df_temp.loc[df_temp.index<dt.datetime(2022,11,4,9,52)].index.shift(-6, freq='Min'))
     
             # resample to 1-minutely means 
             new_index = pd.date_range(df_temp.index[0].round('1min'),df_temp.index[-1].round('1min'), freq='min')      
