@@ -123,7 +123,7 @@ def main():
             data = data.reindex(time_list,method='nearest',tolerance='1min')
 
             # Sort QC's
-            qc=np.ones(len(total_conc))
+            qc=np.ones(len(data))
             qc[np.where(data['QC']==0)]=2 # 2b is bad due to station pollution
             qc[np.where(data['QC']==2)]=3 # 3b Can't check for station pollution
             
