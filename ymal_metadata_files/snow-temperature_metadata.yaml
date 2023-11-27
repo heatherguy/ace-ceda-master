@@ -1,0 +1,70 @@
+{
+  "title": "Summit Aerosol Cloud Experiment: Snow-air transition temperature profile",
+  "description": "Point measurements of snow/ air temperature at 2 cm intervals on a 5 m thermistor chain intalled spanning the snow-air transition, at Summit Station, Greenland. \nPart of the ICECAPS-ACE project. \n\n",
+  "authors": [
+    {
+      "firstname": "",
+      "surname": "University of Leeds"
+    },
+    {
+      "firstname": "Heather",
+      "surname": "Guy"
+    },
+    {
+      "firstname": "",
+      "surname": ""
+    }
+  ],
+  "bbox": {
+    "north": "72.5785904",
+    "south": "72.573730",
+    "east": "-38.470361",
+    "west": "-38.4526934"
+  },
+  "time_range": {
+    "start": "2022-08-22",
+    "end": "Ongoing"
+  },
+  "lineage": "Data were collected by the University of Leeds in collaboration with the ICECAPS project team and deposited at the Centre for Environmental Data Analysis (CEDA) for archiving.",
+  "quality": "Data are as given by the data provider, no quality control has been performed by the Centre for Environmental Data Analysis (CEDA).",
+  "docs": [
+    {
+      "title": "Historical and complementary ICECAPS Data",
+      "url": "https://psl.noaa.gov/arctic/observatories/summit/"
+    },
+    {
+      "title": "Original ICECAPS publication:",
+      "url": "https://journals.ametsoc.org/doi/full/10.1175/BAMS-D-11-00249.1"
+    },
+    {
+      "title": "Information about Summit Station: ",
+      "url": "http://www.summitcamp.org/index"
+    },
+    {
+      "title": "Data processing scripts:",
+      "url": "https://github.com/heatherguy/ace-ceda-master"
+    },
+  ],
+  "project": {
+    "catalogue_url": "",
+    "title": "ICECAPS-ACE: Integrated Characterization of Energy, Clouds, Atmospheric state, and Precipitation at Summit – Aerosol Cloud Experiment",
+    "description": "Since 2010, the ICECAPS project has been monitoring cloud-atmosphere-energy interactions at Summit Station, in the centre of the Greenland Ice Sheet (GrIS), using a comprehensive suite of ground-based remote sensing instruments and twice daily radiosonde profiles. In 2019, the Aerosol Cloud Experiment (ACE) expansion of ICECAPS saw the addition of a new series of instruments to measure surface aerosol concentrations and turbulent heat fluxes over the ice sheet. Combined with the original ICECAPS instrumentation, the ACE instruments allow for the study of cloud-aerosol-energy interactions over the central GrIS. This dataset contains the measurements collected as part of the ACE component of ICECAPS-ACE, which includes the following:\n\n1)\tSurface-temperature-profile: A near surface temperature profile from four temperature/ humidity sensors distributed on the 15 m tower at Summit. \n\n2)\tSurface-moisture-profile:  A near surface moisture profile from four temperature/ humidity sensors distributed on the 15 m tower at Summit.\n\n3)\tSurface-winds-profile: A near surface wind profile from four sonic anemometers distributed on the 15 m tower at Summit.\n\n4)\tSnow-height: The distance to the snow surface from the lowest level of instruments on the 15 m tower at Summit, detected by a sonic-ranging sensor. \n\n5)\tSkin-temperature: The brightness temperature of the snow surface as detected by an infrared radiation thermometer. \n\n6)\tAerosol-concentration: The concentration of condensation nuclei (> 5nm diameter) measured at the surface using a Condensation Particle Counter. \n\n7)\tAerosol-size-distribution: The size-resolved concentration of surface aerosol particles between 0.25 and 6.5 um in diameter measured using an Optical Particle Counter. \n\n8)\tFlux-components: High resolution temperature, humidity and wind fluctuations that can be used to estimate turbulent fluxes using eddy covariance, located at two levels on the 15 m tower at Summit. \n\n9)\tFlux-estimates: Estimates of turbulent heat and momentum fluxes by applying the eddy covariance technique to flux-components.\n\n\n These data were continued through the 3 year extension to the ICECAPS-ACE project called ICECAPS-MELT. In August 2022, two additional datasets were added: \n\n10)\tPresent-weather: Horizontal optical range and present weather codes detected by a Biral SWS-100 visibility and present weather sensor. \n\n11)\tSnow-temperature-profile: A high resolution (2 cm) temperature profile spanning the air-snow transition. Data are collected by a 5 m long SIMBA (Snow Ice Mass Balance Apparatus) thermistor chain that extended 3 m into the snow at installation. \n\n\nOther ICECAPS data is available here: \nhttps://psl.noaa.gov/arctic/observatories/summit/\n\nFor more information about ICECAPS see: \nShupe, Matthew D., et al. \"High and dry: New observations of tropospheric and cloud properties above the Greenland Ice Sheet.\" Bulletin of the American Meteorological Society 94.2 (2013): 169-186.\n",
+    "PI": {
+      "firstname": "Ryan",
+      "surname": "Neely III"
+    },
+    "funder": "NSFGEO-NERC",
+    "grant_number": "NE/S00906X/1",
+    "grant_number": "NE/X002403/1"
+  },
+  "instrument": {
+    "catalogue_url": "",
+    "title": "SIMBA (Snow Ice Mass Balance Apparatus) 5 m thermistor chain",
+    "description": "SAMS Enterprise SIMBA version 2 with with bespoke 5 m thermistor chain (chain ID 498). Thermistors are spaced at 2 cm intervals along the chain. At installation, 3 m of the change was installed vertically in a 2-inch diameter back-filled hole in the snow. The upper 2 m extended vertical upwards from the snow surface. Location: 72.5785904N -38.4526934E\n\n\n"
+  },
+  "computation": {
+    "catalogue_url": "",
+    "title": "",
+    "description": ""
+  }
+}
