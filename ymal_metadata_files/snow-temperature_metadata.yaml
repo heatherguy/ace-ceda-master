@@ -60,7 +60,7 @@
   "instrument": {
     "catalogue_url": "",
     "title": "SIMBA (Snow Ice Mass Balance Apparatus) 5 m thermistor chain",
-    "description": "SAMS Enterprise SIMBA version 2 with with bespoke 5 m thermistor chain (chain ID 498). Thermistors are spaced at 2 cm intervals along the chain. At installation, 3 m of the change was installed vertically in a 2-inch diameter back-filled hole in the snow. The upper 2 m extended vertical upwards from the snow surface. Location: 72.5785904N -38.4526934E\n\n\n"
+    "description": "SAMS Enterprise SIMBA version 2 with a bespoke 5 m thermistor chain (chain ID 498). Thermistors are spaced at 2 cm intervals along the chain. At installation, 3 m of the change was installed vertically in a 2-inch diameter back-filled hole in the snow. The upper 2 m extended vertical upwards from the snow surface. Location: 72.5785904N -38.4526934E\n\n\n"
   },
   "computation": {
     "catalogue_url": "",

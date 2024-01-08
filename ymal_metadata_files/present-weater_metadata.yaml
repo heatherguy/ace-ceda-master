@@ -64,7 +64,7 @@
   "instrument": {
     "catalogue_url": "",
     "title": "Present Weather Sensorr",
-    "description": "Biral SWS-100 Present Weather Sensor. Both hood and window heaters and active. \nSensor is mounted on MSF building roof Summit station (72.5785904N -38.4526934E)\n\n\n"
+    "description": "Biral SWS-100 Present Weather Sensor. Both hood and window heaters are active. \nSensor is mounted on MSF building roof Summit station (72.5785904N -38.4526934E)\n\n\n"
   },
   "computation": {
     "catalogue_url": "",
