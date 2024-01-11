@@ -224,7 +224,10 @@ def extract_snd_data(start,stop,dpath,hmp_dpath,save=False):
         V=[]
         C=[]
         for i in range(0,len(good_lines)):   
-            date.append((pd.to_datetime(good_lines[i][0:23],format='%Y %m %d %H %M %S.%f')).round('min'))
+            try: 
+                date.append((pd.to_datetime(good_lines[i][0:23],format='%Y %m %d %H %M %S.%f')).round('min'))
+            except:
+                continue
             Q.append(good_lines[i][35:38])
             V.append(good_lines[i][39:41])
             C.append(good_lines[i][45:47])
