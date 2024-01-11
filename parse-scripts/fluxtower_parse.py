@@ -558,6 +558,7 @@ def extract_metek_data(start,stop,dpath,save=False):
     file_dates = np.asarray([int(f[0:6]) for f in all_files])
     idxs = np.where(np.logical_and(file_dates>=start_f, file_dates<=stop_f))[0]
     dfs = [all_files[i] for i in idxs]
+    dfs.sort()
 
     # Initialise empty data frames
     m1 = pd.DataFrame()
