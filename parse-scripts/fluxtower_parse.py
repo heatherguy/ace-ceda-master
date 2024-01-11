@@ -663,6 +663,8 @@ def extract_metek_data(start,stop,dpath,save=False):
                 continue   
             
     # crop data for date/time
+    m1.sort_index(inplace=True)
+    m2.sort_index(inplace=True)
     m1=m1[start:stop]
     m2=m2[start:stop]
         
