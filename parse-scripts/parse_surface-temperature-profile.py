@@ -198,11 +198,17 @@ def main():
             alt_HMP4[dt.datetime(2022,7,22,14):dt.datetime(2022,8,20,20,30)] = snow_height['snd'][dt.datetime(2022,7,22,14):dt.datetime(2022,8,20,20,30)] + 0.7 + 5.3 + 2.9
 
             # After 20 August 2022 HMP1 reinstalled 
-            alt_HMP1[dt.datetime(2022,8,20,20,30):] = snow_height['snd'][dt.datetime(2022,8,20,20,30):] + 0.7
-            alt_HMP2[dt.datetime(2022,8,20,20,30):] = snow_height['snd'][dt.datetime(2022,8,20,20,30):] + 0.7 + 1.8
-            alt_HMP3[dt.datetime(2022,8,20,20,30):] = snow_height['snd'][dt.datetime(2022,8,20,20,30):] + 0.7 + 1.8 + 3.5
-            alt_HMP4[dt.datetime(2022,8,20,20,30):] = snow_height['snd'][dt.datetime(2022,8,20,20,30):] + 0.7 + 1.8 + 3.5 + 2.9
-        
+            alt_HMP1[dt.datetime(2022,8,20,20,30):dt.datetime(2023,7,27)] = snow_height['snd'][dt.datetime(2022,8,20,20,30):dt.datetime(2023,7,27)] + 0.7
+            alt_HMP2[dt.datetime(2022,8,20,20,30):dt.datetime(2023,7,27)] = snow_height['snd'][dt.datetime(2022,8,20,20,30):dt.datetime(2023,7,27)] + 0.7 + 1.8
+            alt_HMP3[dt.datetime(2022,8,20,20,30):dt.datetime(2023,7,27)] = snow_height['snd'][dt.datetime(2022,8,20,20,30):dt.datetime(2023,7,27)] + 0.7 + 1.8 + 3.5
+            alt_HMP4[dt.datetime(2022,8,20,20,30):dt.datetime(2023,7,27)] = snow_height['snd'][dt.datetime(2022,8,20,20,30):dt.datetime(2023,7,27)] + 0.7 + 1.8 + 3.5 + 2.9
+          
+            # After 27 July 2023 tower raise and segmed added
+            alt_HMP1[dt.datetime(2023,7,27):] = snow_height['snd'][dt.datetime(2023,7,27):] + 1
+            alt_HMP2[dt.datetime(2023,7,27):] = snow_height['snd'][dt.datetime(2023,7,27):] + 1 + 2.4
+            alt_HMP3[dt.datetime(2023,7,27):] = snow_height['snd'][dt.datetime(2023,7,27):] + 1 + 2.4 + 3.8
+            alt_HMP4[dt.datetime(2023,7,27):] = snow_height['snd'][dt.datetime(2023,7,27):] + 1 + 2.4 + 3.8 + 7.2
+            
             # do QC's
             # 1b is good data
             qc1 = np.ones(len(t1))
@@ -227,7 +233,8 @@ def main():
             hmp2.loc[dt.datetime(2021,11,15,14):dt.datetime(2021,11,15,16),'QC']=2
             # Between 7 June 2022 and 20 August 2022, HMP4 aspirated shield was down
             hmp4.loc[dt.datetime(2022,6,7):dt.datetime(2022,8,20),'QC']=2
-
+            # 20th july 2023, hmp1 aspirated shield is down
+            hmp1.loc[dt.datetime(2023,7,20):dt.datetime(2023,7,21,13,5),'QC']=2
  
             # 3b is unspecified instrument error
             qc1[np.where(hmp1['QC']==2)[0]]=3
@@ -278,8 +285,10 @@ def main():
                 base_str = 'Platform height (h0) is the top of the Met tower. HMP1 was offline between 1 July 2021 and 22 August 2022. Instrument height: HMP2=h0-9.2, HMP3=h0-4.5m until 2022-07-22 1400,after which it was raised to h0-3.9m, HMP4=h0-1m , Index: [HMP1, HMP2, HMP3, HMP4]'
             elif start < dt.datetime(2022,9,1):
                 base_str = 'Platform height (h0) is the top of the Met tower. HMP1 was offline between 1 July 2021 and 22 August 2022. Instrument height: HMP1=h0-9.2 (installed 22 August 2022), HMP2=h0-9.2 until 22 August 2022, after which it was raised to h0-7.4m, HMP3=h0-3.9m, HMP4=h0-1m , Index: [HMP1, HMP2, HMP3, HMP4]'
-            else:
+            elif start<dt.datetime(2023,7,1):
                 base_str = 'Platform height (h0) is the top of the Met tower. Instrument height: HMP1=h0-9.2, HMP2=h0-7.4m, HMP3=h0-3.9m, HMP4=h0-1m , Index: [HMP1, HMP2, HMP3, HMP4]'
+            else:
+                base_str='Index: [HMP1, HMP2, HMP3, HMP4]'
             nc.setncattr('comment', base_str)
                 
 
