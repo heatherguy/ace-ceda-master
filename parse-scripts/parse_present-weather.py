@@ -125,10 +125,10 @@ def main():
             nc.variables['qc_flag'][:]=qc
 
             # Derive valid max and min
-            nc.variables['optical_range'].valid_min = biral['avg_vis'].min()
-            nc.variables['optical_range'].valid_max = biral['avg_vis'].max()
-            nc.variables['instantaneous_optical_range'].valid_min = biral['inst_vis'].min()
-            nc.variables['instantaneous_optical_range'].valid_max = biral['inst_vis'].max()
+            nc.variables['optical_range'].valid_min = (biral['avg_vis'].to_numpy()*1000).min()
+            nc.variables['optical_range'].valid_max = (biral['avg_vis'].to_numpy()*1000).max()
+            nc.variables['instantaneous_optical_range'].valid_min = (biral['inst_vis'].to_numpy()*1000).min()
+            nc.variables['instantaneous_optical_range'].valid_max = (biral['inst_vis'].to_numpy()*1000).max()
             
             # Close netcdf file
             nc.close()
