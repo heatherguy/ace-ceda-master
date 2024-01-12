@@ -851,7 +851,7 @@ def extract_biral(start,stop,dpath,save=False):
             temp['inst_vis']=inst_vis
             biral_df = pd.concat([biral_df,temp],sort=True)
         except:
-            print('Skipping: %s'%files[i])
+            print('Skipping: %s'%f)
     
     biral_df.sort_index(inplace=True)
     
