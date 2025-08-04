@@ -5,7 +5,7 @@
 #SBATCH --account=icecaps
 #SBATCH -o /gws/nopw/j04/ncas_radar_vol1/heather/logs/%j.out 
 #SBATCH -e /gws/nopw/j04/ncas_radar_vol1/heather/logs/%j.err
-#SBATCH -time 96:00:00
+#SBATCH --time 96:00:00
 
 
 # Check we're in the right directory
