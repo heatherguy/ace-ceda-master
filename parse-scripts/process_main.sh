@@ -1,8 +1,11 @@
 #!/bin/bash
-#SBATCH --partition=short-serial
+#SBATCH --job-name="ICECAPS-process_main"
+#SBATCH --partition=standard
+#SBATCH --qos=standard
+#SBATCH --account=icecaps
 #SBATCH -o /gws/nopw/j04/ncas_radar_vol1/heather/logs/%j.out 
 #SBATCH -e /gws/nopw/j04/ncas_radar_vol1/heather/logs/%j.err
-#SBATCH -t 24:00:00
+#SBATCH --time 24:00:00
 
 # Check we're in the right directory
 cd /gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/parse-scripts
@@ -25,10 +28,8 @@ hmp_dir='/gws/nopw/j04/ncas_radar_vol1/heather/extracted/HMP/'
 opc_dir='/gws/nopw/j04/ncas_radar_vol1/heather/extracted/msf-opc/'
 tawo_opc_dir='/gws/nopw/j04/ncas_radar_vol1/heather/extracted/tawo-opc/'
 
-
-
-all_start='20220101000'
-all_stop='20220601000'
+all_start='20240101000'
+all_stop='20250101000'
 hmp_path='/gws/nopw/j04/ncas_radar_vol1/heather/processed/HMP/'
 kt_qcf='/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/qc-files/KT_bad_dates'
 skyopc_qc='/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/qc-files/skyopc_percent_loss_data.csv'
