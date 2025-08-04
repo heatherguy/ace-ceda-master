@@ -1,10 +1,11 @@
 #!/bin/bash
-#SBATCH --partition=short-serial
+#SBATCH --job-name="ICECAPS-netcdf_main"
+#SBATCH --partition=standard
+#SBATCH --qos=standard
+#SBATCH --account=icecaps
 #SBATCH -o /gws/nopw/j04/ncas_radar_vol1/heather/logs/%j.out 
 #SBATCH -e /gws/nopw/j04/ncas_radar_vol1/heather/logs/%j.err
-#SBATCH -t 24:00:00
-
-
+#SBATCH -time 24:00:00
 
 # Check we're in the right directory
 cd /gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/parse-scripts
@@ -17,7 +18,7 @@ conda activate guyh
 meta_dir='/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master'
 netcdf_out='/gws/nopw/j04/ncas_radar_vol1/heather/final_nc/'
 months=[8,9,10,11,12]
-years=[2022]
+years=[2023]
 avp=1
 
 
