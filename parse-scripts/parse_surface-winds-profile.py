@@ -141,7 +141,10 @@ def main():
             v1['wdir_corrected'] = deg_rot(v1['wdir'],-18.07)
             print('Extracting v2')
             v2 = get_ventus(start,stop,in_loc+'processed/ventus/','v2', avp='1min')
-            v2['wdir_corrected'] = deg_rot(v2['wdir'],222)
+            if start > dt.datetime(2023,8,1):
+                v2['wdir_corrected'] = deg_rot(v2['wdir'],222+18.07)
+            else:
+                v2['wdir_corrected'] = deg_rot(v2['wdir'],-18.07)
         
             # Get metek data
 
