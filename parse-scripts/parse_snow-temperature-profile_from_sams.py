@@ -98,8 +98,6 @@ def main():
     sams_data = sams_data[~sams_data.index.duplicated()]
     sams_error = sams_error.sort_index()
     sams_data = sams_data.sort_index()
-    sams_data.index = pd.to_datetime(sams_data.index)
-    sams_error.index = pd.to_datetime(sams_error.index)
     pattern = re.compile(r'^T\d+$')
     T_keys = [s for s in sams_data.columns if pattern.match(s)]
     
@@ -155,15 +153,15 @@ def main():
                 
                 i = np.where(nc.variables['time'][:]==netCDF4.date2num(d_time,units='seconds since 1970-01-01 00:00:00 UTC'))[0][0]
                 
-                if len(T_keys)!=num_temp_sensors:
-                    print('Not enough tempearutre values for %s'%d_time)
-                else:
-                    for j in range(0,len(T_keys)):
-                        try: 
-                            nc.variables['temperature'][i,j] = float(sams_data_month.iloc[i][T_keys[j]])+273.15 # Conver to kelvin
-                        except:
-                            print('Cannot convert temperature to float: %s'%sams_data_month.iloc[i][T_keys[j]])
-                            continue
+                #if len(T_keys)!=num_temp_sensors:
+                #    print('Not enough tempearutre values for %s'%d_time)
+                #lse:
+                for j in range(0,239):
+                    try: 
+                        nc.variables['temperature'][i,j] = float(sams_data_month.iloc[i][T_keys[j]])+273.15 # Conver to kelvin
+                    except:
+                        print('Cannot convert temperature to float: %s'%sams_data_month.iloc[i][T_keys[j]])
+                        continue
                                 
                 nc.variables['battery_voltage'][i] = np.float(sams_error['Battery_volts'][d_time-dt.timedelta(days=1):d_time+dt.timedelta(days=1)].mean())
                 #nc.variables['qc_flag_temperature'][i] = d[]
