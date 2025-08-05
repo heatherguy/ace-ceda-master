@@ -83,6 +83,7 @@ def main():
     var = pd.read_excel(var_f)
 
     # Get simba data
+    dateparse = lambda x: datetime.strptime(x, '%d/%m/%Y %H:%M')
     fpath = '/gws/nopw/j04/icecaps/ICECAPSarchive/fluxtower/sams_simba/aatestV10TEST2td_2025-08-05_10-37-22.csv'
     fpath_error = '/gws/nopw/j04/icecaps/ICECAPSarchive/fluxtower/sams_simba/aatestV10TEST2st_2025-05-30_12-18-31.csv'
     sams_data = pd.read_csv(fpath,parse_dates=[1],date_parser=dateparse,index_col=1)
@@ -97,8 +98,7 @@ def main():
     sams_error.index = pd.to_datetime(sams_error.index)
     pattern = re.compile(r'^T\d+$')
     T_keys = [s for s in sams_data.columns if pattern.match(s)]
-    dateparse = lambda x: datetime.strptime(x, '%d/%m/%Y %H:%M')
-
+    
     # Loop through each month: 
     for year in years: 
         for month in months:
