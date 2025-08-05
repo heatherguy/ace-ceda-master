@@ -83,7 +83,7 @@ def main():
     var = pd.read_excel(var_f)
 
     # Get simba data
-    dateparse = lambda x: datetime.strptime(x, '%d/%m/%Y %H:%M')
+    dateparse = lambda x: dt.datetime.strptime(x, '%d/%m/%Y %H:%M')
     fpath = '/gws/nopw/j04/icecaps/ICECAPSarchive/fluxtower/sams_simba/aatestV10TEST2td_2025-08-05_10-37-22.csv'
     fpath_error = '/gws/nopw/j04/icecaps/ICECAPSarchive/fluxtower/sams_simba/aatestV10TEST2st_2025-05-30_12-18-31.csv'
     sams_data = pd.read_csv(fpath,parse_dates=[1],date_parser=dateparse,index_col=1)
