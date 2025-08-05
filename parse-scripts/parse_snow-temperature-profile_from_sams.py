@@ -95,7 +95,7 @@ def main():
     sams_data = sams_data.sort_index()
     sams_data.index = pd.to_datetime(sams_data.index)
     sams_error.index = pd.to_datetime(sams_error.index)
-    pattern = re.compile(r'^T\d{3}$')
+    pattern = re.compile(r'^T\d+$')
     T_keys = [s for s in sams_data.columns if pattern.match(s)]
     
     # Loop through each month: 
@@ -133,7 +133,6 @@ def main():
             NC_SpecificVariables(nc, var, np)
 
             print(f" ... processing month: %s"%month)
-            sams_data = sams_data[]
             
             # Write in data
 
