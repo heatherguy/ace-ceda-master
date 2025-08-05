@@ -88,8 +88,10 @@ def main():
     
     fpath = '/gws/nopw/j04/icecaps/ICECAPSarchive/fluxtower/sams_simba/aatestV10TEST2td_2025-08-05_10-37-22.csv'
     fpath_error = '/gws/nopw/j04/icecaps/ICECAPSarchive/fluxtower/sams_simba/aatestV10TEST2st_2025-05-30_12-18-31.csv'
-    sams_data = pd.read_csv(fpath,parse_dates=[1],date_parser=dateparse,index_col=1)
-    sams_error = pd.read_csv(fpath_error,parse_dates=[1],date_parser=dateparse,index_col=1)
+    sams_data = pd.read_csv(fpath,index_col=1)
+    sams_error = pd.read_csv(fpath_error,index_col=1)
+    sams_data.index = pd.to_datetime(sams_data.index)
+    sams_error.index = pd.to_datetime(sams_error.index)
     
     # clean:
     sams_error = sams_error[~sams_error.index.duplicated()]
