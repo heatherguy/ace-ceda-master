@@ -3,6 +3,7 @@
 #SBATCH --partition=standard
 #SBATCH --qos=standard
 #SBATCH --account=icecaps
+#SBATCH --mem=2000M
 #SBATCH -o /gws/nopw/j04/ncas_radar_vol1/heather/logs/%j.out 
 #SBATCH -e /gws/nopw/j04/ncas_radar_vol1/heather/logs/%j.err
 #SBATCH --time 24:00:00
@@ -17,8 +18,8 @@ conda activate guyh
 # Generate netcdf file
 meta_dir='/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master'
 netcdf_out='/gws/nopw/j04/ncas_radar_vol1/heather/final_nc/'
-months=[8,9,10,11,12]
-years=[2023]
+months=[1,2,3,4,5,6,7]
+years=[2024]
 avp=1
 
 
@@ -29,7 +30,7 @@ in_loc_proc='/gws/nopw/j04/ncas_radar_vol1/heather/processed/'
 #python parse_surface-temperature-profile.py $in_loc $netcdf_out $months $years $avp
 #python parse_skin-temperature.py $in_loc_proc $netcdf_out $months $years $avp
 #python parse_surface-moisture-profile.py $in_loc $netcdf_out $months $years $avp
-#python parse_surface-winds-profile.py $in_loc $netcdf_out $months $years $avp
+python parse_surface-winds-profile.py $in_loc $netcdf_out $months $years $avp
 #python parse_aerosol-concentration.py $in_loc_proc $netcdf_out $months $years $avp
 #python parse_aerosol-size-distribution.py $in_loc_proc $netcdf_out $months $years $avp
 #python parse_aerosol-size-distribution-pops.py $in_loc $netcdf_out $months $years $avp
@@ -37,7 +38,7 @@ in_loc_proc='/gws/nopw/j04/ncas_radar_vol1/heather/processed/'
 #python parse_aerosol-opc_TAWO.py $in_loc_proc $netcdf_out $months $years $avp
 #python parse_present-weather.py $in_loc $netcdf_out $months $years
 #python parse_snow-temperature-profile.py $in_loc $netcdf_out $months $years
-python parse_snow-temperature-profile_from_sams.py $in_loc $netcdf_out $months $years
+#python parse_snow-temperature-profile_from_sams.py $in_loc $netcdf_out $months $years
 
 
 start_dat='202207010000'
