@@ -3,7 +3,7 @@
 #SBATCH --partition=standard
 #SBATCH --qos=standard
 #SBATCH --account=icecaps
-#SBATCH --mem=2000M
+#SBATCH --mem=20000M
 #SBATCH -o /gws/nopw/j04/ncas_radar_vol1/heather/logs/%j.out 
 #SBATCH -e /gws/nopw/j04/ncas_radar_vol1/heather/logs/%j.err
 #SBATCH --time 24:00:00
