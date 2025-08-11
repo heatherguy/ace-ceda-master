@@ -248,7 +248,7 @@ def main():
             base_str2 = nc_comp.__getattribute__('comment')
             nc_est.setncattr('comment', base_str1 + ' NOTE: No snow height data available, heights above surface based on measurements from 2022-08-22')
             nc_comp.setncattr('comment', base_str2 + ' NOTE: No snow height data available, heights above surface based on measurements from 2022-08-22')
-        elif snd_flag==3
+        elif snd_flag==3:
             nc_est.setncattr('comment', base_str1 + ' NOTE: No snow height data available')
             nc_comp.setncattr('comment', base_str2 + ' NOTE: No snow height data available')
 
