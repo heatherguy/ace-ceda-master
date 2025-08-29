@@ -89,6 +89,11 @@ def main():
     fpath = '/gws/nopw/j04/icecaps/ICECAPSarchive/fluxtower/sams_simba/aatestV10TEST2td_2025-08-05_10-37-22.csv'
     fpath_error = '/gws/nopw/j04/icecaps/ICECAPSarchive/fluxtower/sams_simba/aatestV10TEST2st_2025-05-30_12-18-31.csv'
     sams_data = pd.read_csv(fpath,index_col=1)
+    # sort columns
+    new_cols=sams_data.columns[1:]
+    sams_data=sams_data[sams_data.columns[:-1]]
+    sams_data.columns = new_cols
+    
     sams_error = pd.read_csv(fpath_error,index_col=1)
     sams_data.index = pd.to_datetime(sams_data.index)
     sams_error.index = pd.to_datetime(sams_error.index)
@@ -142,6 +147,10 @@ def main():
             nc.variables['height'][:]=height_vals
 
             for d in range(0,len(sams_data_month)):
+                # Skip if it's a heating sample
+                if sams_data_month.iloc[d]['MsgType']!=10:
+                    continue
+                
                 # round time to nearest 15 for index
                 d_time = round_15(sams_data_month.index[d].to_pydatetime())
 
@@ -158,9 +167,9 @@ def main():
                 #lse:
                 for j in range(0,239):
                     try: 
-                        nc.variables['temperature'][i,j] = float(sams_data_month.iloc[i][T_keys[j]])+273.15 # Conver to kelvin
+                        nc.variables['temperature'][i,j] = float(sams_data_month.iloc[d][T_keys[j]])+273.15 # Conver to kelvin
                     except:
-                        print('Cannot convert temperature to float: %s'%sams_data_month.iloc[i][T_keys[j]])
+                        print('Cannot convert temperature to float: %s'%sams_data_month.iloc[d][T_keys[j]])
                         continue
                                 
                 nc.variables['battery_voltage'][i] = np.float(sams_error['Battery_volts'][d_time-dt.timedelta(days=1):d_time+dt.timedelta(days=1)].mean())
