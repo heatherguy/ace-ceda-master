@@ -244,7 +244,7 @@ def main():
             nc.variables['sample_span'].valid_min = np.nanmin(nc.variables['sample_span'][:])
             nc.variables['sample_span'].valid_max = np.nanmax(nc.variables['sample_span'][:])
 
-            nc.variables['battery_voltage'].valid_min = np.nanmin(nc.variables['battery_voltage'][:])
+            nc.variables['battery_voltage'].valid_min = 10.0
             nc.variables['battery_voltage'].valid_max = np.nanmax(nc.variables['battery_voltage'][:])
 
             nc.variables['height'].valid_min = -5
