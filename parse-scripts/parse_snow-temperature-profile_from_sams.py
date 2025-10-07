@@ -62,6 +62,19 @@ def get_args(args_in):
 def round_15(dat):
     return dt.datetime.min + round((dat - dt.datetime.min) / dt.timedelta(minutes=15)) * dt.timedelta(minutes=15)
 
+def compare_arrays(a, b):
+    # compare two numpy arrays of the same length
+    # where they are not nan, they should be equal, else throw an error
+    # where just one is nan, return the good number
+    # where both are equal return that value. 
+    if a.shape != b.shape:
+        raise ValueError("Shape mismatch")
+    both_nan = np.isnan(a) & np.isnan(b)
+    mismatch = ~(both_nan | (a == b) | np.isnan(a) | np.isnan(b))
+    if np.any(mismatch):
+        raise ValueError(f"Arrays differ at positions: {np.where(mismatch)}")
+    return np.where(np.isnan(a), b, a)
+
 def main():
     """
     main function generates netCDF and stores in out_loc
@@ -86,8 +99,12 @@ def main():
     #dateparse = lambda x: dt.datetime.strptime(x, '%d/%m/%Y %H:%M')
     dateparse = lambda x: dt.datetime.strptime(x, '%Y-%m-%d %H:%M:%S')
     
-    fpath = '/gws/ssde/j25b/icecaps/ICECAPSarchive/fluxtower/sams_simba/aatestV10TEST2td_2025-10-07_09-03-34.csv'
-    fpath_error = '/gws/ssde/j25b/icecaps/ICECAPSarchive/fluxtower/sams_simba/aatestV10TEST2st_2025-10-07_09-03-34.csv'
+    #fpath = '/gws/ssde/j25b/icecaps/ICECAPSarchive/fluxtower/sams_simba/aatestV10TEST2td_2025-10-07_09-03-31.csv'
+    #fpath_error = '/gws/ssde/j25b/icecaps/ICECAPSarchive/fluxtower/sams_simba/aatestV10TEST2st_2025-10-07_09-03-34_a.csv'
+
+    fpath = '/gws/ssde/j25b/icecaps/ICECAPSarchive/fluxtower/sams_simba/aatestV10TEST2td_2025-08-05_10-37-22.csv'
+    fpath_error = '/gws/ssde/j25b/icecaps/ICECAPSarchive/fluxtower/sams_simba/aatestV10TEST2st_2025-05-30_12-18-31.csv'    
+
     sams_data = pd.read_csv(fpath,index_col=1)
     # sort columns
     new_cols=sams_data.columns[1:]
@@ -99,8 +116,8 @@ def main():
     sams_error.index = pd.to_datetime(sams_error.index)
     
     # clean:
-    sams_error = sams_error[~sams_error.index.duplicated()]
-    sams_data = sams_data[~sams_data.index.duplicated()]
+    #sams_error = sams_error[~sams_error.index.duplicated()]
+    #sams_data = sams_data[~sams_data.index.duplicated()]
     sams_error = sams_error.sort_index()
     sams_data = sams_data.sort_index()
     pattern = re.compile(r'^T\d+$')
@@ -145,7 +162,9 @@ def main():
             # Write in data
 
             nc.variables['height'][:]=height_vals
-
+            qc_flag = np.ones(np.shape(nc.variables['temperature']))
+            all_dtimes =[]
+            
             for d in range(0,len(sams_data_month)):
                 # Skip if it's a heating sample
                 if sams_data_month.iloc[d]['MsgType']!=10:
@@ -161,17 +180,33 @@ def main():
                     continue
                 
                 i = np.where(nc.variables['time'][:]==netCDF4.date2num(d_time,units='seconds since 1970-01-01 00:00:00 UTC'))[0][0]
+                t_data = np.asarray([float(sams_data_month.iloc[d][T_keys[j]])+273.15 for j in range(0,240)]).astype('float32') # Convert to kelvin
+                # fill nans
+                t_data[t_data < 175] = np.nan
                 
-                #if len(T_keys)!=num_temp_sensors:
-                #    print('Not enough tempearutre values for %s'%d_time)
-                #lse:
-                for j in range(0,239):
-                    try: 
-                        nc.variables['temperature'][i,j] = float(sams_data_month.iloc[d][T_keys[j]])+273.15 # Conver to kelvin
+                # If the time is repeated, you need to compare all lines with the same time stamp, and keep non-nan values. Any values
+                # that exists in multiple lines should be duplicates. If that doesn't work, try joining the arrays.
+
+                if d_time in all_dtimes:
+                    print('Processing duplicate time stamp')
+                    existing_data = nc.variables['temperature'][i,:].filled(np.nan)
+                    print('Attempting duplicate data method...')
+                    try:
+                        new_data = compare_arrays(existing_data, t_data)
+                        nc.variables['temperature'][i,:] = new_data
                     except:
-                        print('Cannot convert temperature to float: %s'%sams_data_month.iloc[d][T_keys[j]])
-                        continue
-                                
+                        print('Duplicates failed, trying to append')
+                        if len(t_data[~np.isnan(t_data)]) + len(existing_data[~np.isnan(existing_data)]) ==240:
+                            new_data=np.concatenate([existing_data[~np.isnan(existing_data)],t_data[~np.isnan(t_data)]])
+                            nc.variables['temperature'][i,:] = new_data
+                        else:
+                            print('Failed to establish a good data series')
+                            qc_flag[i]=3
+                            continue
+                else:
+                    nc.variables['temperature'][i,:] = t_data
+                    all_dtimes.append(d_time)
+   
                 nc.variables['battery_voltage'][i] = np.float(sams_error['Battery_volts'][d_time-dt.timedelta(days=1):d_time+dt.timedelta(days=1)].mean())
                 #nc.variables['qc_flag_temperature'][i] = d[]
             
@@ -181,7 +216,6 @@ def main():
             #1 = good_data 
             #2 = bad_data_temperature_outside_sensor_operational_range 
             #3 = bad_data_unspecified_instrument_error          
-            qc_flag = np.ones(np.shape(nc.variables['temperature']))
 
             # Check for reasonable values: 
             qc_flag[np.where(nc.variables['temperature'][:] > 295)] = 2
