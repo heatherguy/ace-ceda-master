@@ -182,22 +182,22 @@ def main():
                 i = np.where(nc.variables['time'][:]==netCDF4.date2num(d_time,units='seconds since 1970-01-01 00:00:00 UTC'))[0][0]
                 t_data = np.asarray([float(sams_data_month.iloc[d][T_keys[j]])+273.15 for j in range(0,240)]).astype('float32') # Convert to kelvin
                 # fill nans
-                t_data[t_data < 175] = np.nan
+                t_data[t_data < 175] = -999.
                 
                 # If the time is repeated, you need to compare all lines with the same time stamp, and keep non-nan values. Any values
                 # that exists in multiple lines should be duplicates. If that doesn't work, try joining the arrays.
 
                 if d_time in all_dtimes:
                     print('Processing duplicate time stamp')
-                    existing_data = nc.variables['temperature'][i,:].filled(np.nan)
+                    existing_data = nc.variables['temperature'][i,:].filled(-999.)
                     print('Attempting duplicate data method...')
                     try:
                         new_data = compare_arrays(existing_data, t_data)
                         nc.variables['temperature'][i,:] = new_data
                     except:
                         print('Duplicates failed, trying to append')
-                        if len(t_data[~np.isnan(t_data)]) + len(existing_data[~np.isnan(existing_data)]) ==240:
-                            new_data=np.concatenate([existing_data[~np.isnan(existing_data)],t_data[~np.isnan(t_data)]])
+                        if len(t_data[t_data!=-999.]) + len(existing_data[existing_data!=-999.]) ==240:
+                            new_data=np.concatenate([existing_data[existing_data!=-999.],t_data[t_data!=-999.]])
                             nc.variables['temperature'][i,:] = new_data
                         else:
                             print('Failed to establish a good data series')
