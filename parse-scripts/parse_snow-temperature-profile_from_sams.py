@@ -102,8 +102,8 @@ def main():
     #fpath = '/gws/ssde/j25b/icecaps/ICECAPSarchive/fluxtower/sams_simba/aatestV10TEST2td_2025-10-07_09-03-31.csv'
     #fpath_error = '/gws/ssde/j25b/icecaps/ICECAPSarchive/fluxtower/sams_simba/aatestV10TEST2st_2025-10-07_09-03-34_a.csv'
 
-    fpath = '/gws/ssde/j25b/icecaps/ICECAPSarchive/fluxtower/sams_simba/aatestV10TEST2td_2025-08-05_10-37-22.csv'
-    fpath_error = '/gws/ssde/j25b/icecaps/ICECAPSarchive/fluxtower/sams_simba/aatestV10TEST2st_2025-05-30_12-18-31.csv'    
+    fpath = '/gws/ssde/j25b/icecaps/ICECAPSarchive/fluxtower/sams_simba/251008_NCAS_RAW_aatestV10TEST2td_2025-10-08_10-03-24.csv'
+    fpath_error = '/gws/ssde/j25b/icecaps/ICECAPSarchive/fluxtower/sams_simba/aatestV10TEST2st_2025-10-07_09-03-34_a.csv'    
 
     sams_data = pd.read_csv(fpath,index_col=1)
     # sort columns
