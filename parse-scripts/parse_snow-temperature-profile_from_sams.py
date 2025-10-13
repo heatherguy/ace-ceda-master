@@ -59,8 +59,8 @@ def get_args(args_in):
     # return values:
     return in_loc,out_loc,months,years
 
-def round_15(dat):
-    return dt.datetime.min + round((dat - dt.datetime.min) / dt.timedelta(minutes=15)) * dt.timedelta(minutes=15)
+def round_1h(dat):
+    return dt.datetime.min + round((dat - dt.datetime.min) / dt.timedelta(hours=1)) * dt.timedelta(hours=1)
 
 def compare_arrays(a, b):
     # compare two numpy arrays of the same length
@@ -153,8 +153,8 @@ def main():
             fn = out_loc + 'snow-temperature-profile/' +f1 + chr(95) + f2 + chr(95) + f3 + chr(95) + 'snow-temperature-profile' + chr(95) + f5 + f6
             nc = Dataset(fn, "w",  format = "NETCDF4_CLASSIC") 
 
-            NC_Global_Attributes(nc, meta, start,stop - pd.Timedelta(minutes=15))
-            time_list = pd.date_range(start,stop - pd.Timedelta(minutes=15),freq='15min')[:]
+            NC_Global_Attributes(nc, meta, start,stop - pd.Timedelta(hours=1))
+            time_list = pd.date_range(start,stop - pd.Timedelta(hours=1),freq='1h')[:]
             NC_Dimensions(nc, len(time_list), index=num_temp_sensors)  
             NC_CommonVariables(nc, time_list, np)
             NC_SpecificVariables(nc, var, np)
@@ -173,7 +173,7 @@ def main():
                     continue
                 
                 # round time to nearest 15 for index
-                d_time = round_15(sams_data_month.index[d].to_pydatetime())
+                d_time = round_1h(sams_data_month.index[d].to_pydatetime())
 
                 # Ignore any data prior to sample start time or not in the correct month
                 if d_time < dt.datetime(2023,8,7,0):
@@ -209,7 +209,7 @@ def main():
                     nc.variables['temperature'][i,:] = t_data
                     all_dtimes.append(d_time)
    
-                nc.variables['battery_voltage'][i] = np.float(sams_error['Battery_volts'][d_time-dt.timedelta(days=1):d_time+dt.timedelta(days=1)].mean())
+                nc.variables['battery_voltage'][i] = np.float(sams_error['Battery_volts'][d_time-dt.timedelta(days=2):d_time+dt.timedelta(days=2)].mean())
                 #nc.variables['qc_flag_temperature'][i] = d[]
             
 
@@ -222,6 +222,8 @@ def main():
             # Check for reasonable values: 
             qc_flag[np.where(nc.variables['temperature'][:] > 295)] = 2
             qc_flag[np.where(nc.variables['temperature'][:] < 195)] = 2
+            nc.variables['temperature'][:] = np.ma.masked_where(nc.variables['temperature'][:] > 295, nc.variables['temperature'][:])
+            nc.variables['temperature'][:] = np.ma.masked_where(nc.variables['temperature'][:] < 195, nc.variables['temperature'][:])
 
             # Check for nan's
             qc_flag[np.where(nc.variables['temperature'][:].mask==1)] = 3
