@@ -114,8 +114,8 @@ def main():
     #sams_data.columns = new_cols
     
     sams_error = pd.read_csv(fpath_error,index_col=1)
-    sams_data.index = pd.to_datetime(sams_data.index)
-    sams_error.index = pd.to_datetime(sams_error.index)
+    sams_data.index = pd.to_datetime(sams_data.index,dayfirst=True)
+    sams_error.index = pd.to_datetime(sams_error.index,dayfirst=True)
     
     # clean:
     #sams_error = sams_error[~sams_error.index.duplicated()]
