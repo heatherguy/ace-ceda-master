@@ -107,10 +107,11 @@ def main():
     fpath = '/gws/ssde/j25b/icecaps/ICECAPSarchive/fluxtower/sams_simba/251010_aatestV10TEST2td_2025-10-10_11-40-35.csv'
 
     sams_data = pd.read_csv(fpath,index_col=1)
+
     # sort columns
-    new_cols=sams_data.columns[1:]
-    sams_data=sams_data[sams_data.columns[:-1]]
-    sams_data.columns = new_cols
+    #new_cols=sams_data.columns[1:]
+    #sams_data=sams_data[sams_data.columns[:-1]]
+    #sams_data.columns = new_cols
     
     sams_error = pd.read_csv(fpath_error,index_col=1)
     sams_data.index = pd.to_datetime(sams_data.index)
