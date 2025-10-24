@@ -42,17 +42,17 @@ extract_dir='/gws/nopw/j04/ncas_radar_vol1/heather/extracted/'
 #echo 'Extracting CPC'
 #python tar_extract.py $ext_start $ext_stop $raw_dir_ace $extract_dir 'CPC'
 
-echo 'Extracting SKYOPC'
-python tar_extract.py $ext_start $ext_stop $raw_dir_ace $extract_dir 'skyopc'
+#echo 'Extracting SKYOPC'
+#python tar_extract.py $ext_start $ext_stop $raw_dir_ace $extract_dir 'skyopc'
 
 echo 'Extracting POPS'
-python tar_extract.py $ext_start $ext_stop $raw_dir_ace $extract_dir 'F2023'
+python tar_extract.py $ext_start $ext_stop $raw_dir_ace $extract_dir 'F2024'
 
 #echo 'Extracting msf-opc'
 #python tar_extract.py $ext_start $ext_stop $raw_dir_ace $extract_dir 'MSF'
 
-echo 'Extracting tawo-opc'
-python tar_extract.py $ext_start $ext_stop $raw_dir_ace $extract_dir 'TAWO'
+#echo 'Extracting tawo-opc'
+#python tar_extract.py $ext_start $ext_stop $raw_dir_ace $extract_dir 'TAWO'
 
 #echo 'Extracting licor'
 #python tar_extract.py $ext_start $ext_stop $raw_dir_flux $extract_dir 'licor'
