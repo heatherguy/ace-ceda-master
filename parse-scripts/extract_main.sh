@@ -20,10 +20,10 @@ conda activate guyh
 ext_start='230701'
 ext_stop='250101'
 
-raw_dir_flux='/gws/nopw/j04/icecaps/ICECAPSarchive/fluxtower/raw/'
+raw_dir_flux='/gws/ssde/j25b/icecaps/ICECAPSarchive/fluxtower/raw/'
 #raw_dir_flux='/gws/nopw/j04/ncas_radar_vol1/heather/fluxtower_temp/'
 
-raw_dir_ace='/gws/nopw/j04/icecaps/ICECAPSarchive/ace/raw/'
+raw_dir_ace='/gws/ssde/j25b/icecaps/ICECAPSarchive/ace/raw/'
 extract_dir='/gws/nopw/j04/ncas_radar_vol1/heather/extracted/'
 
 
