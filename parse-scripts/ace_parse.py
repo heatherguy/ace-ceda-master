@@ -68,7 +68,7 @@ def qc_aerosol(qc_in):
             qc_in['QC'][qc_in.between_time(start_time,stop_time).index]=0
            
     # Try to get Noaa Met data     
-    w_dloc = '/gws/nopw/j04/ncas_radar_vol1/heather/Summit_Met/met_sum_insitu_1_obop_minute_%s_%s.txt'%(sdate.year,str(sdate.month))
+    w_dloc = '/gws/ssde/j25b/icecaps/surface_met/met_sum_insitu_1_obop_minute_%s_%s.txt'%(sdate.year,str(sdate.month))
     try:
         met = get_NOAA_met(w_dloc)
         # resample to the sampe indices
