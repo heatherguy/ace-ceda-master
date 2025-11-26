@@ -245,7 +245,7 @@ def main():
             nc.variables['temperature'].valid_min = np.nanmin(nc.variables['temperature'][:][qc_flag==1])
             nc.variables['temperature'].valid_max = np.nanmax(nc.variables['temperature'][:][qc_flag==1])
 
-             nc.variables['battery_voltage'].valid_min = 10.0
+            nc.variables['battery_voltage'].valid_min = 10.0
             nc.variables['battery_voltage'].valid_max = 20.0
 
             nc.variables['height'].valid_min = -5
