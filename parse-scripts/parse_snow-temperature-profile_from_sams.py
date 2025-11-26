@@ -146,7 +146,6 @@ def main():
             nc = Dataset(fn, "w",  format = "NETCDF4_CLASSIC") 
 
             NC_Global_Attributes(nc, meta, start,stop - pd.Timedelta(hours=1))
-            time_list = pd.date_range(start,stop - pd.Timedelta(hours=1),freq='1h')[:]
             NC_Dimensions(nc, len(time_list), index=num_temp_sensors)  
             NC_CommonVariables(nc, time_list, np)
             NC_SpecificVariables(nc, var, np)
