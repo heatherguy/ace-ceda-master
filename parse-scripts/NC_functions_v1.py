@@ -89,8 +89,8 @@ def NC_CommonVariables(fn_nc, time_list, np):
     years.type = 'int32'
     years.units = '1'
     years.long_name = 'Year'
-    years.valid_min = np.int32(min(time_list).year)
-    years.valid_max = np.int32(max(time_list).year) 
+    years.valid_min = np.int32(min(time_list.year))
+    years.valid_max = np.int32(max(time_list.year)) 
     #write data
     years[:] = np.int32(time_list.year.to_numpy())
 
@@ -100,8 +100,8 @@ def NC_CommonVariables(fn_nc, time_list, np):
     months.type = 'int32'
     months.units = '1'
     months.long_name = 'Month'
-    months.valid_min = np.int32(min(time_list).month)
-    months.valid_max = np.int32(max(time_list).month) 
+    months.valid_min = np.int32(min(time_list.month))
+    months.valid_max = np.int32(max(time_list.month)) 
     #write data
     months[:] = np.int32(time_list.month.to_numpy())
    
@@ -111,8 +111,8 @@ def NC_CommonVariables(fn_nc, time_list, np):
     days.type = 'int32'
     days.units = '1'
     days.long_name = 'Day'
-    days.valid_min = np.int32(min(time_list).day)
-    days.valid_max = np.int32(max(time_list).day)
+    days.valid_min = np.int32(min(time_list.day))
+    days.valid_max = np.int32(max(time_list.day))
     #write data
     days[:] = np.int32(np.int32(time_list.day.to_numpy()))
    
@@ -122,8 +122,8 @@ def NC_CommonVariables(fn_nc, time_list, np):
     hours.type = 'int32'
     hours.units = '1'
     hours.long_name = 'Hour'
-    hours.valid_min = np.int32(min(time_list).hour)
-    hours.valid_max = np.int32(max(time_list).hour) 
+    hours.valid_min = np.int32(min(time_list.hour))
+    hours.valid_max = np.int32(max(time_list.hour)) 
     #write data
     hours[:] = np.int32(time_list.hour.to_numpy())
    
@@ -133,8 +133,8 @@ def NC_CommonVariables(fn_nc, time_list, np):
     minutes.type = 'int32'
     minutes.units = '1'
     minutes.long_name = 'Minute'
-    minutes.valid_min = np.int32(min(time_list).minute)
-    minutes.valid_max = np.int32(max(time_list).minute)  
+    minutes.valid_min = np.int32(min(time_list.minute))
+    minutes.valid_max = np.int32(max(time_list.minute))  
     #write data
     minutes[:] = np.int32(time_list.minute.to_numpy())
    
@@ -144,8 +144,8 @@ def NC_CommonVariables(fn_nc, time_list, np):
     seconds.type = 'float32'
     seconds.units = '1'
     seconds.long_name = 'Second'
-    seconds.valid_min = np.float32(min(time_list).second)
-    seconds.valid_max = np.float32(max(time_list).second) 
+    seconds.valid_min = np.float32(min(time_list.second))
+    seconds.valid_max = np.float32(max(time_list.second) )
     #write data
     seconds[:] = np.int32(time_list.second.to_numpy())
    
