@@ -180,8 +180,6 @@ def main():
                         m2_data[m2_data < 175] = np.nan
                         m2_data = m2_data[~np.isnan(m2_data)]
                         t_data[-len(m2_data):]=m2_data
-                        # round time to nearest 15 for index
-                        d_time = round_1h(sams_data_month.index[d].to_pydatetime())
 
                 else:
                     # make sure we get the messages in the correct order
