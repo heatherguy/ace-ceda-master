@@ -147,7 +147,7 @@ def main():
 
             NC_Global_Attributes(nc, meta, start,stop - pd.Timedelta(hours=1))
             NC_Dimensions(nc, len(time_list), index=num_temp_sensors)  
-            NC_CommonVariables(nc, time_list, np)
+            NC_CommonVariables(nc, pd.DatetimeIndex(time_list), np)
             NC_SpecificVariables(nc, var, np)
 
             print(f" ... processing month: %s"%month)
