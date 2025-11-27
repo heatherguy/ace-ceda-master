@@ -182,17 +182,17 @@ def main():
                             print('Cannot convert temperature to float: %s'%d['temperature'][j])
                             continue
                 
-                nc.variables['sample_start'][i] = netCDF4.date2num(d['sample_start'],units='seconds since 1970-01-01 00:00:00 UTC')
-                try:
-                    nc.variables['sample_end'][i] = netCDF4.date2num(d['sample_end'],units='seconds since 1970-01-01 00:00:00 UTC')
-                except:
-                    nc.variables['sample_end'][i] = np.nan
-                try: 
-                    nc.variables['sample_span'][i] = d['sample_span'].total_seconds()
-                except:
-                    nc.variables['sample_span'][i] = np.nan
+                #nc.variables['sample_start'][i] = netCDF4.date2num(d['sample_start'],units='seconds since 1970-01-01 00:00:00 UTC')
+                #try:
+                #    nc.variables['sample_end'][i] = netCDF4.date2num(d['sample_end'],units='seconds since 1970-01-01 00:00:00 UTC')
+                #except:
+                #     nc.variables['sample_end'][i] = np.nan
+                #try: 
+                #    nc.variables['sample_span'][i] = d['sample_span'].total_seconds()
+                #except:
+                #    nc.variables['sample_span'][i] = np.nan
                 
-                nc.variables['battery_voltage'][i] = np.float(d['battery_voltage'])
+                #nc.variables['battery_voltage'][i] = np.float(d['battery_voltage'])
                 #nc.variables['qc_flag_temperature'][i] = d[]
             
 
@@ -221,14 +221,14 @@ def main():
             nc.variables['temperature'].valid_min = np.nanmin(nc.variables['temperature'][:][qc_flag==1])
             nc.variables['temperature'].valid_max = np.nanmax(nc.variables['temperature'][:][qc_flag==1])
 
-            nc.variables['sample_start'].valid_min = np.nanmin(nc.variables['sample_start'][:])
-            nc.variables['sample_start'].valid_max = np.nanmax(nc.variables['sample_start'][:])
+            #nc.variables['sample_start'].valid_min = np.nanmin(nc.variables['sample_start'][:])
+            #nc.variables['sample_start'].valid_max = np.nanmax(nc.variables['sample_start'][:])
 
-            nc.variables['sample_end'].valid_min = np.nanmin(nc.variables['sample_end'][:])
-            nc.variables['sample_end'].valid_max = np.nanmax(nc.variables['sample_end'][:])
+            #nc.variables['sample_end'].valid_min = np.nanmin(nc.variables['sample_end'][:])
+            #nc.variables['sample_end'].valid_max = np.nanmax(nc.variables['sample_end'][:])
 
-            nc.variables['sample_span'].valid_min = np.nanmin(nc.variables['sample_span'][:])
-            nc.variables['sample_span'].valid_max = np.nanmax(nc.variables['sample_span'][:])
+            #nc.variables['sample_span'].valid_min = np.nanmin(nc.variables['sample_span'][:])
+            #nc.variables['sample_span'].valid_max = np.nanmax(nc.variables['sample_span'][:])
 
             nc.variables['battery_voltage'].valid_min = np.nanmin(nc.variables['battery_voltage'][:])
             nc.variables['battery_voltage'].valid_max = np.nanmax(nc.variables['battery_voltage'][:])
