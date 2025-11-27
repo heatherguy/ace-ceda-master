@@ -80,7 +80,7 @@ def main():
     meta = pd.read_excel(meta_f)
 
     # Specific variables
-    var_f = '/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/specific_variables/snow-temperature-profile.xlsx'
+    var_f = '/gws/nopw/j04/ncas_radar_vol1/heather/ace-ceda-master/specific_variables/sams-snow-temperature-profile.xlsx'
     #var_f = '/Users/heather/Desktop/ace-ceda-master/specific_variables/snow-temperature-profile.xlsx'
     var = pd.read_excel(var_f)
 
