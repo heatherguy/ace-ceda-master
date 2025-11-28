@@ -38,6 +38,17 @@ nat = np.datetime64('NaT').astype('<M8[ns]')
 # python parse_snow-temperature-profile.py in_loc out_loc months years
 #############################################################
 
+# Additional instrument informaiton:
+# So we installed the thermistor chain for the test unit in the ~ 2.5 m long, 2'' 
+# diameter hole, which we then backfilled. Then we attached a vertical segment to a 
+# bamboo pole so there is a 170 cm vertical section above the snow surface. 
+# We get about 0.8 m accumulation a year at Summit, so a good portion of this will 
+# be buried naturally by next summer. The remaining ~80 cm of the chain is just laid 
+# out to another bamboo pole per the attached photo, so I don't know how useful those 
+# data will be. I counted 38 sensors between the top of the heat shrink and the start 
+# of the vertical section of chain (see diagram attached)
+# Note: top 38 sensors are not vertical - set QC flag
+
 def get_args(args_in):
     """
     check input arguments and return values if all looks o.k.
@@ -227,6 +238,9 @@ def main():
             qc_flag[np.where(nc.variables['temperature'][:] < 195)] = 2
             nc.variables['temperature'][:] = np.ma.masked_where(nc.variables['temperature'][:] > 295, nc.variables['temperature'][:])
             nc.variables['temperature'][:] = np.ma.masked_where(nc.variables['temperature'][:] < 195, nc.variables['temperature'][:])
+
+            # Qc all the top 38 sensors since they weren't mounted vertically.
+            qc_flag[:,0:38] = 3
 
             # Check for nan's
             qc_flag[np.where(nc.variables['temperature'][:].mask==1)] = 3
