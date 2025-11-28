@@ -146,7 +146,7 @@ def main():
             # Data file from SD card is backed up on 2nd August 2023
 
             if (year==2023) and (month in [2,3,4,5,6]):
-                missing_data=pd.read_csv('/gws/nopw/j04/icecaps/ICECAPSarchive/fluxtower/simba_processed/missing_data_summer23.csv',index_col=0,parse_dates=[0])
+                missing_data=pd.read_csv('/gws/ssde/j25b/icecaps/ICECAPSarchive/fluxtower/simba_processed/missing_data_summer23.csv',index_col=0,parse_dates=[0])
                 # Add a comment
                 base_str = 'Data gaps between 20230224 and 20230621 are filled by data directly from the SIMBA SD card. This means some variables (battery voltage ect) are missing. This was due to a failed network cable.'
                 nc.setncattr('comment', base_str)
