@@ -271,10 +271,22 @@ def main():
             alt_HMP4[dt.datetime(2022,8,20,20,30):dt.datetime(2023,7,27)] = snow_height['snd'][dt.datetime(2022,8,20,20,30):dt.datetime(2023,7,27)] + 0.7 + 1.8 + 3.5 + 2.9
           
             # After 27 July 2023 tower raise and segmed added
-            alt_HMP1[dt.datetime(2023,7,27):] = snow_height['snd'][dt.datetime(2023,7,27):] + 1
-            alt_HMP2[dt.datetime(2023,7,27):] = snow_height['snd'][dt.datetime(2023,7,27):] + 1 + 2.4
-            alt_HMP3[dt.datetime(2023,7,27):] = snow_height['snd'][dt.datetime(2023,7,27):] + 1 + 2.4 + 3.8
-            alt_HMP4[dt.datetime(2023,7,27):] = snow_height['snd'][dt.datetime(2023,7,27):] + 1 + 2.4 + 3.8 + 7.2
+            alt_HMP1[dt.datetime(2023,7,27):dt.datetime(2024,7,19,11)] = snow_height['snd'][dt.datetime(2023,7,27):dt.datetime(2024,7,19,11)] + 1
+            alt_HMP2[dt.datetime(2023,7,27):dt.datetime(2024,7,19,11)] = snow_height['snd'][dt.datetime(2023,7,27):dt.datetime(2024,7,19,11)] + 1 + 2.4
+            alt_HMP3[dt.datetime(2023,7,27):dt.datetime(2024,7,19,11)] = snow_height['snd'][dt.datetime(2023,7,27):dt.datetime(2024,7,19,11)] + 1 + 2.4 + 3.8
+            alt_HMP4[dt.datetime(2023,7,27):dt.datetime(2024,7,19,11)] = snow_height['snd'][dt.datetime(2023,7,27):dt.datetime(2024,7,19,11)] + 1 + 2.4 + 3.8 + 7.2
+
+            # 19th July 2024 HMP2 raised
+            alt_HMP1[dt.datetime(2024,7,19,11):dt.datetime(2024,7,21,10)] = snow_height['snd'][dt.datetime(2024,7,19,11):dt.datetime(2024,7,21,10)] + 1
+            alt_HMP2[dt.datetime(2024,7,19,11):dt.datetime(2024,7,21,10)] = snow_height['snd'][dt.datetime(2024,7,19,11):dt.datetime(2024,7,21,10)] + 3.7
+            alt_HMP3[dt.datetime(2024,7,19,11):dt.datetime(2024,7,21,10)] = snow_height['snd'][dt.datetime(2024,7,19,11):dt.datetime(2024,7,21,10)] + 1 + 2.4 + 3.8
+            alt_HMP4[dt.datetime(2024,7,19,11):dt.datetime(2024,7,21,10)] = snow_height['snd'][dt.datetime(2024,7,19,11):dt.datetime(2024,7,21,10)] + 1 + 2.4 + 3.8 + 7.2
+
+            # 21 July 2024 HMP1 raied
+            alt_HMP1[dt.datetime(2024,7,21,10):] = snow_height['snd'][dt.datetime(2024,7,21,10):] + 1.1
+            alt_HMP2[dt.datetime(2024,7,21,10):] = snow_height['snd'][dt.datetime(2024,7,21,10):] + 3.7
+            alt_HMP3[dt.datetime(2024,7,21,10):] = snow_height['snd'][dt.datetime(2024,7,21,10):] + 1 + 2.4 + 3.8
+            alt_HMP4[dt.datetime(2024,7,21,10):] = snow_height['snd'][dt.datetime(2024,7,21,10):] + 1 + 2.4 + 3.8 + 7.2
             
             # Write in data
 

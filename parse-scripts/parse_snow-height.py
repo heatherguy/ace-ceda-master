@@ -174,8 +174,10 @@ def main():
                 base_str = 'Instrument offline between 3rd August 2022 and 21 August 2022. Platform altitude is the top of the Met tower, sensor height is platform altitude minus 10.1 m'
             elif start<dt.datetime(2023,7,1):
                 base_str = 'Platform altitude is the top of the Met tower, sensor height is platform altitude minus 10.1 m'
-            else: 
+            elif start<dt.datetime(2024,7,1):
                 base_str = 'Sensor was raised by 1.1 m on 27 July 2023'
+            else:
+                base_str = 'Sensor was raised by 0.36 m on 19 July 2024'
 
             
             if len(snd)!=0:   

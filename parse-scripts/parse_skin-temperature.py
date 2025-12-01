@@ -148,7 +148,7 @@ def main():
             elif start < dt.datetime(2023,7,27): 
                 base_str = 'Platform altitude is the top of the Met tower. Instrument altitude is platform altitude minus 9.2 m. Technician log used to QC data is located here: https://github.com/heatherguy/ace-ceda-master/blob/master/qc-files/KT_bad_dates. Spectral range of sensor is 9.6 to 11.5 um.'
             else:
-                base_str = 'Technician log used to QC data is located here: https://github.com/heatherguy/ace-ceda-master/blob/master/qc-files/KT_bad_dates. Spectral range of sensor is 9.6 to 11.5 um.'
+                base_str = 'Technician log used to QC data is located here: https://github.com/heatherguy/ace-ceda-master/blob/master/qc-files/KT_bad_dates. Spectral range of sensor is 9.6 to 11.5 um. Platform altitude is the top of the Met tower. Nominal instrument height above snow surface is 2 m'
             
             nc.setncattr('comment', base_str)
 
