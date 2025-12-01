@@ -19,6 +19,13 @@ import datetime
 import pandas as pd
 from scipy.signal import medfilt
 import datetime as dt
+import io
+
+def ascii_only_buffer(path):
+    with open(path, encoding="utf-8", errors="ignore") as f:
+        clean_lines = [line for line in f if line.isascii()]
+    return io.StringIO("".join(clean_lines))
+
 
 def replace_outliers(var,sd):
     """
@@ -455,22 +462,10 @@ def extract_ventus_data(start,stop,dpath,save=False):
         if os.path.getsize(f)==0:
             print('Error with: '+f+' this file is empty.')
             continue
-        # Filter and report files with non-ascii characters
-        try:
-            content = open(f).read()
-        except UnicodeDecodeError:
-            print("Error with: %s contains non-ascii characters."%f)  
-            continue
-        try:
-            content.encode('ascii')
-        except UnicodeDecodeError:
-            print("Error with: %s contains non-ascii characters."%f)  
-            continue
-            
         if f[-1]=='1':
-            v1 = v1.append(pd.read_csv(f, header=None, delim_whitespace=True, error_bad_lines=False))
+            v1 = v1.append(pd.read_csv(ascii_only_buffer(f), header=None, delim_whitespace=True, error_bad_lines=False))
         if f[-1]=='2':
-            v2 = v2.append(pd.read_csv(f, header=None, delim_whitespace=True, error_bad_lines=False))
+            v2 = v2.append(pd.read_csv(ascii_only_buffer(f), header=None, delim_whitespace=True, error_bad_lines=False))
         
     # Sort out the date referencing and columns
     v1 = ventus_pdf_sort(v1,start,stop)
