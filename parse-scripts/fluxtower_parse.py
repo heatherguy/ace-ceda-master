@@ -592,12 +592,12 @@ def extract_metek_data(start,stop,dpath,save=False):
                 del f_dat[i]
 
         # Filter out incomplete data files
-        if len(f_dat) < 36000:
-            print('Incomplete file %s'%f)
-            continue
+        #if len(f_dat) < 36000:
+        #    print('Incomplete file %s'%f)
+        #    continue
         
         # Ignore extra data points
-        f_dat = f_dat[0:36000]
+        #f_dat = f_dat[0:36000]
         
         # Now split up strings and put in pandas df.
         try:
@@ -617,10 +617,14 @@ def extract_metek_data(start,stop,dpath,save=False):
         et = st + pd.Timedelta(hours=1)
         et = et - pd.Timedelta(seconds=0.1)
         # 10 Hz time series (36000 data points in one hour)
-        df['Date'] = pd.date_range(st,et,periods=36000)
+        time_10hz = pd.date_range(st,et,periods=36000)
+        df.index=df['Logger_Date']
+        df = df.reindex(time_10hz,method='nearest',tolerance='0.05s')
+        #df['Date'] = pd.date_range(st,et,periods=36000)
+        df.index.name = 'Date'
         
         # Tidy and sort units.
-        df = df.set_index('Date')
+        #df = df.set_index('Date')
         df['T'] = pd.to_numeric(df['T'], errors='coerce')
         df['T']=df['T'].astype(float)
         df['x'] = pd.to_numeric(df['x'], errors='coerce')
