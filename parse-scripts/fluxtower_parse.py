@@ -765,8 +765,8 @@ def extract_licor_data(start,stop,dpath,save=False):
         li.index.name = 'Date'
 
         # Sor the rest of the columns
-        li['Ndx']=li[0].str[24:].astype('int')
-        li['DiagV']=li[1].astype('int')
+        li['Ndx']=li[0].str[24:].astype('Int64')
+        li['DiagV']=li[1].astype('Int64')
         li['CO2R'] = li[2]
         li['CO2R']=li['CO2R'].apply(convert_float)
         li['CO2D'] = li[3]
@@ -803,13 +803,17 @@ def extract_licor_data(start,stop,dpath,save=False):
         sync = []
         agc = []
         for i in range(0,len(diag_list)):
-            binar = format(diag_list[i], "008b")
-            chopper.append(int(binar[0]))
-            detector.append(int(binar[1]))
-            pll.append(int(binar[2]))
-            sync.append(int(binar[3]))
-            agc_temp = binar[4:]
-            agc.append(int(agc_temp, 2)* 6.25)
+            if np.isnan(diag_list[i]):
+                agc.append(np.nan)
+                continue
+            else:
+                binar = format(diag_list[i], "008b")
+                chopper.append(int(binar[0]))
+                detector.append(int(binar[1]))
+                pll.append(int(binar[2]))
+                sync.append(int(binar[3]))
+                agc_temp = binar[4:]
+                agc.append(int(agc_temp, 2)* 6.25)
     
         licor['chopper']=chopper
         licor['detector']=detector
@@ -823,6 +827,7 @@ def extract_licor_data(start,stop,dpath,save=False):
         licor['QC'][licor['pll']==0] = 0
         licor['QC'][licor['sync']==0] = 0
         licor['QC'][licor['agc']>90] = 0
+        licor['QC'][np.isnan(licor['agc'])] = 0
         
         # Delete now useless params
         #del licor['chopper'],licor['detector'],licor['pll'],licor['sync']
