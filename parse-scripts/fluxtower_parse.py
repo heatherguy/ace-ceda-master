@@ -759,7 +759,7 @@ def extract_licor_data(start,stop,dpath,save=False):
         et = st + pd.Timedelta(hours=1)
         et = et - pd.Timedelta(seconds=0.1)
         # 10 Hz time series (36000 data points in one hour)
-        time_10z = pd.date_range(st,et,periods=36000)
+        time_10hz = pd.date_range(st,et,periods=36000)
         li = li.reindex(time_10hz,method='nearest',tolerance='0.05s')
         #li['Date'] = pd.date_range(st,et,periods=36000)
         li.index.name = 'Date'
