@@ -765,7 +765,8 @@ def extract_licor_data(start,stop,dpath,save=False):
         li.index.name = 'Date'
 
         # Sor the rest of the columns
-        li['Ndx']=li[0].str[24:].astype('Int64')
+        li['Ndx']=pd.to_numeric(li[0].str[24:], errors='coerce').astype('Int64')
+        #li[0].str[24:].astype('Int64')
         li['DiagV']=li[1].astype('Int64')
         li['CO2R'] = li[2]
         li['CO2R']=li['CO2R'].apply(convert_float)
