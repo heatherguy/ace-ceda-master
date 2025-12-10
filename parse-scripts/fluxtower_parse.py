@@ -734,12 +734,12 @@ def extract_licor_data(start,stop,dpath,save=False):
             continue        
 
         # Filter out incomplete data files
-        if len(li) < 36000:
-            print('Incomplete file %s'%f)
-            continue
+        #if len(li) < 36000:
+        #    print('Incomplete file %s'%f)
+        #    continue
         
         # Ignore extra data points
-        li = li[0:36000]
+        #li = li[0:36000]
  
         # Sort out the date referencing
         li['Logger_Date']=li[0].str[0:23]
@@ -750,14 +750,19 @@ def extract_licor_data(start,stop,dpath,save=False):
 
         # DONT FORGET, LICOR DATA TRANSMISSION IS DELAYED BY 200MS (TWO DATA POINTS)
         # EACH DATA POINT SHOULD BE SHIFTED BACK IN TIME BY THIS AMOUNT. ••
-
+        li.index = li['Logger_Date']
+        li.index = li.index - pd.Timedelta(milliseconds=200)
+        
         # Start time
-        st = pd.to_datetime(f[0:16],format='%y%m%d_%H%M%S.%f') - pd.Timedelta(seconds=0.2) # •• Implemented here. 
+        st = pd.to_datetime(f[0:16],format='%y%m%d_%H%M%S.%f')
         # End time
         et = st + pd.Timedelta(hours=1)
         et = et - pd.Timedelta(seconds=0.1)
         # 10 Hz time series (36000 data points in one hour)
-        li['Date'] = pd.date_range(st,et,periods=36000)
+        time_10z = pd.date_range(st,et,periods=36000)
+        li = li.reindex(time_10hz,method='nearest',tolerance='0.05s')
+        #li['Date'] = pd.date_range(st,et,periods=36000)
+        li.index.name = 'Date'
 
         # Sor the rest of the columns
         li['Ndx']=li[0].str[24:].astype('int')
@@ -775,7 +780,6 @@ def extract_licor_data(start,stop,dpath,save=False):
         li['cooler'] = li[8].astype('float')
         del li[0],li[1],li[2],li[3],li[4],li[5],li[6],li[7],li[8],li[9]                 
         li = li.sort_values('Date')
-        li = li.set_index('Date')
          
         licor = licor.append(li)
     
