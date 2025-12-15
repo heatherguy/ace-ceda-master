@@ -804,8 +804,12 @@ def extract_licor_data(start,stop,dpath,save=False):
         sync = []
         agc = []
         for i in range(0,len(diag_list)):
-            if np.isnan(diag_list[i]):
+            if pd.isna(diag_list[i]):
                 agc.append(np.nan)
+                chopper.append(np.nan)
+                detector.append(np.nan)
+                pll.append(np.nan)
+                sync.append(np.nan)
                 continue
             else:
                 binar = format(diag_list[i], "008b")
