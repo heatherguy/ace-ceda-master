@@ -619,7 +619,11 @@ def extract_metek_data(start,stop,dpath,save=False):
         # 10 Hz time series (36000 data points in one hour)
         time_10hz = pd.date_range(st,et,periods=36000)
         df.index=df['Logger_Date']
-        df = df.reindex(time_10hz,method='nearest',tolerance='0.05s')
+        try:
+            df = df.reindex(time_10hz,method='nearest',tolerance='0.05s')
+        except ValueError:
+            print('Problem with timestamps not monotonically increasing, skipping file')
+            continue
         #df['Date'] = pd.date_range(st,et,periods=36000)
         df.index.name = 'Date'
         
