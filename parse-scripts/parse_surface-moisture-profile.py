@@ -179,6 +179,8 @@ def main():
             hmp4.loc[dt.datetime(2022,6,7):dt.datetime(2022,8,20),'QC']=2
             # 20th july 2023, hmp1 aspirated shield is down
             hmp1.loc[dt.datetime(2023,7,20):dt.datetime(2023,7,21,13,5),'QC']=2
+            # HMP3 fan down between ~1st march until 1640 on 23 april 2025
+            hmp3.loc[dt.datetime(2025,3,1):dt.datetime(2025,4,23,16,40),'QC']=2
 
             # 3b is unspecified instrument error
             qc1[np.where(hmp1['QC']==2)[0]]=3
