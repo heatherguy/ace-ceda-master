@@ -228,10 +228,10 @@ def main():
             alt_4[dt.datetime(2024,7,21,10):dt.datetime(2025,6,26,10,22)] = snow_height['snd'][dt.datetime(2024,7,21,10):dt.datetime(2025,6,26,10,22)] + 1 + 2.4 + 3.8 + 7.2
 
             # 26th June 2025 raise:
-            alt_HMP1[dt.datetime(2025,7,1,15,35):] = snow_height['snd'][dt.datetime(2025,7,1,15,35):] + 0.88
-            alt_HMP2[dt.datetime(2025,7,1,15,35):] = snow_height['snd'][dt.datetime(2025,7,1,15,35):] + 0.88 + 2.27 
-            alt_HMP3[dt.datetime(2025,7,1,15,35):] = snow_height['snd'][dt.datetime(2025,7,1,15,35):] + 0.88 + 2.27 + 2.46
-            alt_HMP4[dt.datetime(2025,7,1,15,35):] = snow_height['snd'][dt.datetime(2025,7,1,15,35):] + 0.88 + 2.27 + 2.46 + 6.26
+            alt_1[dt.datetime(2025,7,1,15,35):] = snow_height['snd'][dt.datetime(2025,7,1,15,35):] + 0.88
+            alt_2[dt.datetime(2025,7,1,15,35):] = snow_height['snd'][dt.datetime(2025,7,1,15,35):] + 0.88 + 2.27 
+            alt_3[dt.datetime(2025,7,1,15,35):] = snow_height['snd'][dt.datetime(2025,7,1,15,35):] + 0.88 + 2.27 + 2.46
+            alt_4[dt.datetime(2025,7,1,15,35):] = snow_height['snd'][dt.datetime(2025,7,1,15,35):] + 0.88 + 2.27 + 2.46 + 6.26
             
             
             
