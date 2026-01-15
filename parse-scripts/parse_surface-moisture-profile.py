@@ -291,10 +291,10 @@ def main():
             alt_HMP4[dt.datetime(2024,7,21,10):dt.datetime(2025,6,26,10,22)] = snow_height['snd'][dt.datetime(2024,7,21,10):dt.datetime(2025,6,26,10,22)] + 1 + 2.4 + 3.8 + 7.2
 
             # 26th June 2025 raise:
-            alt_HMP1[dt.datetime(2025,6,26,17,55):] = snow_height['snd'][dt.datetime(2025,6,26,17,55):] + 0.88
-            alt_HMP2[dt.datetime(2025,6,26,17,55):] = snow_height['snd'][dt.datetime(2025,6,26,17,55):] + 0.88 + 2.27 
-            alt_HMP3[dt.datetime(2025,6,26,17,55):] = snow_height['snd'][dt.datetime(2025,6,26,17,55):] + 0.88 + 2.27 + 2.46
-            alt_HMP4[dt.datetime(2025,6,26,17,55):] = snow_height['snd'][dt.datetime(2025,6,26,17,55):] + 0.88 + 2.27 + 2.46 + 6.26
+            alt_HMP1[dt.datetime(2025,7,1,15,35):] = snow_height['snd'][dt.datetime(2025,7,1,15,35):] + 0.88
+            alt_HMP2[dt.datetime(2025,7,1,15,35):] = snow_height['snd'][dt.datetime(2025,7,1,15,35):] + 0.88 + 2.27 
+            alt_HMP3[dt.datetime(2025,7,1,15,35):] = snow_height['snd'][dt.datetime(2025,7,1,15,35):] + 0.88 + 2.27 + 2.46
+            alt_HMP4[dt.datetime(2025,7,1,15,35):] = snow_height['snd'][dt.datetime(2025,7,1,15,35):] + 0.88 + 2.27 + 2.46 + 6.26
             
             # Write in data
 
@@ -343,7 +343,7 @@ def main():
             elif start < dt.datetime(2023,7,1):
                 base_str = 'Platform height (h0) is the top of the Met tower. Instrument height: HMP1=h0-9.2, HMP2=h0-7.4m, HMP3=h0-3.9m, HMP4=h0-1m , Index: [HMP1, HMP2, HMP3, HMP4]'
             elif (start >= dt.datetime(2025,6,1)) & (start < dt.datetime(2025,8,1)):
-                base_str = 'Note that riggers were working on and around the tower between 17th and 5th July 2025. The full instrument raise was completed on 26th June 2025 between 1022 and 1755. Index: [HMP1, HMP2, HMP3, HMP4]'
+                base_str = 'Note that riggers were working on and around the tower between 17th June and 5th July 2025. The full instrument raise was completed between 26th June and July 1st 2025 1st. Index: [HMP1, HMP2, HMP3, HMP4]'
 
             else:
                 base_str='Index: [HMP1, HMP2, HMP3, HMP4]'

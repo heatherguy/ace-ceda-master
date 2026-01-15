@@ -176,8 +176,12 @@ def main():
                 base_str = 'Platform altitude is the top of the Met tower, sensor height is platform altitude minus 10.1 m'
             elif start<dt.datetime(2024,7,1):
                 base_str = 'Sensor was raised by 1.1 m on 27 July 2023'
-            else:
+            elif start<dt.datetime(2025,6,1):
                 base_str = 'Sensor was raised by 0.36 m on 19 July 2024'
+            elif start<dt.datetime(2025,8,1):
+                base_str = 'Note that riggers were working on and around the tower between 17th June and 5th July 2025. The sensor was raised by 0.75 m on 01 July 2025'
+            else:
+                base_str='Sensor was raised by 0.75 m m on 26 June 2025'
 
             
             if len(snd)!=0:   
