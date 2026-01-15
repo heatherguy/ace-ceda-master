@@ -285,10 +285,16 @@ def main():
             alt_HMP4[dt.datetime(2024,7,19,11):dt.datetime(2024,7,21,10)] = snow_height['snd'][dt.datetime(2024,7,19,11):dt.datetime(2024,7,21,10)] + 1 + 2.4 + 3.8 + 7.2
 
             # 21 July 2024 HMP1 raied
-            alt_HMP1[dt.datetime(2024,7,21,10):] = snow_height['snd'][dt.datetime(2024,7,21,10):] + 1.1
-            alt_HMP2[dt.datetime(2024,7,21,10):] = snow_height['snd'][dt.datetime(2024,7,21,10):] + 3.7
-            alt_HMP3[dt.datetime(2024,7,21,10):] = snow_height['snd'][dt.datetime(2024,7,21,10):] + 1 + 2.4 + 3.8
-            alt_HMP4[dt.datetime(2024,7,21,10):] = snow_height['snd'][dt.datetime(2024,7,21,10):] + 1 + 2.4 + 3.8 + 7.2
+            alt_HMP1[dt.datetime(2024,7,21,10):dt.datetime(2025,6,26,10,22)] = snow_height['snd'][dt.datetime(2024,7,21,10):dt.datetime(2025,6,26,10,22)] + 1.1
+            alt_HMP2[dt.datetime(2024,7,21,10):dt.datetime(2025,6,26,10,22)] = snow_height['snd'][dt.datetime(2024,7,21,10):dt.datetime(2025,6,26,10,22)] + 3.7
+            alt_HMP3[dt.datetime(2024,7,21,10):dt.datetime(2025,6,26,10,22)] = snow_height['snd'][dt.datetime(2024,7,21,10):dt.datetime(2025,6,26,10,22)] + 1 + 2.4 + 3.8
+            alt_HMP4[dt.datetime(2024,7,21,10):dt.datetime(2025,6,26,10,22)] = snow_height['snd'][dt.datetime(2024,7,21,10):dt.datetime(2025,6,26,10,22)] + 1 + 2.4 + 3.8 + 7.2
+
+            # 26th June 2025 raise:
+            alt_HMP1[dt.datetime(2025,6,26,17,55):] = snow_height['snd'][dt.datetime(2025,6,26,17,55):] + 0.88
+            alt_HMP2[dt.datetime(2025,6,26,17,55):] = snow_height['snd'][dt.datetime(2025,6,26,17,55):] + 0.88 + 2.27 
+            alt_HMP3[dt.datetime(2025,6,26,17,55):] = snow_height['snd'][dt.datetime(2025,6,26,17,55):] + 0.88 + 2.27 + 2.46
+            alt_HMP4[dt.datetime(2025,6,26,17,55):] = snow_height['snd'][dt.datetime(2025,6,26,17,55):] + 0.88 + 2.27 + 2.46 + 6.26
             
             # Write in data
 
@@ -336,6 +342,9 @@ def main():
                 base_str = 'Platform height (h0) is the top of the Met tower. HMP1 was offline between 1 July 2021 and 22 August 2022. Instrument height: HMP1=h0-9.2 (installed 22 August 2022), HMP2=h0-9.2 until 22 August 2022, after which it was raised to h0-7.4m, HMP3=h0-3.9m, HMP4=h0-1m , Index: [HMP1, HMP2, HMP3, HMP4]'
             elif start < dt.datetime(2023,7,1):
                 base_str = 'Platform height (h0) is the top of the Met tower. Instrument height: HMP1=h0-9.2, HMP2=h0-7.4m, HMP3=h0-3.9m, HMP4=h0-1m , Index: [HMP1, HMP2, HMP3, HMP4]'
+            elif (start >= dt.datetime(2025,6,1)) & (start < dt.datetime(2025,8,1)):
+                base_str = 'Note that riggers were working on and around the tower between 17th and 5th July 2025. The full instrument raise was completed on 26th June 2025 between 1022 and 1755. Index: [HMP1, HMP2, HMP3, HMP4]'
+
             else:
                 base_str='Index: [HMP1, HMP2, HMP3, HMP4]'
             nc.setncattr('comment', base_str)
