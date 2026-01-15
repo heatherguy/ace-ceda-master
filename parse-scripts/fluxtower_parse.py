@@ -1065,16 +1065,18 @@ def get_metek(start,stop,d_loc,name, avp='1min'):
     
     if len(out)!=0:
         # Resample to one minutely
-        out2['T'] = out['T'].resample(rule = avp).mean()  
-        out2['QC'] = out['QC'].resample(rule = avp).max() 
+        if len(pd.to_numeric(out['T'],errors='coerce').dropna())>0:
+            out2['T'] = out['T'].resample(rule = avp).mean()  
+            out2['QC'] = out['QC'].resample(rule = avp).max()
        
         # average vectors
-        u_mean = out['x'].resample(rule=avp).mean() 
-        v_mean = out['y'].resample(rule=avp).mean() 
-    
-        # convert to wsd and wdir
-        out2['wsd'] = wind_uv_to_spd(u_mean,v_mean)
-        out2['wdir'] = wind_uv_to_dir(u_mean,v_mean)
+        if ((len(pd.to_numeric(out['x'],errors='coerce').dropna())>0) & (len(pd.to_numeric(out['y'],errors='coerce').dropna())>0)):
+            u_mean = out['x'].resample(rule=avp).mean()
+            v_mean = out['y'].resample(rule=avp).mean() 
+        
+            # convert to wsd and wdir
+            out2['wsd'] = wind_uv_to_spd(u_mean,v_mean)
+            out2['wdir'] = wind_uv_to_dir(u_mean,v_mean)
 
         # Fill any missing minutes with nans
         new_index = pd.date_range(start,stop-pd.Timedelta(minutes=1), freq=avp)
