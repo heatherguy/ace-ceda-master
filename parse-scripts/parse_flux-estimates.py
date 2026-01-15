@@ -294,7 +294,9 @@ def main():
             # After 19 July 2024 raise (SnD raised 0.36 m, m1 same height)
             m_rot['height'][dt.datetime(2024,7,19,15,0):dt.datetime(2024,7,21,10,0)] =snd['depth_Tcorrected'].reindex(m_rot.index,method='nearest')[dt.datetime(2024,7,19,15,0):dt.datetime(2024,7,21,10,0)] + 1 - 0.36
             # after m1 raise on 21 july 2024 
-            m_rot['height'][dt.datetime(2024,7,21,10,0):] =snd['depth_Tcorrected'].reindex(m_rot.index,method='nearest')[dt.datetime(2024,7,21,10,0):] + 1.1
+            m_rot['height'][dt.datetime(2024,7,21,10,0):dt.datetime(2025,6,26,10,22)] =snd['depth_Tcorrected'].reindex(m_rot.index,method='nearest')[dt.datetime(2024,7,21,10,0):dt.datetime(2025,6,26,10,22)] + 1.1
+            # after instrument raise 26-01 july 2025
+            m_rot['height'][dt.datetime(2025,7,1,15,35):] =snd['depth_Tcorrected'].reindex(m_rot.index,method='nearest')[dt.datetime(2025,7,1,15,35):] + 0.88
             
             
 
@@ -309,7 +311,9 @@ def main():
             # After 27 July 2023 raise
             m_rot['height'][dt.datetime(2023,7,27):dt.datetime(2024,7,19,15,0)] =snd['depth_Tcorrected'].reindex(m_rot.index,method='nearest')[dt.datetime(2023,7,27):dt.datetime(2024,7,19,15,0)] + 1 + 2.4 + 3.8 + 7.2
             # After 19 July 2024 raise (SnD raised 0.36 m, m2 same height)
-            m_rot['height'][dt.datetime(2024,7,19,15,0):] =snd['depth_Tcorrected'].reindex(m_rot.index,method='nearest')[dt.datetime(2024,7,19,15,0):] + 1 + 2.4 + 3.8 + 7.2 - 0.36
+            m_rot['height'][dt.datetime(2024,7,19,15,0):dt.datetime(2025,6,26,10,22)] =snd['depth_Tcorrected'].reindex(m_rot.index,method='nearest')[dt.datetime(2024,7,19,15,0):dt.datetime(2025,6,26,10,22)] + 1 + 2.4 + 3.8 + 7.2 - 0.36
+            # after instrument raise 26-01 july 2025
+            m_rot['height'][dt.datetime(2025,7,1,15,35):] =snd['depth_Tcorrected'].reindex(m_rot.index,method='nearest')[dt.datetime(2025,7,1,15,35):] + 0.88 + 2.27 + 2.46 + 6.26
             
        
         Nconc = licor['H2OD']      # H2O number concentration from licor, mol/m3

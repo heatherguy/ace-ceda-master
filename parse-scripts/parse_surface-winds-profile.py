@@ -222,10 +222,16 @@ def main():
             alt_4[dt.datetime(2024,7,19,11):dt.datetime(2024,7,21,10)] = snow_height['snd'][dt.datetime(2024,7,19,11):dt.datetime(2024,7,21,10)] + 1 + 2.4 + 3.8 + 7.2
 
             # 21 July 2024 HMP1 raied
-            alt_1[dt.datetime(2024,7,21,10):] = snow_height['snd'][dt.datetime(2024,7,21,10):] + 1.1
-            alt_2[dt.datetime(2024,7,21,10):] = snow_height['snd'][dt.datetime(2024,7,21,10):] + 3.7
-            alt_3[dt.datetime(2024,7,21,10):] = snow_height['snd'][dt.datetime(2024,7,21,10):] + 1 + 2.4 + 3.8
-            alt_4[dt.datetime(2024,7,21,10):] = snow_height['snd'][dt.datetime(2024,7,21,10):] + 1 + 2.4 + 3.8 + 7.2
+            alt_1[dt.datetime(2024,7,21,10):dt.datetime(2025,6,26,10,22)] = snow_height['snd'][dt.datetime(2024,7,21,10):dt.datetime(2025,6,26,10,22)] + 1.1
+            alt_2[dt.datetime(2024,7,21,10):dt.datetime(2025,6,26,10,22)] = snow_height['snd'][dt.datetime(2024,7,21,10):dt.datetime(2025,6,26,10,22)] + 3.7
+            alt_3[dt.datetime(2024,7,21,10):dt.datetime(2025,6,26,10,22)] = snow_height['snd'][dt.datetime(2024,7,21,10):dt.datetime(2025,6,26,10,22)] + 1 + 2.4 + 3.8
+            alt_4[dt.datetime(2024,7,21,10):dt.datetime(2025,6,26,10,22)] = snow_height['snd'][dt.datetime(2024,7,21,10):dt.datetime(2025,6,26,10,22)] + 1 + 2.4 + 3.8 + 7.2
+
+            # 26th June 2025 raise:
+            alt_HMP1[dt.datetime(2025,7,1,15,35):] = snow_height['snd'][dt.datetime(2025,7,1,15,35):] + 0.88
+            alt_HMP2[dt.datetime(2025,7,1,15,35):] = snow_height['snd'][dt.datetime(2025,7,1,15,35):] + 0.88 + 2.27 
+            alt_HMP3[dt.datetime(2025,7,1,15,35):] = snow_height['snd'][dt.datetime(2025,7,1,15,35):] + 0.88 + 2.27 + 2.46
+            alt_HMP4[dt.datetime(2025,7,1,15,35):] = snow_height['snd'][dt.datetime(2025,7,1,15,35):] + 0.88 + 2.27 + 2.46 + 6.26
             
             
             
@@ -322,6 +328,8 @@ def main():
                 base_str = 'Platform height (h0) is the top of the Met tower. V2 was offline between  28 Jan 2022 and 07 August 2023. Instrument height: M11=h0-9.2, V1=h0-7.4m, V2=h0-3.9m, M2=h0-1m , Index: [M1, V1, V2, M2]'
             elif start< dt.datetime(2023,9,1):
                 base_str = 'V2 was offline between  28 Jan 2022 and 07 August 2023. Index: [M1, V1, V2, M2]. Note that during the 27 July 2023 instrument raise, V2 was rotated, an updated rotation correction has been applied'
+            elif (start > dt.datetime(2025,6,1)) & (start < dt.datetime(2025,8,1)):
+                base_str = 'Note that riggers were working on and around the tower between 17th June and 5th July 2025. The full instrument raise was completed between 26th June and July 1st 2025 1st. Index: [M1, V1, V2, M2]'
             else:
                 base_str = 'Index: [M1, V1, V2, M2].'
             
