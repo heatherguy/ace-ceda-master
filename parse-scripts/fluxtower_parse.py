@@ -585,8 +585,8 @@ def extract_metek_data(start,stop,dpath,save=False):
         for i in range(len(f_dat) -1 , -1, -1):
             if len(f_dat[i])!= 66:
                 f_dat[i] = f_dat[i][0:26] + nan_line
-            if f_dat[i][24]=='D':
-                f_dat[i] = f_dat[i][0:26] + nan_line
+            #if f_dat[i][24]=='D':
+            #    f_dat[i] = f_dat[i][0:26] + nan_line
             elif f_dat[i][24]=='E':
                 f_dat[i-1] = f_dat[i-1][0:26] + nan_line
                 del f_dat[i]
